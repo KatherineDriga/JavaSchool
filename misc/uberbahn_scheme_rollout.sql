@@ -1,4 +1,4 @@
-DROP DATABASE uberbahn;
+
 CREATE DATABASE IF NOT EXISTS uberbahn;
 CREATE USER IF NOT EXISTS 'uberbahn_webapp'@'localhost' IDENTIFIED BY '123';
 GRANT ALL PRIVILEGES ON uberbahn.* TO 'uberbahn_webapp'@'localhost' WITH GRANT OPTION;
@@ -24,9 +24,9 @@ CREATE TABLE IF NOT EXISTS Spot(
     ,routeId INT
     ,timeFromDeparture TIME NOT NULL
     ,PRIMARY KEY (stationId,routeId)
-    ,CONSTRAINT fk_station FOREIGN KEY (stationId) REFERENCES Station(id)
-    ,CONSTRAINT fk_route FOREIGN KEY (routeId) REFERENCES Route(id)
-    ,CONSTRAINT uc_routeTime UNIQUE (routeId, timeFromDeparture)
+    ,CONSTRAINT fk_spot_station FOREIGN KEY (stationId) REFERENCES Station(id)
+    ,CONSTRAINT fk_spot_route FOREIGN KEY (routeId) REFERENCES Route(id)
+    ,CONSTRAINT uc_spot_routeTime UNIQUE (routeId, timeFromDeparture)
 );
 
 CREATE TABLE IF NOT EXISTS Train(
@@ -35,8 +35,8 @@ CREATE TABLE IF NOT EXISTS Train(
     ,dateOfDeparture DATE NOT NULL
     ,numberOfSeats INT NOT NULL
     ,PRIMARY KEY (id)
-    ,CONSTRAINT fk_route FOREIGN KEY (routeId) REFERENCES Route(id)
-    ,CONSTRAINT uc_routeDate UNIQUE (routeId, dateOfDeparture)
+    ,CONSTRAINT fk_train_route FOREIGN KEY (routeId) REFERENCES Route(id)
+    ,CONSTRAINT uc_train_routeDate UNIQUE (routeId, dateOfDeparture)
 );
 
 CREATE TABLE IF NOT EXISTS AppUser(
@@ -49,8 +49,8 @@ CREATE TABLE IF NOT EXISTS AppUser(
     ,dateOfBirth DATE NOT NULL
     ,employee BOOLEAN NOT NULL
     ,PRIMARY KEY (id)
-    ,CONSTRAINT uc_login UNIQUE (login)
-    ,CONSTRAINT uc_email UNIQUE (email)
+    ,CONSTRAINT uc_appUser_login UNIQUE (login)
+    ,CONSTRAINT uc_appUser_email UNIQUE (email)
 );
 
 CREATE TABLE IF NOT EXISTS Ticket(
@@ -64,10 +64,10 @@ CREATE TABLE IF NOT EXISTS Ticket(
     ,dateOfPurchase DATETIME NOT NULL
     ,userId INT NOT NULL
     ,PRIMARY KEY (id)
-    ,CONSTRAINT fk_train FOREIGN KEY (trainId) REFERENCES Train(id)
-    ,CONSTRAINT fk_stationOfDeparture FOREIGN KEY (stationOfDepartureId) REFERENCES Station(id)
-    ,CONSTRAINT fk_stationOfArrival FOREIGN KEY (stationOfArrivalId) REFERENCES Station(id)
-    ,CONSTRAINT fk_user FOREIGN KEY (userId) REFERENCES AppUser(id)
+    ,CONSTRAINT fk_ticket_train FOREIGN KEY (trainId) REFERENCES Train(id)
+    ,CONSTRAINT fk_ticket_stationOfDeparture FOREIGN KEY (stationOfDepartureId) REFERENCES Station(id)
+    ,CONSTRAINT fk_ticket_stationOfArrival FOREIGN KEY (stationOfArrivalId) REFERENCES Station(id)
+    ,CONSTRAINT fk_ticket_user FOREIGN KEY (userId) REFERENCES AppUser(id)
 );
 
 
