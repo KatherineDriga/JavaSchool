@@ -8,15 +8,17 @@ USE uberbahn;
 
 CREATE TABLE IF NOT EXISTS Route(
 	id INT AUTO_INCREMENT
-    ,title VARCHAR(100) NOT NULL UNIQUE
+    ,title VARCHAR(100) NOT NULL
     ,timeOfDeparture TIME NOT NULL
     ,PRIMARY KEY (id)
+    ,CONSTRAINT uc_title UNIQUE (title)
 );
 
 CREATE TABLE IF NOT EXISTS Station(
 	id INT AUTO_INCREMENT
-    ,title VARCHAR(150) NOT NULL UNIQUE
+    ,title VARCHAR(150) NOT NULL
     ,PRIMARY KEY (id)
+    ,CONSTRAINT uc_title UNIQUE (title)
 );
 
 CREATE TABLE IF NOT EXISTS Spot(
