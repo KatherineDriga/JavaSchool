@@ -9,13 +9,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.Writer;
 import java.util.List;
 
 /**
  * Created by ASUS on 06.06.2016.
  */
-public class StationController extends HttpServlet {
+public class TrainController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -31,11 +30,16 @@ public class StationController extends HttpServlet {
 
             // 4. Starting Transaction
             Transaction transaction = session.beginTransaction();
-            String sql = "FROM Station";
-            Query query=session.createQuery(sql);
-            List<Station> res=query.list();
+
+            String stationTitle = req.getParameter("station");
+            String sinceText = req.getParameter("since");
+            String untilText = req.getParameter("until");
+
+            String sql = "FROM Route AS r WHERE ";
+            Query query = session.createQuery(sql);
+            List<Station> res = query.list();
             req.setAttribute("stationList", res);
-            req.getRequestDispatcher("/WEB-INF/views/listOfStations.jsp").forward(req,resp);
+            req.getRequestDispatcher("/WEB-INF/views/listOfStations.jsp").forward(req, resp);
 
             transaction.commit();
 
@@ -46,3 +50,4 @@ public class StationController extends HttpServlet {
 
 
 }
+

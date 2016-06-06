@@ -22,4 +22,19 @@ public class Station extends BaseEntity {
     @Column(name = "title")
     private String title;
 
+    public Collection<Spot> getSpots() {
+        return spots;
+    }
+
+    public Collection<Ticket> getDepartures() {
+        return departures;
+    }
+
+    public Collection<Ticket> getArrivals() {
+        return arrivals;
+    }
+
+    public String getTitle() {
+        return title;
+    }
 }
