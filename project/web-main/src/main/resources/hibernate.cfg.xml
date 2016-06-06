@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-configuration SYSTEM
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+    <session-factory>
+        <property name="hibernate.dialect">
+            org.hibernate.dialect.MySQLDialect
+        </property>
+        <property name="hibernate.connection.driver_class">
+            com.mysql.jdbc.Driver
+        </property>
+
+        <property name="hibernate.connection.url">
+            jdbc:mysql://localhost/uberbahn
+        </property>
+        <property name="hibernate.connection.username">
+            uberbahn_webapp
+        </property>
+        <property name="hibernate.connection.password">
+            123
+        </property>
+
+        <mapping class="com.tsystems.javaschool.uberbahn.webmain.entities.Ticket"/>
+        <mapping class="com.tsystems.javaschool.uberbahn.webmain.entities.Account"/>
+        <mapping class="com.tsystems.javaschool.uberbahn.webmain.entities.Route"/>
+        <mapping class="com.tsystems.javaschool.uberbahn.webmain.entities.Spot"/>
+        <mapping class="com.tsystems.javaschool.uberbahn.webmain.entities.Station"/>
+        <mapping class="com.tsystems.javaschool.uberbahn.webmain.entities.Train"/>
+
+    </session-factory>
+</hibernate-configuration>
