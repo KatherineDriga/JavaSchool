@@ -5,7 +5,7 @@ import java.io.Serializable;
 import java.time.LocalTime;
 
 @Entity
-@Table(name = "Spot")
+@Table(name = "spot")
 public class Spot extends BaseEntity {
 
 

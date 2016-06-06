@@ -8,7 +8,7 @@ import java.util.Set;
 
 
 @Entity
-@Table(name = "Route")
+@Table(name = "route")
 public class Route extends BaseEntity {
 
 

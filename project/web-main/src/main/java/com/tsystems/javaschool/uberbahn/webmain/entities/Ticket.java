@@ -6,7 +6,7 @@ import java.time.LocalDate;
 import java.time.Instant;
 
 @Entity
-@Table(name = "Ticket")
+@Table(name = "ticket")
 public class Ticket extends BaseEntity {
 
 

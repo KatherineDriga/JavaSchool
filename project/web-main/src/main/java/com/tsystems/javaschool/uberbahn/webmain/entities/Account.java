@@ -7,7 +7,7 @@ import java.util.Collection;
 import java.util.Set;
 
 @Entity
-@Table(name = "Account")
+@Table(name = "account")
 public class Account extends BaseEntity {
 
     @OneToMany (mappedBy = "account")

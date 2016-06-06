@@ -7,7 +7,7 @@ import java.util.Collection;
 import java.util.Set;
 
 @Entity
-@Table(name = "Train")
+@Table(name = "train")
 public class Train extends BaseEntity {
 
 
