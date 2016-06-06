@@ -1,4 +1,3 @@
-
 CREATE DATABASE IF NOT EXISTS uberbahn;
 CREATE USER IF NOT EXISTS 'uberbahn_webapp'@'localhost' IDENTIFIED BY '123';
 GRANT ALL PRIVILEGES ON uberbahn.* TO 'uberbahn_webapp'@'localhost' WITH GRANT OPTION;
