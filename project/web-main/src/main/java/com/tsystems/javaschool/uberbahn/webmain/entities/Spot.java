@@ -8,14 +8,19 @@ import java.time.LocalTime;
 @Table(name = "spot")
 public class Spot extends BaseEntity {
 
-
-    @Id
     @ManyToOne
     @JoinColumn(name = "routeId")
     private Route route;
 
+    @ManyToOne
+    @JoinColumn(name = "stationId")
+    private Station station;
+
+
     @Column(name = "timeSinceDeparture")
     private LocalTime timeSinceDeparture;
+
+
 
 }
 
