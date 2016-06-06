@@ -3,18 +3,16 @@ package com.tsystems.javaschool.uberbahn.webmain.entities;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.Collection;
 import java.util.Set;
 
 @Entity
 @Table(name = "Train")
-public class Train implements Serializable{
-    @Id
-    @Column(name = "id")
-    @GeneratedValue
-    private int id;
+public class Train extends BaseEntity {
+
 
     @OneToMany (mappedBy = "train")
-    private Set trains;
+    private Collection<Ticket> tickets;
 
     @ManyToOne
     @JoinColumn(name = "routeId")

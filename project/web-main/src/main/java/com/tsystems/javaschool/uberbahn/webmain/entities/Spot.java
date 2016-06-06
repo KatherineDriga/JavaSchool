@@ -6,19 +6,16 @@ import java.time.LocalTime;
 
 @Entity
 @Table(name = "Spot")
-public class Spot implements Serializable{
-    @Id
-    @ManyToOne
-    @JoinColumn(name = "stationId")
-    private Station station;
+public class Spot extends BaseEntity {
+
 
     @Id
     @ManyToOne
     @JoinColumn(name = "routeId")
     private Route route;
 
-    @Column(name = "timeFromDeparture")
-    private LocalTime timeFromDeparture;
+    @Column(name = "timeSinceDeparture")
+    private LocalTime timeSinceDeparture;
 
 }
 

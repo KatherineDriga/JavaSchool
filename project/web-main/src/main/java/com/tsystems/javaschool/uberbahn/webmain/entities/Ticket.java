@@ -3,15 +3,12 @@ package com.tsystems.javaschool.uberbahn.webmain.entities;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 @Entity
 @Table(name = "Ticket")
-public class Ticket implements Serializable {
-    @Id
-    @Column(name = "id")
-    @GeneratedValue
-    private int id;
+public class Ticket extends BaseEntity {
+
 
     @ManyToOne
     @JoinColumn(name = "trainId")
@@ -34,11 +31,11 @@ public class Ticket implements Serializable {
     @JoinColumn(name = "stationOfArrivalId")
     private Station stationOfArrival;
 
-    @Column(name = "dateOfPurchase")
-    private LocalDateTime dateOfPurchase;
+    @Column(name = "datetimeOfPurchase")
+    private Instant datetimeOfPurchase;
 
     @ManyToOne
-    @JoinColumn(name = "id")
-    private AppUser appUser;
+    @JoinColumn(name = "accountId")
+    private Account account;
 
 }
