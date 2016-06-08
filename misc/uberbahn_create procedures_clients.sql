@@ -66,10 +66,15 @@ CALL `getTrainsForStation`('St-Petersburg', '00:00:00', '23:59:00', '2016-06-07'
 
                                 
                                  
-select sp.stationId, sp.routeId, count(t.id) 
+select sp.stationId, sp.routeId, count(t.id), 
+timestampdiff(minute, now(), date_add(tr.dateOfDeparture, interval addtime(r.timeOfDeparture, sp.timeSinceDeparture) hour_second) ) as timeBeforeDeparture
 from spot as sp
 left outer join ticket as t
 on sp.stationId=t.stationOfDepartureId
+join train as tr 
+on tr.id=t.trainId
+join route as r
+on r.id=sp.routeId
 where sp.routeId=(select t.routeId 
 				  from train as t
                   where t.id=4)
