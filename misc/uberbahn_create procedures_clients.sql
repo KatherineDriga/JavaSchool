@@ -32,7 +32,7 @@ END$$
 
 DELIMITER ;
 
-CALL `getTrainsFromStationAtoStationB`('St-Petersburg', 'Moscow', '00:00:00', '23:59:00', '2016-06-07');
+CALL `getTrainsFromStationAtoStationB`('St-Petersburg', 'Moscow', '00:00:00', '23:59:00', '2016-07-21');
 
 
 
@@ -61,7 +61,7 @@ END$$
 
 DELIMITER ;
 
-CALL `getTrainsForStation`('St-Petersburg', '00:00:00', '23:59:00', '2016-06-07');
+CALL `getTrainsForStation`('St-Petersburg', '00:00:00', '23:59:00', '2016-06-20');
 
 
                                 
@@ -71,10 +71,10 @@ timestampdiff(minute, now(), date_add(tr.dateOfDeparture, interval addtime(r.tim
 from spot as sp
 left outer join ticket as t
 on sp.stationId=t.stationOfDepartureId
-join train as tr 
-on tr.id=t.trainId
-join route as r
+left outer join route as r
 on r.id=sp.routeId
+join train as tr 
+on r.id=tr.routeId
 where sp.routeId=(select t.routeId 
 				  from train as t
                   where t.id=4)
@@ -91,9 +91,11 @@ and (select sp.timeSinceDeparture
 from spot as sp
 where sp.stationId=(select st.id 
 			from station as st
-            where st.title='Sochi'))
-group by sp.stationId;
+            where st.title='Moscow')
+and sp.routeId=(select t.routeId 
+from train as t
+where t.id=4))
+group by sp.stationId
+order by timeBeforeDeparture;
 
-                                 
-                           
-                                 
+
