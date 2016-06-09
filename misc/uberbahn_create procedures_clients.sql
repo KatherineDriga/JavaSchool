@@ -71,7 +71,7 @@ timestampdiff(minute, now(), date_add(tr.dateOfDeparture, interval addtime(r.tim
 from spot as sp
 left outer join ticket as t
 on sp.stationId=t.stationOfDepartureId
-left outer join route as r
+join route as r
 on r.id=sp.routeId
 join train as tr 
 on r.id=tr.routeId
@@ -91,7 +91,7 @@ and (select sp.timeSinceDeparture
 from spot as sp
 where sp.stationId=(select st.id 
 			from station as st
-            where st.title='Moscow')
+            where st.title='Voronezh')
 and sp.routeId=(select t.routeId 
 from train as t
 where t.id=4))

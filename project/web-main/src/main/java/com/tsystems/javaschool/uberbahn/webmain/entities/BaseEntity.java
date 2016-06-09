@@ -16,4 +16,8 @@ public class BaseEntity implements Serializable {
     @Column(name = "id")
     @GeneratedValue
     private int id;
+
+    public int getId() {
+        return id;
+    }
 }

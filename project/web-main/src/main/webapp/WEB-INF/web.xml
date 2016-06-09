@@ -19,4 +19,13 @@
         <servlet-name>StationController</servlet-name>
         <url-pattern>/stations</url-pattern>
     </servlet-mapping>
+
+    <servlet>
+        <servlet-name>ModelListController</servlet-name>
+        <servlet-class>com.tsystems.javaschool.uberbahn.webmain.temp.controllers.ModelListControllerImpl</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ModelListController</servlet-name>
+        <url-pattern>/models/list</url-pattern>
+    </servlet-mapping>
 </web-app>
