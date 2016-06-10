@@ -3,9 +3,6 @@ package com.tsystems.javaschool.uberbahn.webmain.transports;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-/**
- * Created by ASUS on 09.06.2016.
- */
 public class StationScheduleEvent {
 
     private LocalDate date;

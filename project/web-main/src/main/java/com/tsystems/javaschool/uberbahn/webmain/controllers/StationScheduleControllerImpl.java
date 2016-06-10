@@ -9,15 +9,12 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Collection;
 
-/**
- * Created by ASUS on 09.06.2016.
- */
-public class StationTimetableControllerImpl extends BaseControllerImpl {
+
+public class StationScheduleControllerImpl extends BaseControllerImpl {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -38,6 +35,6 @@ public class StationTimetableControllerImpl extends BaseControllerImpl {
         req.setAttribute("trainScheduleEvents", events);
         req.setAttribute("station", station);
 
-        render("stationTimetable", req, resp);
+        render("stationSchedule", req, resp);
     }
 }

@@ -28,4 +28,13 @@
         <servlet-name>ModelListController</servlet-name>
         <url-pattern>/models/list</url-pattern>
     </servlet-mapping>
+
+    <servlet>
+        <servlet-name>StationScheduleController</servlet-name>
+        <servlet-class>com.tsystems.javaschool.uberbahn.webmain.controllers.StationScheduleControllerImpl</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>StationScheduleController</servlet-name>
+        <url-pattern>/stations/schedule</url-pattern>
+    </servlet-mapping>
 </web-app>

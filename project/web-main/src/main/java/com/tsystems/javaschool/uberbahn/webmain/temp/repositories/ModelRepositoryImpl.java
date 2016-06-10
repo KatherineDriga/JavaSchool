@@ -7,9 +7,7 @@ import org.hibernate.Session;
 
 import java.util.Collection;
 
-/**
- * Created by ASUS on 09.06.2016.
- */
+
 public class ModelRepositoryImpl extends BaseRepositoryImpl implements ModelRepository {
 
     public ModelRepositoryImpl(Session session) {

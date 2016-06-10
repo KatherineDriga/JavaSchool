@@ -35,7 +35,7 @@ public class TrainController extends HttpServlet {
             String sinceText = req.getParameter("since");
             String untilText = req.getParameter("until");
 
-            String sql = "FROM Route AS r WHERE ";
+            String sql = "FROM Route AS r WHERE r.id=1";
             Query query = session.createQuery(sql);
             List<Station> res = query.list();
             req.setAttribute("stationList", res);
