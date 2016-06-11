@@ -24,4 +24,19 @@ public class Train extends BaseEntity {
     @Column(name = "numberOfSeats")
     private int numberOfSeats;
 
+    public Collection<Ticket> getTickets() {
+        return tickets;
+    }
+
+    public Route getRoute() {
+        return route;
+    }
+
+    public LocalDate getDateOfDeparture() {
+        return dateOfDeparture;
+    }
+
+    public int getNumberOfSeats() {
+        return numberOfSeats;
+    }
 }

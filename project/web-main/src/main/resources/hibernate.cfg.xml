@@ -20,15 +20,15 @@
         <property name="hibernate.connection.password">
             123
         </property>
-<!--
+
         <mapping class="com.tsystems.javaschool.uberbahn.webmain.entities.Ticket"/>
         <mapping class="com.tsystems.javaschool.uberbahn.webmain.entities.Account"/>
         <mapping class="com.tsystems.javaschool.uberbahn.webmain.entities.Route"/>
         <mapping class="com.tsystems.javaschool.uberbahn.webmain.entities.Spot"/>
         <mapping class="com.tsystems.javaschool.uberbahn.webmain.entities.Station"/>
         <mapping class="com.tsystems.javaschool.uberbahn.webmain.entities.Train"/>
--->
+<!--
         <mapping class="com.tsystems.javaschool.uberbahn.webmain.temp.entities.Model"/>
-
+-->
     </session-factory>
 </hibernate-configuration>

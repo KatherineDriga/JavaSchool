@@ -19,7 +19,7 @@
         <servlet-name>StationController</servlet-name>
         <url-pattern>/stations</url-pattern>
     </servlet-mapping>
-
+<!--
     <servlet>
         <servlet-name>ModelListController</servlet-name>
         <servlet-class>com.tsystems.javaschool.uberbahn.webmain.temp.controllers.ModelListControllerImpl</servlet-class>
@@ -28,7 +28,7 @@
         <servlet-name>ModelListController</servlet-name>
         <url-pattern>/models/list</url-pattern>
     </servlet-mapping>
-
+-->
     <servlet>
         <servlet-name>StationScheduleController</servlet-name>
         <servlet-class>com.tsystems.javaschool.uberbahn.webmain.controllers.StationScheduleControllerImpl</servlet-class>

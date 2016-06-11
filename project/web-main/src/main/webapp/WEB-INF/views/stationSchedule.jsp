@@ -16,6 +16,7 @@
 <h2>${station}</h2>
 <table>
 
+
     <tr>
         <th>Date</th>
         <th>Time On Station</th>
@@ -24,7 +25,7 @@
         <th>Arrives at</th>
         <th>Train</th>
     </tr>
-    <c:forEach var="event" items="trainScheduleEvents">
+    <c:forEach var="event" items="${trainScheduleEvents}">
         <tr>
             <td>${event.date}</td>
             <td>${event.time}</td>
@@ -39,3 +40,5 @@
 </table>
 </body>
 </html>
+
+

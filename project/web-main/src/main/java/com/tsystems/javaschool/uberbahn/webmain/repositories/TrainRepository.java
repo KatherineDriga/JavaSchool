@@ -1,12 +1,15 @@
 package com.tsystems.javaschool.uberbahn.webmain.repositories;
 
+import com.tsystems.javaschool.uberbahn.webmain.entities.Station;
 import com.tsystems.javaschool.uberbahn.webmain.entities.Train;
 
+import java.time.LocalTime;
 import java.util.Collection;
 
 
-public interface TrainRepository {
+public interface TrainRepository extends BaseRepository<Train> {
 
-    Collection<Train> findByRoute(int routeId);
+
+
 }
 

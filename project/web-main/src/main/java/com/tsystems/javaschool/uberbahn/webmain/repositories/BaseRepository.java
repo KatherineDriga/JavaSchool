@@ -1,9 +1,13 @@
 package com.tsystems.javaschool.uberbahn.webmain.repositories;
 
 
-public interface BaseRepository {
+public interface BaseRepository<E> {
 
-    Object findById(int id);
-    void save(Object object);
+    E findById(int id);
+
+    int save(E entity);
+
     void delete(int id);
+
+    void update(E entity);
 }

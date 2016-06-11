@@ -7,7 +7,7 @@ import org.hibernate.Session;
 import java.util.Collection;
 
 
-public class RouteRepositoryImpl extends BaseRepositoryImpl implements RouteRepository{
+public class RouteRepositoryImpl extends BaseRepositoryImpl<Route> implements RouteRepository{
 
     public RouteRepositoryImpl(Session session){
         super(session);
@@ -15,10 +15,15 @@ public class RouteRepositoryImpl extends BaseRepositoryImpl implements RouteRepo
 
 
     @Override
-    public Collection<Route> findByStation(int stationId) {
+    public Collection<Route> findByStationId(int stationId) {
         String hql = "FROM Route AS r JOIN Spot AS s ON r.id = s.routeId " +
                 "WHERE s.stationId = :stationId";
         Query query = getSession().createQuery(hql).setInteger("stationId", stationId);
         return query.list();
+    }
+
+    @Override
+    public Route findById(int id) {
+        return getSession().get(Route.class, id);
     }
 }

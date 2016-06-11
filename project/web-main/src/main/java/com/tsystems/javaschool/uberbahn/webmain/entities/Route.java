@@ -24,4 +24,19 @@ public class Route extends BaseEntity {
     @Column(name = "timeOfDeparture")
     private LocalTime timeOfDeparture;
 
+    public Collection<Train> getTrains() {
+        return trains;
+    }
+
+    public Collection<Spot> getSpots() {
+        return spots;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public LocalTime getTimeOfDeparture() {
+        return timeOfDeparture;
+    }
 }

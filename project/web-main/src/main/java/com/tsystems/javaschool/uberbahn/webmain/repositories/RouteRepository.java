@@ -7,7 +7,7 @@ import java.util.Collection;
 /**
  * Created by ASUS on 09.06.2016.
  */
-public interface RouteRepository {
+public interface RouteRepository extends BaseRepository<Route> {
 
-    Collection<Route> findByStation(int stationId);
+    Collection<Route> findByStationId (int stationId);
 }
