@@ -39,7 +39,7 @@ public class StationServiceImpl extends BaseServiceImpl implements StationServic
 
             for (Spot spot : spots){
                 if (spot.getRoute().getId() == routeId && spot.getStation().getId() == stationId){
-                    timeSinceDeparture = spot.getTimeSinceDeparture();
+                    timeSinceDeparture = spot.getMinutesSinceDeparture();
                     break;
                 }
             }
@@ -62,7 +62,7 @@ public class StationServiceImpl extends BaseServiceImpl implements StationServic
             Station departureStation = null;
             Station arrivalStation = null;
             for (Spot spot : spots){
-                LocalTime time = spot.getTimeSinceDeparture();
+                LocalTime time = spot.getMinutesSinceDeparture();
                 if (time.equals(minTime)){
                     minTime = time;
                     departureStation = spot.getStation();

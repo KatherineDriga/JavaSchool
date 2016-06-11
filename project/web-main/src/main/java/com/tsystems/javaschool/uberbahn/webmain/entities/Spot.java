@@ -17,8 +17,8 @@ public class Spot extends BaseEntity {
     private Station station;
 
 
-    @Column(name = "timeSinceDeparture")
-    private LocalTime timeSinceDeparture;
+    @Column(name = "minutesSinceDeparture")
+    private Integer minutesSinceDeparture;
 
     public Route getRoute() {
         return route;
@@ -28,8 +28,8 @@ public class Spot extends BaseEntity {
         return station;
     }
 
-    public LocalTime getTimeSinceDeparture() {
-        return timeSinceDeparture;
+    public Integer getMinutesSinceDeparture() {
+        return minutesSinceDeparture;
     }
 }
 
