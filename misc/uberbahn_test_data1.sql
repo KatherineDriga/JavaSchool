@@ -21,23 +21,23 @@ insert into uberbahn.train (routeId,dateOfDeparture,numberOfSeats) values (3,'20
 insert into uberbahn.train (routeId,dateOfDeparture,numberOfSeats) values (4,'2016-07-21',3);
 
 
-insert into uberbahn.spot (routeId,stationId,timeSinceDeparture) values (1,1,'00:00:00');
-insert into uberbahn.spot (routeId,stationId,timeSinceDeparture) values (1,2,'08:00:00');
+insert into uberbahn.spot (routeId,stationId,minutesSinceDeparture) values (1,1, 0);
+insert into uberbahn.spot (routeId,stationId,minutesSinceDeparture) values (1,2, 360);
 
-insert into uberbahn.spot (routeId,stationId,timeSinceDeparture) values (2,2,'00:00:00');
-insert into uberbahn.spot (routeId,stationId,timeSinceDeparture) values (2,1,'08:10:00');
+insert into uberbahn.spot (routeId,stationId,minutesSinceDeparture) values (2,2,0);
+insert into uberbahn.spot (routeId,stationId,minutesSinceDeparture) values (2,1,370);
 
-insert into uberbahn.spot (routeId,stationId,timeSinceDeparture) values (3,2,'00:00:00');
-insert into uberbahn.spot (routeId,stationId,timeSinceDeparture) values (3,3,'06:10:00');
-insert into uberbahn.spot (routeId,stationId,timeSinceDeparture) values (3,1,'08:15:00');
+insert into uberbahn.spot (routeId,stationId,minutesSinceDeparture) values (3,2,0);
+insert into uberbahn.spot (routeId,stationId,minutesSinceDeparture) values (3,3,480);
+insert into uberbahn.spot (routeId,stationId,minutesSinceDeparture) values (3,1,550);
 
-insert into uberbahn.spot (routeId,stationId,timeSinceDeparture) values (4,2,'00:00:00');
-insert into uberbahn.spot (routeId,stationId,timeSinceDeparture) values (4,3,'06:02:00');
-insert into uberbahn.spot (routeId,stationId,timeSinceDeparture) values (4,1,'08:05:00');
-insert into uberbahn.spot (routeId,stationId,timeSinceDeparture) values (4,4,'17:10:00');
-insert into uberbahn.spot (routeId,stationId,timeSinceDeparture) values (4,5,'29:30:00');
-insert into uberbahn.spot (routeId,stationId,timeSinceDeparture) values (4,6,'42:15:00');
-insert into uberbahn.spot (routeId,stationId,timeSinceDeparture) values (4,7,'45:12:00');
+insert into uberbahn.spot (routeId,stationId,minutesSinceDeparture) values (4,2,0);
+insert into uberbahn.spot (routeId,stationId,minutesSinceDeparture) values (4,3,300);
+insert into uberbahn.spot (routeId,stationId,minutesSinceDeparture) values (4,1,600);
+insert into uberbahn.spot (routeId,stationId,minutesSinceDeparture) values (4,4,1200);
+insert into uberbahn.spot (routeId,stationId,minutesSinceDeparture) values (4,5,2400);
+insert into uberbahn.spot (routeId,stationId,minutesSinceDeparture) values (4,6,3100);
+insert into uberbahn.spot (routeId,stationId,minutesSinceDeparture) values (4,7,4000);
 
 insert into uberbahn.account (login, email, secret, firstName, lastName, dateOfBirth, employee)
 values ('administrator', 'administrator.example.com', '123','Elena', 'Pavlova', '1985-12-11', true);
