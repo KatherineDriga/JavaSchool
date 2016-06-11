@@ -13,20 +13,19 @@ import java.time.LocalDateTime;
 
 public class StationTimetableControllerImpl extends BaseControllerImpl {
 
+
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        String station = "St-Petersburg";
-        int stationId = 2;
-        LocalDateTime sinceDateTime = LocalDateTime.of(2016,05,30,10,0);
-        LocalDateTime untilDateTime = LocalDateTime.of(2016,8,8,10,0);
-
-
+        int stationId = getIntParameter("stationId", req);
+        LocalDateTime since = getDatetimeParameter("since", req);
+        LocalDateTime until = getDatetimeParameter("until", req);
 
         StationTimetable timetable = runTransaction((session -> {
 
             StationService service = new StationServiceImpl(session); // TODO: with DI
-            return service.getTimetable(stationId, sinceDateTime, untilDateTime);
+            return service.getTimetable(stationId, since, until);
         }));
 
         req.setAttribute("timetable", timetable);

@@ -14,30 +14,38 @@
 </head>
 <body>
 <h2>${timetable.title}</h2>
-<table>
+<c:choose>
+    <c:when test="${empty timetable.scheduleEvents}">
+        <h3>No trains</h3>
+    </c:when>
+    <c:otherwise>
+        <table>
 
 
-    <tr>
-        <th>Date</th>
-        <th>Time On Station</th>
-        <th>Route</th>
-        <th>Departs from</th>
-        <th>Arrives at</th>
-        <th>Train</th>
-    </tr>
-    <c:forEach var="event" items="${timetable.scheduleEvents}">
-        <tr>
-            <td>${event.date}</td>
-            <td>${event.time}</td>
-            <td>${event.route}</td>
-            <td>${event.departsFrom}</td>
-            <td>${event.arrivesAt}</td>
-            <td>${event.train}</td>
-        </tr>
-    </c:forEach>
+            <tr>
+                <th>Date</th>
+                <th>Time On Station</th>
+                <th>Route</th>
+                <th>Departs from</th>
+                <th>Arrives at</th>
+                <th>Train</th>
+            </tr>
+            <c:forEach var="event" items="${timetable.scheduleEvents}">
+                <tr>
+                    <td>${event.date}</td>
+                    <td>${event.time}</td>
+                    <td>${event.route}</td>
+                    <td>${event.departsFrom}</td>
+                    <td>${event.arrivesAt}</td>
+                    <td>${event.train}</td>
+                </tr>
+            </c:forEach>
 
 
-</table>
+        </table>
+    </c:otherwise>
+</c:choose>
+
 </body>
 </html>
 

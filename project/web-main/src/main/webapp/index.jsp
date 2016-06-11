@@ -130,7 +130,7 @@
 
 <div id="section">
     <ul>
-        <li><a href="/stations/schedule">StationScheduleEvent</a></li>
+        <li><a href="/stationTimetable">StationScheduleEvent</a></li>
     </ul>
 </div>
 
