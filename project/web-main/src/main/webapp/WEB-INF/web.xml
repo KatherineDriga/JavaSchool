@@ -31,10 +31,10 @@
 -->
     <servlet>
         <servlet-name>StationScheduleController</servlet-name>
-        <servlet-class>com.tsystems.javaschool.uberbahn.webmain.controllers.StationScheduleControllerImpl</servlet-class>
+        <servlet-class>com.tsystems.javaschool.uberbahn.webmain.controllers.StationTimetableControllerImpl</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>StationScheduleController</servlet-name>
-        <url-pattern>/stations/schedule</url-pattern>
+        <url-pattern>/stationTimetable</url-pattern>
     </servlet-mapping>
 </web-app>

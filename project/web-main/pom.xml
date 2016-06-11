@@ -59,18 +59,6 @@
         <artifactId>maven-war-plugin</artifactId>
         <version>2.6</version>
       </plugin>
-      <plugin>
-        <groupId>org.apache.tomcat.maven</groupId>
-        <artifactId>tomcat7-maven-plugin</artifactId>
-        <version>2.2</version>
-        <configuration>
-          <path>/uberbahn</path>
-          <update>true</update>
-          <url>http://localhost:8080/manager/text</url>
-          <username>admin</username>
-          <password>admin</password>
-        </configuration>
-      </plugin>
     </plugins>
   </build>
 </project>

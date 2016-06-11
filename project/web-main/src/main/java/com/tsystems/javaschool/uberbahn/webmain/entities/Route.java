@@ -4,6 +4,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalTime;
 import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 
 
@@ -16,7 +17,8 @@ public class Route extends BaseEntity {
     private Collection<Train> trains;
 
     @OneToMany (mappedBy = "route")
-    private Collection<Spot> spots;
+    @OrderBy("minutesSinceDeparture ASC")
+    private List<Spot> spots;
 
     @Column(name = "title")
     private String title;
@@ -28,7 +30,7 @@ public class Route extends BaseEntity {
         return trains;
     }
 
-    public Collection<Spot> getSpots() {
+    public List<Spot> getSpots() {
         return spots;
     }
 

@@ -13,7 +13,7 @@
     <title>StationTimetable</title>
 </head>
 <body>
-<h2>${station}</h2>
+<h2>${timetable.title}</h2>
 <table>
 
 
@@ -25,7 +25,7 @@
         <th>Arrives at</th>
         <th>Train</th>
     </tr>
-    <c:forEach var="event" items="${trainScheduleEvents}">
+    <c:forEach var="event" items="${timetable.scheduleEvents}">
         <tr>
             <td>${event.date}</td>
             <td>${event.time}</td>
