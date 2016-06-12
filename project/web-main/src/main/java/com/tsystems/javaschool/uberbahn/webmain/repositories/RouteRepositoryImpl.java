@@ -1,10 +1,10 @@
 package com.tsystems.javaschool.uberbahn.webmain.repositories;
 
 import com.tsystems.javaschool.uberbahn.webmain.entities.Route;
-import org.hibernate.Query;
 import org.hibernate.Session;
 
 import java.util.Collection;
+import java.util.List;
 
 
 public class RouteRepositoryImpl extends BaseRepositoryImpl<Route> implements RouteRepository{
@@ -14,16 +14,19 @@ public class RouteRepositoryImpl extends BaseRepositoryImpl<Route> implements Ro
     }
 
 
-    @Override
-    public Collection<Route> findByStationId(int stationId) {
-        String hql = "FROM Route AS r JOIN Spot AS s ON r.id = s.routeId " +
-                "WHERE s.stationId = :stationId";
-        Query query = getSession().createQuery(hql).setInteger("stationId", stationId);
-        return query.list();
-    }
+
 
     @Override
     public Route findById(int id) {
         return getSession().get(Route.class, id);
     }
+
+    @Override
+    public Collection<Route> findByStationId(int stationId) {
+        return (Collection<Route>) getSession()
+                .createQuery("SELECT r FROM Route AS r JOIN r.spots AS s " +
+                        "WHERE s.station.id = :stationId")
+                .setInteger("stationId", stationId).list();
+    }
 }
+

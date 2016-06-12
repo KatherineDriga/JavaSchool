@@ -16,12 +16,10 @@
 <h2>${timetable.title}</h2>
 <c:choose>
     <c:when test="${empty timetable.scheduleEvents}">
-        <h3>No trains</h3>
+        <h3>No trains found</h3>
     </c:when>
     <c:otherwise>
         <table>
-
-
             <tr>
                 <th>Date</th>
                 <th>Time On Station</th>

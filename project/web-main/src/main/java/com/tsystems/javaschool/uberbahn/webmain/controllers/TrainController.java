@@ -11,9 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
-/**
- * Created by ASUS on 06.06.2016.
- */
+
 public class TrainController extends HttpServlet {
 
     @Override

@@ -37,4 +37,12 @@
         <servlet-name>StationScheduleController</servlet-name>
         <url-pattern>/stationTimetable</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>TrainScheduleController</servlet-name>
+        <servlet-class>com.tsystems.javaschool.uberbahn.webmain.controllers.TrainTimetableControllerImpl</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>TrainScheduleController</servlet-name>
+        <url-pattern>/trainTimetable</url-pattern>
+    </servlet-mapping>
 </web-app>

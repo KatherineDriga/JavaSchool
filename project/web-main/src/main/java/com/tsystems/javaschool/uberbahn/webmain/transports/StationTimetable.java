@@ -2,9 +2,7 @@ package com.tsystems.javaschool.uberbahn.webmain.transports;
 
 import java.util.Collection;
 
-/**
- * Created by ASUS on 11.06.2016.
- */
+
 public class StationTimetable {
 
     private String title;

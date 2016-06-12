@@ -27,7 +27,7 @@
             padding:20px;
         }
         #footer {
-            background-color:green;
+            background-color:#465c71;
             color:white;
             clear:both;
             text-align:center;
@@ -123,14 +123,16 @@
     <br>
     <form class="login_form" method="post">
         <p><div class="form_element"><label>Login</label><input type="text" required></div></p>
-        <p><div class="form_element"><label>Password</label><input type="text" required></div></p>
+        <p><div class="form_element"><label>Password</label><input type="password" required></div></p>
         <div class="form_element" id="login_button"><input type="submit" value="Log in"></div>
     </form>
 </div>
 
 <div id="section">
     <ul>
-        <li><a href="/stationTimetable">StationScheduleEvent</a></li>
+        <li><a href="/stationTimetable">StationTimetable</a></li>
+        <li><a href="/trainTimetable">TrainTimetable</a></li>
+
     </ul>
 </div>
 
