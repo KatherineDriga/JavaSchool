@@ -5,6 +5,7 @@ import com.tsystems.javaschool.uberbahn.webmain.entities.Spot;
 import com.tsystems.javaschool.uberbahn.webmain.entities.Station;
 import com.tsystems.javaschool.uberbahn.webmain.entities.Train;
 import com.tsystems.javaschool.uberbahn.webmain.repositories.*;
+import com.tsystems.javaschool.uberbahn.webmain.transports.StationInfo;
 import com.tsystems.javaschool.uberbahn.webmain.transports.StationScheduleEvent;
 import com.tsystems.javaschool.uberbahn.webmain.transports.StationTimetable;
 import org.hibernate.Session;
@@ -68,6 +69,19 @@ public class StationServiceImpl extends BaseServiceImpl implements StationServic
             });
         });
         return timetable;
+    }
+
+    @Override
+    public Collection<StationInfo> getAll() {
+        Collection<StationInfo> result = new ArrayList<>();
+
+       stationRepository.findAll().forEach(station -> {
+           StationInfo info = new StationInfo();
+           info.setId(station.getId());
+           info.setTitle(station.getTitle());
+           result.add(info);
+       });
+        return result;
     }
 }
 

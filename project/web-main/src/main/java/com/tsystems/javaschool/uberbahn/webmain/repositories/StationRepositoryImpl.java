@@ -4,6 +4,8 @@ package com.tsystems.javaschool.uberbahn.webmain.repositories;
 import com.tsystems.javaschool.uberbahn.webmain.entities.Station;
 import org.hibernate.Session;
 
+import java.util.Collection;
+
 
 public class StationRepositoryImpl extends BaseRepositoryImpl<Station> implements  StationRepository {
 
@@ -25,6 +27,13 @@ public class StationRepositoryImpl extends BaseRepositoryImpl<Station> implement
                         "WHERE title = :title")
                 .setString("title", title)
                 .uniqueResult();
+    }
+
+    @Override
+    public Collection<Station> findAll() {
+        return getSession()
+                .createQuery("FROM Station")
+                .list();
     }
 }
 
