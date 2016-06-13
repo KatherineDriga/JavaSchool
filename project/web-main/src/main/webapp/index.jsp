@@ -4,6 +4,7 @@
 
 <section>
     <ul>
+        <li><a href="/trainTimetableSearch"><h3>Train search</h3></a></li>
         <li><a href="/stationTimetable">StationTimetable</a></li>
         <li><a href="/trainTimetable">TrainTimetable</a></li>
 

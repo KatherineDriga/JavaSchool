@@ -24,7 +24,6 @@ table {
     border-collapse: collapse;
     border-color: black;
 }
-
 table th, td {
     text-align: center;
     vertical-align: center;
@@ -35,6 +34,7 @@ table th {
     background-color: #465c71;
     color: white;
 }
+
 .image{
 	position: absolute;
 	bottom: 25px;

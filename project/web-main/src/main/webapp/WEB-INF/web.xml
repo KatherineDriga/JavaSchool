@@ -53,4 +53,12 @@
         <servlet-name>StationTimetableSearchController</servlet-name>
         <url-pattern>/stationTimetableSearch</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>TrainTimetableSearchController</servlet-name>
+        <servlet-class>com.tsystems.javaschool.uberbahn.webmain.controllers.TrainTimetableSearchControllerImpl</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>TrainTimetableSearchController</servlet-name>
+        <url-pattern>/trainTimetableSearch</url-pattern>
+    </servlet-mapping>
 </web-app>

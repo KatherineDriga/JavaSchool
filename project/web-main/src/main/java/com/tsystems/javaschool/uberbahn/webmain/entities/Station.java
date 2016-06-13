@@ -20,6 +20,7 @@ public class Station extends BaseEntity {
     private Collection<Ticket> arrivals;
 
     @Column(name = "title")
+    @OrderBy("title ASC")
     private String title;
 
     public Collection<Spot> getSpots() {
