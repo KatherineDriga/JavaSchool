@@ -47,7 +47,7 @@
 
     <h1>Ticket Purchase Form</h1>
 
-        <form class="subform"  method="post">
+        <form class="buy_ticket">
         <table>
         <tr>
             <th>Route information</th>

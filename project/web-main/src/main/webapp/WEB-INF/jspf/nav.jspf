@@ -1,0 +1,10 @@
+<nav>
+    <br>
+    <br>
+    <form class="login_form" method="post">
+        <p><div class="form_element"><label>Login</label><input type="text" required></div></p>
+        <p><div class="form_element"><label>Password</label><input type="password" required></div></p>
+        <div class="form_element" id="login_button"><input type="submit" value="Log in"></div>
+    </form>
+</nav>
+
