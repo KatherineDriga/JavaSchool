@@ -7,7 +7,7 @@ public class TrainTimetable {
 
     private String stationOfDeparture;
     private String stationOfArrival;
-    Collection<TrainScheduleEvent> scheduleEvents;
+    private Collection<TrainScheduleEvent> scheduleEvents;
 
     public String getStationOfDeparture() {
         return stationOfDeparture;

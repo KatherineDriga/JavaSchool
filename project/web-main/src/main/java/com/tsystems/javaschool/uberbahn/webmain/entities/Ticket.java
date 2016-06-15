@@ -38,4 +38,35 @@ public class Ticket extends BaseEntity {
     @JoinColumn(name = "accountId")
     private Account account;
 
+    public Train getTrain() {
+        return train;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public LocalDate getDateOfBirth() {
+        return dateOfBirth;
+    }
+
+    public Station getStationOfDeparture() {
+        return stationOfDeparture;
+    }
+
+    public Station getStationOfArrival() {
+        return stationOfArrival;
+    }
+
+    public Instant getDatetimeOfPurchase() {
+        return datetimeOfPurchase;
+    }
+
+    public Account getAccount() {
+        return account;
+    }
 }

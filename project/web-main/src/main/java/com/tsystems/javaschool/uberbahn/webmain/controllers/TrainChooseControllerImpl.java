@@ -3,15 +3,16 @@ package com.tsystems.javaschool.uberbahn.webmain.controllers;
 
 import com.tsystems.javaschool.uberbahn.webmain.services.TrainService;
 import com.tsystems.javaschool.uberbahn.webmain.services.TrainServiceImpl;
-import com.tsystems.javaschool.uberbahn.webmain.transports.TrainTimetable;
+import com.tsystems.javaschool.uberbahn.webmain.transports.TrainInfo;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.Collection;
 
-public class TrainTimetableControllerImpl extends BaseControllerImpl {
+public class TrainChooseControllerImpl extends BaseControllerImpl {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -21,21 +22,22 @@ public class TrainTimetableControllerImpl extends BaseControllerImpl {
         LocalDateTime since = getDatetimeParameter("since", req);
         LocalDateTime until = getDatetimeParameter("until", req);
 
-        /*String stationOfDeparture = "St-Petersburg";
-        String stationOfArrival = "Moscow";
-        LocalDateTime since = LocalDateTime.of(2016,02,02,0,0);
-        LocalDateTime until = LocalDateTime.of(2017,01,01,0,0);*/
+        /*int stationOfDeparture = 2;
+        int stationOfArrival = 3;
+        LocalDateTime since = LocalDateTime.of(2015,02,02,0,0);
+        LocalDateTime until = LocalDateTime.of(2018,01,01,0,0);*/
 
-        TrainTimetable timetable = runTransaction((session -> {
+        Collection<TrainInfo> trains = runTransaction((session -> {
 
             TrainService service = new TrainServiceImpl(session); // TODO: with DI
-            return service.getTimetable(stationOfDeparture, stationOfArrival, since, until);
+            return service.getTrainInfo(stationOfDeparture, stationOfArrival, since, until);
         }));
 
-        req.setAttribute("timetable", timetable);
-        req.setAttribute("since", since);
-        req.setAttribute("until", until);
 
-        render("trainTimetable", req, resp);
+        req.setAttribute("trains", trains);
+        req.setAttribute("stationOfDepartureId", stationOfDeparture);
+        req.setAttribute("stationOfArrivalId", stationOfArrival);
+
+        render("trainChoose", req, resp);
     }
 }

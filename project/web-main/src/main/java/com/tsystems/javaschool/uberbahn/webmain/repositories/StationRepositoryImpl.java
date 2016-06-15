@@ -35,5 +35,7 @@ public class StationRepositoryImpl extends BaseRepositoryImpl<Station> implement
                 .createQuery("FROM Station")
                 .list();
     }
+
+
 }
 

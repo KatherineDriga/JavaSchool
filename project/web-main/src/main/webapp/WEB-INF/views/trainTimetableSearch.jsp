@@ -9,14 +9,14 @@
             <select id="stationOfDeparture">
             <option value="null">Select</option>
                 <c:forEach var="station" items="${stations}">
-                    <option value="${station.title}">${station.title}</option>
+                    <option value="${station.id}">${station.title}</option>
                 </c:forEach>
         </select></p>
         <p><label>Station Of Arrival </label>
             <select id="stationOfArrival">
             <option value="null">Select</option>
                 <c:forEach var="station" items="${stations}">
-                    <option value="${station.title}">${station.title}</option>
+                    <option value="${station.id}">${station.title}</option>
                 </c:forEach>
         </select></p>
         <p><label>Since </label><input id="sinceDate" type="date"><input id="sinceTime" type="time" value="00:00" /></p>

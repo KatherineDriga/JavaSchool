@@ -3,15 +3,36 @@ package com.tsystems.javaschool.uberbahn.webmain.transports;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.Collection;
 
 public class TrainInfo {
 
+    private int trainId;
+    private String routeTitle;
     private String stationOfDeparture;
+    private LocalDate dateOfDeparture;
+    private LocalTime timeOfDeparture;
     private String stationOfArrival;
-    private LocalDate dateSince;
-    private LocalTime timeSince;
-    private LocalDate dateUntil;
-    private LocalTime timeUntil;
+    private LocalDate dateOfArrival;
+    private LocalTime timeOfArrival;
+    private int numberOfSeatsAvailable;
+    private Collection<TicketsPurchasedPerStation> ticketsPurchasedPerStations;
+
+    public int getTrainId() {
+        return trainId;
+    }
+
+    public void setTrainId(int trainId) {
+        this.trainId = trainId;
+    }
+
+    public String getRouteTitle() {
+        return routeTitle;
+    }
+
+    public void setRouteTitle(String routeTitle) {
+        this.routeTitle = routeTitle;
+    }
 
     public String getStationOfDeparture() {
         return stationOfDeparture;
@@ -19,6 +40,22 @@ public class TrainInfo {
 
     public void setStationOfDeparture(String stationOfDeparture) {
         this.stationOfDeparture = stationOfDeparture;
+    }
+
+    public LocalDate getDateOfDeparture() {
+        return dateOfDeparture;
+    }
+
+    public void setDateOfDeparture(LocalDate dateOfDeparture) {
+        this.dateOfDeparture = dateOfDeparture;
+    }
+
+    public LocalTime getTimeOfDeparture() {
+        return timeOfDeparture;
+    }
+
+    public void setTimeOfDeparture(LocalTime timeOfDeparture) {
+        this.timeOfDeparture = timeOfDeparture;
     }
 
     public String getStationOfArrival() {
@@ -29,35 +66,35 @@ public class TrainInfo {
         this.stationOfArrival = stationOfArrival;
     }
 
-    public LocalDate getDateSince() {
-        return dateSince;
+    public LocalDate getDateOfArrival() {
+        return dateOfArrival;
     }
 
-    public void setDateSince(LocalDate dateSince) {
-        this.dateSince = dateSince;
+    public void setDateOfArrival(LocalDate dateOfArrival) {
+        this.dateOfArrival = dateOfArrival;
     }
 
-    public LocalTime getTimeSince() {
-        return timeSince;
+    public LocalTime getTimeOfArrival() {
+        return timeOfArrival;
     }
 
-    public void setTimeSince(LocalTime timeSince) {
-        this.timeSince = timeSince;
+    public void setTimeOfArrival(LocalTime timeOfArrival) {
+        this.timeOfArrival = timeOfArrival;
     }
 
-    public LocalDate getDateUntil() {
-        return dateUntil;
+    public int getNumberOfSeatsAvailable() {
+        return numberOfSeatsAvailable;
     }
 
-    public void setDateUntil(LocalDate dateUntil) {
-        this.dateUntil = dateUntil;
+    public void setNumberOfSeatsAvailable(int numberOfSeatsAvailable) {
+        this.numberOfSeatsAvailable = numberOfSeatsAvailable;
     }
 
-    public LocalTime getTimeUntil() {
-        return timeUntil;
+    public Collection<TicketsPurchasedPerStation> getTicketsPurchasedPerStations() {
+        return ticketsPurchasedPerStations;
     }
-
-    public void setTimeUntil(LocalTime timeUntil) {
-        this.timeUntil = timeUntil;
+    public void setTicketsPurchasedPerStations(Collection<TicketsPurchasedPerStation> ticketsPurchasedPerStations) {
+        this.ticketsPurchasedPerStations = ticketsPurchasedPerStations;
     }
 }
+

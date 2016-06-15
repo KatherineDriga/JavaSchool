@@ -61,4 +61,29 @@
         <servlet-name>TrainTimetableSearchController</servlet-name>
         <url-pattern>/trainTimetableSearch</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>TrainChooseController</servlet-name>
+        <servlet-class>com.tsystems.javaschool.uberbahn.webmain.controllers.TrainChooseControllerImpl</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>TrainChooseController</servlet-name>
+        <url-pattern>/trainChoose</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>TicketPurchaseFormController</servlet-name>
+        <servlet-class>com.tsystems.javaschool.uberbahn.webmain.controllers.TicketPurchaseFormControllerImpl</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>TicketPurchaseFormController</servlet-name>
+        <url-pattern>/ticketPurchaseForm</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>TicketPurchaseController</servlet-name>
+        <servlet-class>com.tsystems.javaschool.uberbahn.webmain.controllers.TicketPurchaseControllerImpl</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>TicketPurchaseController</servlet-name>
+        <url-pattern>/ticketPurchase</url-pattern>
+    </servlet-mapping>
+
 </web-app>

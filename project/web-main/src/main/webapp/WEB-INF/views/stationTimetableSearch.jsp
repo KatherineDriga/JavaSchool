@@ -8,6 +8,7 @@
     <form class="station_timetable_search_form">
         <p><label>Station </label>
             <select id="station">
+                <option value="null">Select</option>
                 <c:forEach var="station" items="${stations}">
                 <option value="${station.id}">${station.title}</option>
                 </c:forEach>

@@ -11,12 +11,10 @@ $(function () {
         var untilDate = $("#untilDate").val();
         var untilTime = $("#untilTime").val();
 
-        var since = //sinceDate+'T'+sinceTime;
-            "2012-01-01T00:00:00";
-        var until = //untilDate+'T'+untilTime;
-            "2018-01-01T00:00:00";
+        var since = sinceDate+'T'+sinceTime;
+        var until = untilDate+'T'+untilTime;
 
-        window.location.href = "/trainTimetable?"
+        window.location.href = "/trainChoose?"
             + "stationOfDeparture=" + stationA + "&"
             + "stationOfArrival=" + stationB + "&"
             + "since=" + since + "&"

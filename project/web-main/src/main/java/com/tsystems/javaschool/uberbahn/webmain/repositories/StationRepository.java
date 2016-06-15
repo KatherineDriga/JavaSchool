@@ -9,4 +9,5 @@ public interface StationRepository extends BaseRepository<Station> {
 
     Station findByTitle(String title);
     Collection<Station> findAll();
+
 }

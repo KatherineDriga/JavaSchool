@@ -6,7 +6,7 @@
     <h2>Ticket Purchase Form</h2>
     <form class="buy_ticket">
         <div class="wrap">
-            <div class="left_col">
+            <!--<div class="left_col">
                 <h3>Route information</h3>
                 <p><label class="label">Route Title</label>
                     <input type="text" name="Route Title" value="RouteTitle" readonly></p>
@@ -22,7 +22,7 @@
                     <input type="time" name="timeOfDeparture" value="10:00" readonly></p>
                 <p><label class="label">Station Of Arrival</label>
                     <input type="text" name="Route Title" value="StationOfArrival" readonly></p>
-            </div>
+            </div>-->
             <div class="right_col">
                 <h3>Passenger information</h3>
                 <p><label for="fname" class="label">First Name</label>
@@ -33,13 +33,16 @@
                     <input type="date" name="dateOfBirth" id="dateOfBirth"></p>
                 <p> <label for="comments" class="label">Additional comments </label>
                     <textarea name="comments" cols="35" rows="4" id="comments"></textarea></p>
-                <input type="submit" value="Buy Ticket">
+                <input id = "buyTicketButton" type="button" value="Buy Ticket">
             </div>
         </div>
-
+        <span id="trainId">${trainId}</span>
+        <span id="stationOfDepartureId">${stationOfDepartureId}</span>
+        <span id="stationOfArrivalId">${stationOfArrivalId}</span>
 
     </form>
 
     <%@include file="/WEB-INF/jspf/image.jspf" %>
 </section>
+<script src="/scripts/ticketPurchaseForm.js"></script>
 <%@include file="/WEB-INF/jspf/footer.jspf" %>

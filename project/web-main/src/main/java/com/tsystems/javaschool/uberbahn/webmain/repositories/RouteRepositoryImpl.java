@@ -28,5 +28,15 @@ public class RouteRepositoryImpl extends BaseRepositoryImpl<Route> implements Ro
                         "WHERE s.station.id = :stationId")
                 .setInteger("stationId", stationId).list();
     }
+
+    @Override
+    public Route findByTitle(String routeTitle) {
+        return (Route) getSession()
+                .createQuery("FROM Route " +
+                        "WHERE title = :routeTitle")
+                .setString("routeTitle", routeTitle)
+                .uniqueResult();
+    }
 }
+
 

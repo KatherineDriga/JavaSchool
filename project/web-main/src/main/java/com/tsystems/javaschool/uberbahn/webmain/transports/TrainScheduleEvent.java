@@ -60,4 +60,5 @@ public class TrainScheduleEvent {
     public void setTimeOfArrival(LocalTime timeOfArrival) {
         this.timeOfArrival = timeOfArrival;
     }
+
 }

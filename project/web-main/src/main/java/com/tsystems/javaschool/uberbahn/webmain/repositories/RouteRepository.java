@@ -9,4 +9,5 @@ import java.util.List;
 public interface RouteRepository extends BaseRepository<Route> {
 
     Collection<Route> findByStationId (int stationId);
+    Route findByTitle (String routeTitle);
 }

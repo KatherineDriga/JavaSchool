@@ -25,52 +25,5 @@ public class TrainRepositoryImpl extends BaseRepositoryImpl<Train> implements Tr
     }
 
 
-
-
-
-    /*@Override
-    public LocalTime findTimeSinceDepartureByStationIdAndRouteId(int stationId, int routeId) {
-        LocalTime time = null;
-        String hql = "SELECT s.timeSinceDeparture FROM Spot AS s, s.route AS r " +
-                "WHERE r.id = :routeId AND r.station.id = :stationId";
-        Query query = getSession().createQuery(hql);
-        query.setInteger("stationId", stationId);
-        query.setInteger("routeId", routeId);
-        time = (LocalTime)query.uniqueResult();
-        if (time == null){
-            throw new RuntimeException();
-        }
-        return time;
-    }
-
-    @Override
-    public Station findDepartsFromStaionByRoute(int routeId) {
-        Station station = null;
-        String hql = "FROM Station AS st INNER JOIN st.spots AS sp " +
-                "WHERE sp.route.id = :routeId " +
-                "GROUP BY sp.route.id " +
-                "HAVING min(sp.timeSinceDeparture)";
-        Query query = getSession().createQuery(hql).setInteger("routeId", routeId);
-        station = (Station)query.uniqueResult();
-        if (station == null){
-            throw new RuntimeException();
-        }
-        return station;
-    }
-
-    @Override
-    public Station findArrivesAtStaionByRoute(int routeId) {
-        Station station = null;
-        String hql = "FROM Station AS st INNER JOIN st.spots AS sp " +
-                "WHERE sp.route.id = :routeId " +
-                "HAVING max(sp.timeSinceDeparture)";
-        Query query = getSession().createQuery(hql).setInteger("routeId", routeId);
-        station = (Station)query.uniqueResult();
-        if (station == null){
-            throw new RuntimeException();
-        }
-        return station;
-    }*/
-
 }
 

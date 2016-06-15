@@ -4,13 +4,13 @@ $(function () {
 
         var stationId = $("#station").val();
 
-        var sinceDate = $("#sinceDate");
-        var sinceTime = $("#sinceTime");
-        var untilDate = $("#untilDate");
-        var untilTime = $("#untilTime");
+        var sinceDate = $("#sinceDate").val();
+        var sinceTime = $("#sinceTime").val();
+        var untilDate = $("#untilDate").val();
+        var untilTime = $("#untilTime").val();
 
-        var since = "2012-01-01T00:00:00";
-        var until = "2018-01-01T00:00:00";
+        var since = sinceDate+'T'+sinceTime;
+        var until = untilDate+'T'+untilTime;
 
         window.location.href = "/stationTimetable?"
             + "stationId=" + stationId + "&"
