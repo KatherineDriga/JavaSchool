@@ -101,5 +101,29 @@
         <servlet-name>PurchasedTicketErrorController</servlet-name>
         <url-pattern>/purchasedTicketError</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>AddStationFormController</servlet-name>
+        <servlet-class>com.tsystems.javaschool.uberbahn.webmain.controllers.AddStationFormControllerImpl</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AddStationFormController</servlet-name>
+        <url-pattern>/addStationForm</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>AddedStationController</servlet-name>
+        <servlet-class>com.tsystems.javaschool.uberbahn.webmain.controllers.AddedStationControllerImpl</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AddedStationController</servlet-name>
+        <url-pattern>/addedStation</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>AddStationController</servlet-name>
+        <servlet-class>com.tsystems.javaschool.uberbahn.webmain.controllers.AddStationControllerImpl</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AddStationController</servlet-name>
+        <url-pattern>/addStation</url-pattern>
+    </servlet-mapping>
 
 </web-app>

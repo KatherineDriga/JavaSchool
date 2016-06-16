@@ -11,5 +11,6 @@ public interface StationService {
 
     StationTimetable getTimetable (int stationId, LocalDateTime since, LocalDateTime until);
     Collection<StationInfo> getAll ();
+    StationInfo getStationInfo (String stationTitle);
 
 }

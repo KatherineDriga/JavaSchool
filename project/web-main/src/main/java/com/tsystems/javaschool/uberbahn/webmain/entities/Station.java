@@ -38,4 +38,20 @@ public class Station extends BaseEntity {
     public String getTitle() {
         return title;
     }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setSpots(Collection<Spot> spots) {
+        this.spots = spots;
+    }
+
+    public void setDepartures(Collection<Ticket> departures) {
+        this.departures = departures;
+    }
+
+    public void setArrivals(Collection<Ticket> arrivals) {
+        this.arrivals = arrivals;
+    }
 }
