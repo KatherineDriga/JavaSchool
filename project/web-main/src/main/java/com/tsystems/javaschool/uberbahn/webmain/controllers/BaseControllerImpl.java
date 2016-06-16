@@ -1,6 +1,5 @@
 package com.tsystems.javaschool.uberbahn.webmain.controllers;
 
-
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -10,7 +9,9 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.swing.text.DateFormatter;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.function.Function;
@@ -18,6 +19,7 @@ import java.util.function.Function;
 public class BaseControllerImpl extends HttpServlet {
 
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
+    private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ISO_LOCAL_DATE;
     private static final SessionFactory SESSION_FACTORY;
 
     static {
@@ -63,5 +65,9 @@ public class BaseControllerImpl extends HttpServlet {
 
     protected LocalDateTime getDatetimeParameter(String name, HttpServletRequest request) {
         return LocalDateTime.parse(getRequiredParameter(name, request), FORMATTER);
+    }
+
+    protected LocalDate getDateParameter(String name, HttpServletRequest request) {
+        return LocalDate.parse(getRequiredParameter(name, request), DATE_FORMATTER);
     }
 }

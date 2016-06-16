@@ -4,6 +4,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.Instant;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "ticket")
@@ -32,7 +33,7 @@ public class Ticket extends BaseEntity {
     private Station stationOfArrival;
 
     @Column(name = "datetimeOfPurchase")
-    private Instant datetimeOfPurchase;
+    private LocalDateTime datetimeOfPurchase;
 
     @ManyToOne
     @JoinColumn(name = "accountId")
@@ -62,11 +63,43 @@ public class Ticket extends BaseEntity {
         return stationOfArrival;
     }
 
-    public Instant getDatetimeOfPurchase() {
+    public LocalDateTime getDatetimeOfPurchase() {
         return datetimeOfPurchase;
     }
 
     public Account getAccount() {
         return account;
+    }
+
+    public void setTrain(Train train) {
+        this.train = train;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public void setDateOfBirth(LocalDate dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
+    }
+
+    public void setStationOfDeparture(Station stationOfDeparture) {
+        this.stationOfDeparture = stationOfDeparture;
+    }
+
+    public void setStationOfArrival(Station stationOfArrival) {
+        this.stationOfArrival = stationOfArrival;
+    }
+
+    public void setDatetimeOfPurchase(LocalDateTime datetimeOfPurchase) {
+        this.datetimeOfPurchase = datetimeOfPurchase;
+    }
+
+    public void setAccount(Account account) {
+        this.account = account;
     }
 }

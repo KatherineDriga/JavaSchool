@@ -15,7 +15,14 @@
         </tr>
         <c:forEach var="train" items="${trains}" varStatus="status">
         <tr>
-            <td><input type="radio" name="radioButton" value="${train.trainId}"/></td>
+        <c:choose>
+            <c:when test="${train.numberOfSeatsAvailable>0}">
+                <td><input type="radio" name="radioButton" value="${train.trainId}"/></td>
+            </c:when>
+            <c:otherwise>
+                <td></td>
+            </c:otherwise>
+        </c:choose>
             <td id = "trainId">${train.trainId}</td>
             <td id = "routeTitle">${train.routeTitle}</td>
             <td>${train.dateOfDeparture}<br />${train.timeOfDeparture}<br />${train.stationOfDeparture}</td>

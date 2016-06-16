@@ -23,18 +23,16 @@ $(function () {
             },
             success: function (data) {
                 window.location.href = "/purchasedTicket?"
-                    + "ticketId=" + data;
+                    + "ticketId=" + data.id + "&"
+                    + "message=" + data.message;
             },
             error: function () {
+                /*window.location.href = "/purchasedTicketError?"
+                    + "message=" + data.message;*/
                 alert("error");
             }
         });
-
-
-        /*window.location.href = "/ticketPurchaseForm?"
-            + "stationOfDeparture=" + stationA + "&"
-            + "stationOfArrival=" + stationB + "&"
-            + "trainId=" + trainId;*/
+        
     });
 });
 

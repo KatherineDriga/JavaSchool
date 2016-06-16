@@ -3,8 +3,9 @@
 <%@include file="/WEB-INF/jspf/nav.jspf" %>
 
 <section>
-    <h3>You've successfully purchased ticket number !</h3>
-    <form class="ticket_info">
+    <h3>${message}!</h3>
+
+    <!--<form class="ticket_info">
 
         <div class="wrap">
             <div class="left_col">
@@ -24,7 +25,7 @@
                 <p><label class="label">Date of Birth</label></p>
                 <p><label class="label">Additional comments </label></p>
             </div>
-        </div>
+        </div>-->
 
 
     </form>

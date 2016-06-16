@@ -85,5 +85,21 @@
         <servlet-name>TicketPurchaseController</servlet-name>
         <url-pattern>/ticketPurchase</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>PurchasedTicketController</servlet-name>
+        <servlet-class>com.tsystems.javaschool.uberbahn.webmain.controllers.PurchasedTicketControllerImpl</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>PurchasedTicketController</servlet-name>
+        <url-pattern>/purchasedTicket</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>PurchasedTicketErrorController</servlet-name>
+        <servlet-class>com.tsystems.javaschool.uberbahn.webmain.controllers.PurchasedTicketErrorControllerImpl</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>PurchasedTicketErrorController</servlet-name>
+        <url-pattern>/purchasedTicketError</url-pattern>
+    </servlet-mapping>
 
 </web-app>

@@ -7,7 +7,7 @@ import java.util.Collection;
 import java.util.List;
 
 
-public class RouteRepositoryImpl extends BaseRepositoryImpl<Route> implements RouteRepository{
+public class RouteRepositoryImpl extends BaseRepositoryImpl<Route> implements RouteRepository {
 
     public RouteRepositoryImpl(Session session){
         super(session);

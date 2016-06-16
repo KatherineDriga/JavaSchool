@@ -2,6 +2,7 @@ package com.tsystems.javaschool.uberbahn.webmain.repositories;
 
 
 import com.tsystems.javaschool.uberbahn.webmain.entities.Station;
+import com.tsystems.javaschool.uberbahn.webmain.entities.Ticket;
 import com.tsystems.javaschool.uberbahn.webmain.entities.Train;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -25,5 +26,13 @@ public class TrainRepositoryImpl extends BaseRepositoryImpl<Train> implements Tr
     }
 
 
+    @Override
+    public Collection<Ticket> getTicketsByTrainId(int trainId) {
+        return getSession()
+                .createQuery("FROM Ticket " +
+                        "WHERE train.id = :trainId")
+                .setInteger("trainId", trainId)
+                .list();
+    }
 }
 
