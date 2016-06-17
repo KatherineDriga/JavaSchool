@@ -190,5 +190,20 @@ public class TrainServiceImpl extends BaseServiceImpl implements TrainService {
 
         return addTrainInfo;
     }
+
+    @Override
+    public Collection<FindTrainInfo> getFindTrainInfo(int routeId) {
+        Collection<FindTrainInfo> findTrainInfos = new ArrayList<>();
+        Collection<Train> trains = trainRepository.findByRouteId(routeId);
+        trains.forEach(train -> {
+            FindTrainInfo findTrainInfo = new FindTrainInfo();
+            findTrainInfo.setId(train.getId());
+            findTrainInfo.setRouteTitle(train.getRoute().getTitle());
+            findTrainInfo.setDateOfDeparture(train.getDateOfDeparture());
+            findTrainInfos.add(findTrainInfo);
+        });
+
+        return findTrainInfos;
+    }
 }
 

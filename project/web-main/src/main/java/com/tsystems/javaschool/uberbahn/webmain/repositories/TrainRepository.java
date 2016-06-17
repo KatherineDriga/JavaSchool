@@ -13,6 +13,7 @@ public interface TrainRepository extends BaseRepository<Train> {
 
     Collection<Ticket> getTicketsByTrainId(int trainId);
     Train findByRouteIdAndDateOfDeparture(int routeId, LocalDate dateOfDeparture);
+    Collection<Train> findByRouteId(int routeId);
 
 }
 

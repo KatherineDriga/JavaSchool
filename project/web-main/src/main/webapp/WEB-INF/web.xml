@@ -163,5 +163,21 @@
         <servlet-name>AddedTrainController</servlet-name>
         <url-pattern>/addedTrain</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>FindTrainFormController</servlet-name>
+        <servlet-class>com.tsystems.javaschool.uberbahn.webmain.controllers.FindTrainFormControllerImpl</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>FindTrainFormController</servlet-name>
+        <url-pattern>/findTrainForm</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>TableOfTrainsController</servlet-name>
+        <servlet-class>com.tsystems.javaschool.uberbahn.webmain.controllers.TableOfTrainsControllerImpl</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>TableOfTrainsController</servlet-name>
+        <url-pattern>/tableOfTrains</url-pattern>
+    </servlet-mapping>
 
 </web-app>
