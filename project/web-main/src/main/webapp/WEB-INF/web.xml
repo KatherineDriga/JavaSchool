@@ -179,5 +179,13 @@
         <servlet-name>TableOfTrainsController</servlet-name>
         <url-pattern>/tableOfTrains</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>FindPassengersController</servlet-name>
+        <servlet-class>com.tsystems.javaschool.uberbahn.webmain.controllers.FindPassengersControllerImpl</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>FindPassengersController</servlet-name>
+        <url-pattern>/findPassengers</url-pattern>
+    </servlet-mapping>
 
 </web-app>

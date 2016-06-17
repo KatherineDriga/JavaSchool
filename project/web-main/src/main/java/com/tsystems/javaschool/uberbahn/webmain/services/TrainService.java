@@ -1,10 +1,7 @@
 package com.tsystems.javaschool.uberbahn.webmain.services;
 
 
-import com.tsystems.javaschool.uberbahn.webmain.transports.AddTrainInfo;
-import com.tsystems.javaschool.uberbahn.webmain.transports.FindTrainInfo;
-import com.tsystems.javaschool.uberbahn.webmain.transports.TrainInfo;
-import com.tsystems.javaschool.uberbahn.webmain.transports.TrainTimetable;
+import com.tsystems.javaschool.uberbahn.webmain.transports.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -16,4 +13,5 @@ public interface TrainService {
     Collection<TrainInfo> getTrainInfo (int stationOfDepartureId, int stationOfArrivalId, LocalDateTime since, LocalDateTime until);
     AddTrainInfo getAddTrainInfo (int routeId, LocalDate dateOfDeparture, int numberOfSeats);
     Collection<FindTrainInfo> getFindTrainInfo (int routeId);
+    Collection<PassengerInfo> getPassengerInfo (int trainId);
 }

@@ -205,5 +205,22 @@ public class TrainServiceImpl extends BaseServiceImpl implements TrainService {
 
         return findTrainInfos;
     }
+
+    @Override
+    public Collection<PassengerInfo> getPassengerInfo(int trainId) {
+        Collection<PassengerInfo> passengerInfos = new ArrayList<>();
+        Collection<Ticket> tickets = trainRepository.getTicketsByTrainId(trainId);
+        tickets.forEach(ticket -> {
+            PassengerInfo passengerInfo = new PassengerInfo();
+            passengerInfo.setFirstName(ticket.getFirstName());
+            passengerInfo.setLastName(ticket.getLastName());
+            passengerInfo.setDateOfBirth(ticket.getDateOfBirth());
+            passengerInfo.setStationOfDeparture(ticket.getStationOfDeparture().getTitle());
+            passengerInfo.setStationOfArrival(ticket.getStationOfArrival().getTitle());
+            passengerInfos.add(passengerInfo);
+        });
+
+        return passengerInfos;
+    }
 }
 
