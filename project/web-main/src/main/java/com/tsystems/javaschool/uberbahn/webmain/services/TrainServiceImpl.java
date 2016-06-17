@@ -3,10 +3,7 @@ package com.tsystems.javaschool.uberbahn.webmain.services;
 
 import com.tsystems.javaschool.uberbahn.webmain.entities.*;
 import com.tsystems.javaschool.uberbahn.webmain.repositories.*;
-import com.tsystems.javaschool.uberbahn.webmain.transports.TicketsPurchasedPerStation;
-import com.tsystems.javaschool.uberbahn.webmain.transports.TrainInfo;
-import com.tsystems.javaschool.uberbahn.webmain.transports.TrainScheduleEvent;
-import com.tsystems.javaschool.uberbahn.webmain.transports.TrainTimetable;
+import com.tsystems.javaschool.uberbahn.webmain.transports.*;
 import org.hibernate.Session;
 
 import java.time.LocalDate;
@@ -24,6 +21,7 @@ public class TrainServiceImpl extends BaseServiceImpl implements TrainService {
     private final StationRepository stationRepository;
     private final SpotRepository spotRepository;
     private final TicketRepository ticketRepository;
+    private final TrainRepository trainRepository;
 
     public TrainServiceImpl(Session session) {
         super(session);
@@ -31,6 +29,7 @@ public class TrainServiceImpl extends BaseServiceImpl implements TrainService {
         this.stationRepository = new StationRepositoryImpl(session);
         this.spotRepository = new SpotRepositoryImpl(session);
         this.ticketRepository = new TicketRepositoryImpl(session);
+        this.trainRepository = new TrainRepositoryImpl(session);
     }
 
     @Override
@@ -158,6 +157,38 @@ public class TrainServiceImpl extends BaseServiceImpl implements TrainService {
             });
 
         return trainInfos;
+    }
+
+    @Override
+    public AddTrainInfo getAddTrainInfo(int routeId, LocalDate dateOfDeparture, int numberOfSeats) {
+        AddTrainInfo addTrainInfo = new AddTrainInfo();
+        Train findTrain = trainRepository.findByRouteIdAndDateOfDeparture(routeId, dateOfDeparture);
+
+        if (findTrain != null){
+            addTrainInfo.setMessage("Train already exists");
+        }
+        else {
+            Train train = new Train();
+            Collection<Ticket> tickets = null;
+            Route route = routeRepository.findById(routeId);
+            train.setTickets(tickets);
+            train.setRoute(route);
+            train.setDateOfDeparture(dateOfDeparture);
+            train.setNumberOfSeats(numberOfSeats);
+
+            int trainId = trainRepository.save(train);
+
+            if (trainId != 0){
+                addTrainInfo.setId(trainId);
+                addTrainInfo.setRouteId(routeId);
+                addTrainInfo.setDateOfDeparture(dateOfDeparture);
+                addTrainInfo.setNumberOfSeats(numberOfSeats);
+                addTrainInfo.setMessage("Train " + trainId + " is added");
+
+            }
+        }
+
+        return addTrainInfo;
     }
 }
 

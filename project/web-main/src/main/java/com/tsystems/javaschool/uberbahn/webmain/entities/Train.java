@@ -39,4 +39,20 @@ public class Train extends BaseEntity {
     public int getNumberOfSeats() {
         return numberOfSeats;
     }
+
+    public void setTickets(Collection<Ticket> tickets) {
+        this.tickets = tickets;
+    }
+
+    public void setRoute(Route route) {
+        this.route = route;
+    }
+
+    public void setDateOfDeparture(LocalDate dateOfDeparture) {
+        this.dateOfDeparture = dateOfDeparture;
+    }
+
+    public void setNumberOfSeats(int numberOfSeats) {
+        this.numberOfSeats = numberOfSeats;
+    }
 }

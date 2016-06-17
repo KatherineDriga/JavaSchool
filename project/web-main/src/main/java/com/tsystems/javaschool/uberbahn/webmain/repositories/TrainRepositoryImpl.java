@@ -34,5 +34,16 @@ public class TrainRepositoryImpl extends BaseRepositoryImpl<Train> implements Tr
                 .setInteger("trainId", trainId)
                 .list();
     }
+
+    @Override
+    public Train findByRouteIdAndDateOfDeparture(int routeId, LocalDate dateOfDeparture) {
+        return (Train) getSession()
+                .createQuery(
+                        "FROM Train " +
+                                "WHERE route.id = :routeId AND dateOfDeparture = :dateOfDeparture")
+                .setInteger("routeId", routeId)
+                .setParameter("dateOfDeparture", dateOfDeparture)
+                .uniqueResult();
+    }
 }
 

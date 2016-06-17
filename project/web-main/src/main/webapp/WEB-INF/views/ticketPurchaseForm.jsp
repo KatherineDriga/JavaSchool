@@ -36,9 +36,9 @@
                 <input id = "buyTicketButton" type="button" value="Buy Ticket">
             </div>
         </div>
-        <span id="trainId">${trainId}</span>
-        <span id="stationOfDepartureId">${stationOfDepartureId}</span>
-        <span id="stationOfArrivalId">${stationOfArrivalId}</span>
+        <span hidden="true" id="trainId">${trainId}</span>
+        <span hidden="true" id="stationOfDepartureId">${stationOfDepartureId}</span>
+        <span hidden="true" id="stationOfArrivalId">${stationOfArrivalId}</span>
 
     </form>
 

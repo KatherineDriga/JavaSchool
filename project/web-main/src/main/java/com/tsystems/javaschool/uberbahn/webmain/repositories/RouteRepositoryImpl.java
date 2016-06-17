@@ -14,8 +14,6 @@ public class RouteRepositoryImpl extends BaseRepositoryImpl<Route> implements Ro
     }
 
 
-
-
     @Override
     public Route findById(int id) {
         return getSession().get(Route.class, id);
@@ -36,6 +34,13 @@ public class RouteRepositoryImpl extends BaseRepositoryImpl<Route> implements Ro
                         "WHERE title = :routeTitle")
                 .setString("routeTitle", routeTitle)
                 .uniqueResult();
+    }
+
+    @Override
+    public Collection<Route> findAll() {
+        return getSession()
+                .createQuery("FROM Route")
+                .list();
     }
 }
 

@@ -31,8 +31,8 @@
         </tr>
         </c:forEach>
     </table>
-    <span id="stationOfDepartureId">${stationOfDepartureId}</span>
-    <span id="stationOfArrivalId">${stationOfArrivalId}</span>
+    <span hidden="true" id="stationOfDepartureId">${stationOfDepartureId}</span>
+    <span hidden="true" id="stationOfArrivalId">${stationOfArrivalId}</span>
     <br>
     <p><input id = "chooseTrain" type="button" value="Choose"></p>
 

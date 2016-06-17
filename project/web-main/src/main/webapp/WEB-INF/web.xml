@@ -94,14 +94,6 @@
         <url-pattern>/purchasedTicket</url-pattern>
     </servlet-mapping>
     <servlet>
-        <servlet-name>PurchasedTicketErrorController</servlet-name>
-        <servlet-class>com.tsystems.javaschool.uberbahn.webmain.controllers.PurchasedTicketErrorControllerImpl</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>PurchasedTicketErrorController</servlet-name>
-        <url-pattern>/purchasedTicketError</url-pattern>
-    </servlet-mapping>
-    <servlet>
         <servlet-name>AddStationFormController</servlet-name>
         <servlet-class>com.tsystems.javaschool.uberbahn.webmain.controllers.AddStationFormControllerImpl</servlet-class>
     </servlet>
@@ -124,6 +116,52 @@
     <servlet-mapping>
         <servlet-name>AddStationController</servlet-name>
         <url-pattern>/addStation</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>AddRouteFormController</servlet-name>
+        <servlet-class>com.tsystems.javaschool.uberbahn.webmain.controllers.AddRouteFormControllerImpl</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AddRouteFormController</servlet-name>
+        <url-pattern>/addRouteForm</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>AddStationsToRouteFormController</servlet-name>
+        <servlet-class>com.tsystems.javaschool.uberbahn.webmain.controllers.AddStationsToRouteFormControllerImpl</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AddStationsToRouteFormController</servlet-name>
+        <url-pattern>/addStationsToRouteForm</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AddStationsToRouteFormController</servlet-name>
+        <url-pattern>/addRouteError</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>AddTrainFormController</servlet-name>
+        <servlet-class>com.tsystems.javaschool.uberbahn.webmain.controllers.AddTrainFormControllerImpl</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AddTrainFormController</servlet-name>
+        <url-pattern>/addTrainForm</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>AddTrainController</servlet-name>
+        <servlet-class>com.tsystems.javaschool.uberbahn.webmain.controllers.AddTrainControllerImpl</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AddTrainController</servlet-name>
+        <url-pattern>/addTrain</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>AddedTrainController</servlet-name>
+        <servlet-class>com.tsystems.javaschool.uberbahn.webmain.controllers.AddedTrainControllerImpl</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AddedTrainController</servlet-name>
+        <url-pattern>/addedTrain</url-pattern>
     </servlet-mapping>
 
 </web-app>
