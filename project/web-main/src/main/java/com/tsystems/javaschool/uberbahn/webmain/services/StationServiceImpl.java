@@ -99,7 +99,7 @@ public class StationServiceImpl extends BaseServiceImpl implements StationServic
             station.setDepartures(departures);
             station.setArrivals(arrivals);
 
-            int stationId = stationRepository.save(station);
+            int stationId = stationRepository.save(station).getId();
 
             if (stationId != 0){
                 stationInfo.setId(stationId);

@@ -41,4 +41,20 @@ public class Route extends BaseEntity {
     public LocalTime getTimeOfDeparture() {
         return timeOfDeparture;
     }
+
+    public void setTrains(Collection<Train> trains) {
+        this.trains = trains;
+    }
+
+    public void setSpots(List<Spot> spots) {
+        this.spots = spots;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setTimeOfDeparture(LocalTime timeOfDeparture) {
+        this.timeOfDeparture = timeOfDeparture;
+    }
 }

@@ -11,6 +11,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.time.LocalTime;
 import java.util.Collection;
 
 public class AddStationsToRouteFormControllerImpl extends  BaseControllerImpl {
@@ -20,6 +21,7 @@ public class AddStationsToRouteFormControllerImpl extends  BaseControllerImpl {
 
         String routeTitle = getRequiredParameter("routeTitle", req);
         int numberOfStations = getIntParameter("numberOfStations", req);
+         LocalTime timeOfDeparture = getTimeParameter("timeOfDeparture", req);
 
         boolean existsRoute = runTransaction((session -> {
 
@@ -40,6 +42,7 @@ public class AddStationsToRouteFormControllerImpl extends  BaseControllerImpl {
              req.setAttribute("stations", stations);
              req.setAttribute("routeTitle", routeTitle);
              req.setAttribute("numberOfStations", numberOfStations);
+             req.setAttribute("timeOfDeparture", timeOfDeparture);
 
              render("addStationsToRouteForm", req, resp);
          }

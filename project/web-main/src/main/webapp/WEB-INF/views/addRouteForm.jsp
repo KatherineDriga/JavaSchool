@@ -10,6 +10,8 @@
             <input type="text" id="routeTitle"></p>
         <p><label>Number of Stations</label>
             <input type="text" id="numberOfStations"></p>
+        <p><label>Time of Departure</label>
+            <input type="time" id="timeOfDeparture"></p>
 
         <input id = "addStationsButton" type="button" value="Add Stations to Route">
 

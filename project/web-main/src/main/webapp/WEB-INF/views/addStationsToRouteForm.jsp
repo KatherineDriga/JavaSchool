@@ -5,20 +5,22 @@
     <h2>Add Stations To Route ${routeTitle}</h2>
     <form class="addStationsToRoute">
         <c:forEach var="i" begin="1" end="${numberOfStations}">
-            <p><label>Station <c:out value="${i}"/></label>
-                <select id="station">
+            <p><label>Station ${i}</label>
+                <select class="stationId">
                     <option value="null">Select</option>
                     <c:forEach var="station" items="${stations}">
                         <option value="${station.id}">${station.title}</option>
                     </c:forEach>
                 </select>
                 <label> Minutes Since Departure</label>
-                <input type="number" id = "minutesSinceDeparture${i}" />
+                <input type="number" class = "minutesSinceDeparture" />
             </p>
         </c:forEach>
 
         <p><input id = "addRouteButton" type="button" value="Add"></p>
     </form>
+    <span id="timeOfDeparture">${timeOfDeparture}</span>
+    <span id="routeTitle">${routeTitle}</span>
     <%@include file="/WEB-INF/jspf/image.jspf" %>
 </section>
 <script src="/scripts/addStationsToRouteForm.js"></script>

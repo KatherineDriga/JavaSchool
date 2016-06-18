@@ -187,5 +187,21 @@
         <servlet-name>FindPassengersController</servlet-name>
         <url-pattern>/findPassengers</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>AddRouteController</servlet-name>
+        <servlet-class>com.tsystems.javaschool.uberbahn.webmain.controllers.AddRouteControllerImpl</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AddRouteController</servlet-name>
+        <url-pattern>/addRoute</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>RouteInfoController</servlet-name>
+        <servlet-class>com.tsystems.javaschool.uberbahn.webmain.controllers.RouteInfoControllerImpl</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>RouteInfoController</servlet-name>
+        <url-pattern>/routeInfo</url-pattern>
+    </servlet-mapping>
 
 </web-app>

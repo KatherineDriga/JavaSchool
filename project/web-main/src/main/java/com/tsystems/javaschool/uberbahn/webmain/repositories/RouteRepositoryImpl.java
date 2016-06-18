@@ -16,7 +16,9 @@ public class RouteRepositoryImpl extends BaseRepositoryImpl<Route> implements Ro
 
     @Override
     public Route findById(int id) {
-        return getSession().get(Route.class, id);
+        Route result = getSession().get(Route.class, id);
+        getSession().refresh(result);
+        return result;
     }
 
     @Override

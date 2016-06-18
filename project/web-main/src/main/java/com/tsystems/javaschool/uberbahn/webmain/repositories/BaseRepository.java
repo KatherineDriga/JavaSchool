@@ -5,9 +5,9 @@ public interface BaseRepository<E> {
 
     E findById(int id);
 
-    int save(E entity);
+    E save(E entity);
 
     void delete(int id);
 
-    void update(E entity);
+    E update(E entity);
 }

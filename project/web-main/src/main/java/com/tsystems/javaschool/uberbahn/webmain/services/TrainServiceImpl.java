@@ -176,7 +176,7 @@ public class TrainServiceImpl extends BaseServiceImpl implements TrainService {
             train.setDateOfDeparture(dateOfDeparture);
             train.setNumberOfSeats(numberOfSeats);
 
-            int trainId = trainRepository.save(train);
+            int trainId = trainRepository.save(train).getId();
 
             if (trainId != 0){
                 addTrainInfo.setId(trainId);

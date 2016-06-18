@@ -72,7 +72,7 @@ public class TicketServiceImpl extends BaseServiceImpl implements TicketService 
         ticket.setDatetimeOfPurchase(datetimeOfPurchase);
         ticket.setAccount(account);
 
-        int ticketId = ticketRepository.save(ticket);
+        int ticketId = ticketRepository.save(ticket).getId();
 
         if (ticketId != 0){
             ticketInfo.setId(ticketId);

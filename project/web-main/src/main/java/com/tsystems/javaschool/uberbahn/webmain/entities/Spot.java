@@ -31,6 +31,18 @@ public class Spot extends BaseEntity {
     public Integer getMinutesSinceDeparture() {
         return minutesSinceDeparture;
     }
+
+    public void setRoute(Route route) {
+        this.route = route;
+    }
+
+    public void setStation(Station station) {
+        this.station = station;
+    }
+
+    public void setMinutesSinceDeparture(Integer minutesSinceDeparture) {
+        this.minutesSinceDeparture = minutesSinceDeparture;
+    }
 }
 
 
