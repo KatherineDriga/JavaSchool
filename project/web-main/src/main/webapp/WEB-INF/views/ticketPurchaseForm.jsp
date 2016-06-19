@@ -4,8 +4,9 @@
 
 <section>
     <h2>Ticket Purchase Form</h2>
-    <form class="buy_ticket">
-        <div class="wrap">
+    <form role="form" class="buy_ticket">
+        <div class="form-group">
+        <!-- <div class="wrap"> -->
             <!--<div class="left_col">
                 <h3>Route information</h3>
                 <p><label class="label">Route Title</label>
@@ -23,27 +24,28 @@
                 <p><label class="label">Station Of Arrival</label>
                     <input type="text" name="Route Title" value="StationOfArrival" readonly></p>
             </div>-->
-            <div class="right_col">
+         <!--   <div class="right_col"> -->
                 <h3>Passenger information</h3>
-                <p><label for="fname" class="label">First Name</label>
-                    <input type="text" name="fname" id="fname"></p>
-                <p><label for="lname" class="label">Last Name</label>
-                    <input type="text" name="lname" id="lname"></p>
-                <p><label for="dateOfBirth" class="label">Date of Birth</label>
-                    <input type="date" name="dateOfBirth" id="dateOfBirth"></p>
+                <p><label for="fname">First Name</label>
+                    <input class="form-control" type="text" name="fname" id="fname" required></p>
+                <p><label for="lname">Last Name</label>
+                    <input class="form-control" type="text" name="lname" id="lname" required></p>
+                <p><label for="dateOfBirth">Date of Birth</label>
+                    <input class="form-control" type="date" name="dateOfBirth" id="dateOfBirth" required></p>
                 <p>
                     <span id="errorMessage"></span>
                 </p>
-                <input id = "buyTicketButton" type="button" value="Buy Ticket">
-            </div>
+                <input class="btn btn-success" id = "buyTicketButton" type="button" value="Buy Ticket">
+            <!-- </div> -->
         </div>
+        <!-- </div> -->
         <span hidden="true" id="trainId">${trainId}</span>
         <span hidden="true" id="stationOfDepartureId">${stationOfDepartureId}</span>
         <span hidden="true" id="stationOfArrivalId">${stationOfArrivalId}</span>
 
     </form>
 
-    <%@include file="/WEB-INF/jspf/image.jspf" %>
+
 </section>
 <script src="/scripts/ticketPurchaseForm.js"></script>
 <%@include file="/WEB-INF/jspf/footer.jspf" %>

@@ -57,7 +57,7 @@ public class TicketServiceImpl extends BaseServiceImpl implements TicketService 
         LocalDateTime datetimeOfPurchase = LocalDateTime.now();
         Account account = accountRepository.findById(accountId);
         Spot spotDeparture = spotRepository.findByStationIdAndRouteId(stationOfDepartureId, route.getId());
-        Spot spotArrival = spotRepository.findByStationIdAndRouteId(stationOfDepartureId, route.getId());
+        Spot spotArrival = spotRepository.findByStationIdAndRouteId(stationOfArrivalId, route.getId());
         LocalDate dateOfDeparture = train.getDateOfDeparture();
         LocalTime timeOfDeparture = route.getTimeOfDeparture();
         LocalDateTime datetimeOfDeparture = dateOfDeparture.atTime(timeOfDeparture)
@@ -100,5 +100,34 @@ public class TicketServiceImpl extends BaseServiceImpl implements TicketService 
         ticketInfo.setDatetimeOfPurchase(datetimeOfPurchase);
         return ticketInfo;
 
+    }
+
+    @Override
+    public TicketInfo getTicketInfoByTicketId(int ticketId) {
+        TicketInfo ticketInfo = new TicketInfo();
+        Ticket ticket = ticketRepository.findById(ticketId);
+        Train train = ticket.getTrain();
+        ticketInfo.setId(ticketId);
+        ticketInfo.setTrainId(ticket.getTrain().getId());
+        ticketInfo.setFirstName(ticket.getFirstName());
+        ticketInfo.setLastName(ticket.getLastName());
+        ticketInfo.setDateOfBirth(ticket.getDateOfBirth());
+        ticketInfo.setStationOfDeparture(ticket.getStationOfDeparture().getTitle());
+        ticketInfo.setStationOfArrival(ticket.getStationOfArrival().getTitle());
+
+        LocalDate dateOfDeparture = train.getDateOfDeparture();
+        LocalTime timeOfDeparture = train.getRoute().getTimeOfDeparture();
+        Spot spotDeparture = spotRepository.findByStationIdAndRouteId(ticket.getStationOfDeparture().getId(), train.getRoute().getId());
+        Spot spotArrival = spotRepository.findByStationIdAndRouteId(ticket.getStationOfArrival().getId(), train.getRoute().getId());
+        LocalDateTime datetimeOfDeparture = dateOfDeparture.atTime(timeOfDeparture)
+                .plus(spotDeparture.getMinutesSinceDeparture(), ChronoUnit.MINUTES);
+        LocalDateTime datetimeOfArrival = dateOfDeparture.atTime(timeOfDeparture)
+                .plus(spotArrival.getMinutesSinceDeparture(), ChronoUnit.MINUTES);
+
+        ticketInfo.setDatetimeOfDeparture(datetimeOfDeparture);
+        ticketInfo.setDatetimeOfArrival(datetimeOfArrival);
+        ticketInfo.setDatetimeOfPurchase(ticket.getDatetimeOfPurchase());
+
+        return  ticketInfo;
     }
 }

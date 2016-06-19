@@ -35,8 +35,8 @@ public class SpotRepositoryImpl extends BaseRepositoryImpl<Spot> implements  Spo
                 .createQuery("FROM Spot " +
                         "WHERE route = :routeId " +
                         "AND minutesSinceDeparture " +
-                        "BETWEEN :timeSinceDepartureForStA " +
-                        "AND :timeSinceDepartureForStB")
+                        ">= :timeSinceDepartureForStA " +
+                        "AND minutesSinceDeparture < :timeSinceDepartureForStB")
                 .setInteger("routeId", routeId)
                 .setInteger("timeSinceDepartureForStA", timeSinceDepartureForStA)
                 .setInteger("timeSinceDepartureForStB", timeSinceDepartureForStB)

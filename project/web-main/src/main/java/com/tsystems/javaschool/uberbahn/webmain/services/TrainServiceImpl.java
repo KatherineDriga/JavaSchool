@@ -108,18 +108,27 @@ public class TrainServiceImpl extends BaseServiceImpl implements TrainService {
             Spot stationOfArr = spotRepository.findByStationIdAndRouteId(stationOfArrivalId, route.getId());
             Integer minutesSinceDepartureForStationA = stationOfDep.getMinutesSinceDeparture();
             Integer minutesSinceDepartureForStationB = stationOfArr.getMinutesSinceDeparture();
-            Collection<Spot> spots = spotRepository.findAllBetweenStationsByRouteIdAndTime(route.getId(), minutesSinceDepartureForStationA, minutesSinceDepartureForStationB);
+            //Collection<Spot> spots = spotRepository.findAllBetweenStationsByRouteIdAndTime(route.getId(), minutesSinceDepartureForStationA, minutesSinceDepartureForStationB);
             Collection<Train> trains = route.getTrains();
             trains.forEach(train -> {
                 TrainInfo info = new TrainInfo();
-                Collection<TicketsPurchasedPerStation> ticketsPurchasedPerStations = new ArrayList<>();
+                Collection<Spot> spots = route.getSpots();
+                Map stationsNumberOfPurchasedSeats = new HashMap<Integer, Integer>();
                 spots.forEach(spot -> {
-                    TicketsPurchasedPerStation ticketsPurchasedPerStation = new TicketsPurchasedPerStation();
-                    Collection<Ticket> tickets = ticketRepository.getByTrainIdAndStationOfDeparture(train.getId(), spot.getStation().getId());
-                    ticketsPurchasedPerStation.setStationId(spot.getStation().getId());
-                    ticketsPurchasedPerStation.setNumberOfTickets(tickets.size());
-                    ticketsPurchasedPerStations.add(ticketsPurchasedPerStation);
+                    stationsNumberOfPurchasedSeats.put(spot.getStation().getId(), 0);
+                });
+                Collection<Ticket> tickets = train.getTickets();
+                Collection<TicketsPurchasedPerStation> ticketsPurchasedPerStations = new ArrayList<>();
+                tickets.forEach(ticket -> {
+                    int minutesSinceDepartureDep = spotRepository.findByStationIdAndRouteId(ticket.getStationOfDeparture().getId(), route.getId()).getMinutesSinceDeparture();
+                    int minutesSinceDepartureArr = spotRepository.findByStationIdAndRouteId(ticket.getStationOfArrival().getId(), route.getId()).getMinutesSinceDeparture();
+                    Collection<Spot> spotsBetweenStations = spotRepository.findAllBetweenStationsByRouteIdAndTime(route.getId(), minutesSinceDepartureDep, minutesSinceDepartureArr);
+                    spotsBetweenStations.forEach(spot -> {
+                            int numberOfSeats = (int) stationsNumberOfPurchasedSeats.get(spot.getStation().getId());
+                            numberOfSeats++;
+                            stationsNumberOfPurchasedSeats.put(spot.getStation().getId(), numberOfSeats);
                     });
+                });
                 info.setTrainId(train.getId());
                 info.setRouteTitle(route.getTitle());
                 info.setStationOfDeparture(stationRepository.findById(stationOfDepartureId).getTitle());
@@ -136,17 +145,16 @@ public class TrainServiceImpl extends BaseServiceImpl implements TrainService {
                 info.setStationOfArrival(stationRepository.findById(stationOfArrivalId).getTitle());
                 info.setDateOfArrival(datetimeOfArrival.toLocalDate());
                 info.setTimeOfArrival(datetimeOfArrival.toLocalTime());
-                info.setTicketsPurchasedPerStations(ticketsPurchasedPerStations);
 
+                Collection<Spot> spotsBetweenSearch = spotRepository.findAllBetweenStationsByRouteIdAndTime(route.getId(), minutesSinceDepartureForStationA, minutesSinceDepartureForStationB);
                 int ticketsPurchased = 0;
-
-                for (TicketsPurchasedPerStation ticket : ticketsPurchasedPerStations){
-                    if (ticket.getNumberOfTickets() > ticketsPurchased){
-                        ticketsPurchased = ticket.getNumberOfTickets();
+                for (Spot spot : spotsBetweenSearch){
+                    int purchasedSeats = (int) stationsNumberOfPurchasedSeats.get(spot.getStation().getId());
+                    if (purchasedSeats > ticketsPurchased){
+                        ticketsPurchased = purchasedSeats;
                     }
                 }
-
-                int numberOfSeatsAvailable = train.getNumberOfSeats()-ticketsPurchased;
+                int numberOfSeatsAvailable = train.getNumberOfSeats() - ticketsPurchased;
 
                 info.setNumberOfSeatsAvailable(numberOfSeatsAvailable);
 

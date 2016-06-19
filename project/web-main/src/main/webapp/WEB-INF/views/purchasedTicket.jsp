@@ -3,7 +3,12 @@
 <%@include file="/WEB-INF/jspf/nav.jspf" %>
 
 <section>
-    <h3>You've purchased ticket #${ticketId}!</h3>
+    <h3>You've purchased ticket #${ticket.id}!</h3>
+    <h4>Station of Departure: ${ticket.stationOfDeparture}</h4>
+    <h4>Date and Time of Departure: ${ticket.datetimeOfDeparture}</h4>
+    <h4>Station of Arrival: ${ticket.stationOfArrival}</h4>
+    <h4>Date and Time of Arrival: ${ticket.datetimeOfArrival}</h4>
+
 
     <!--<form class="ticket_info">
 
@@ -30,6 +35,5 @@
 
     </form>
 
-    <%@include file="/WEB-INF/jspf/image.jspf" %>
 </section>
 <%@include file="/WEB-INF/jspf/footer.jspf" %>

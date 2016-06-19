@@ -2,7 +2,11 @@
 <%@include file="/WEB-INF/jspf/nav.jspf" %>
 
 <section>
-
+<c:choose>
+    <c:when test="${empty trains}">
+        <h3>No trains found!</h3>
+    </c:when>
+    <c:otherwise>
     <h2>Choose train:</h2>
     <table class="table table-striped">
         <tr>
@@ -33,9 +37,11 @@
     </table>
     <span hidden="true" id="stationOfDepartureId">${stationOfDepartureId}</span>
     <span hidden="true" id="stationOfArrivalId">${stationOfArrivalId}</span>
+
     <br>
     <p><input class="btn btn-success" id = "chooseTrain" type="button" value="Choose"></p>
-
+    </c:otherwise>
+</c:choose>
 </section>
 <script src="/scripts/trainChoose.js"></script>
 <%@include file="/WEB-INF/jspf/footer.jspf" %>
