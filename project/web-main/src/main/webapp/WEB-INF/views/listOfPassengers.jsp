@@ -2,7 +2,11 @@
 <%@include file="/WEB-INF/jspf/nav.jspf" %>
 
 <section>
-
+<c:choose>
+    <c:when test="${empty passengerInfos}">
+        <h3>No passengers found!</h3>
+    </c:when>
+    <c:otherwise>
     <h2>Passengers</h2>
     <h2>Train ${trainId}</h2>
     <table>
@@ -23,7 +27,7 @@
             </tr>
         </c:forEach>
     </table>
-
-    <%@include file="/WEB-INF/jspf/image.jspf" %>
+</c:otherwise>
+    </c:choose>
 </section>
 <%@include file="/WEB-INF/jspf/footer.jspf" %>

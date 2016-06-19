@@ -3,13 +3,13 @@
 <%@include file="/WEB-INF/jspf/nav.jspf" %>
 
 <section>
-    <h3>${message}!</h3>
+    <h3>Station ${title} is added!</h3>
 
 
 
     </form>
 
-    <%@include file="/WEB-INF/jspf/image.jspf" %>
+
 </section>
 <%@include file="/WEB-INF/jspf/footer.jspf" %>
 

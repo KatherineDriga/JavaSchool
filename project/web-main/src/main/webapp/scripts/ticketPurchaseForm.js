@@ -29,7 +29,9 @@ $(function () {
                     + "ticketId=" + data.id;
             },
             error: function (error) {
-                errorMessageSpan.text(error);
+                //errorMessageSpan.text("Passenger is already registered, No seats available, Less than 10 minutes before departure");
+                errorMessageSpan.text("Purchase Error");
+
             }
         });
         

@@ -4,20 +4,22 @@
 
 <section>
     <h2>Add route</h2>
-    <form class="addRoute">
-
+    <form role="form" class="addRoute">
+        <div class="form-group">
         <p><label>Route Title</label>
-            <input type="text" id="routeTitle"></p>
+            <input class="form-control" type="text" id="routeTitle"></p>
         <p><label>Number of Stations</label>
-            <input type="text" id="numberOfStations"></p>
+            <input class="form-control" type="text" id="numberOfStations"></p>
         <p><label>Time of Departure</label>
-            <input type="time" id="timeOfDeparture"></p>
+            <input class="form-control" type="time" id="timeOfDeparture" value="00:00"></p>
 
-        <input id = "addStationsButton" type="button" value="Add Stations to Route">
-
+        <input class="btn btn-success" id = "addStationsButton" type="button" value="Add Stations to Route">
+  </div>
     </form>
+    <div>
+        <span id="errorMessage"></span>
+    </div>
 
-    <%@include file="/WEB-INF/jspf/image.jspf" %>
 </section>
 <script src="/scripts/addRouteForm.js"></script>
 <%@include file="/WEB-INF/jspf/footer.jspf" %>

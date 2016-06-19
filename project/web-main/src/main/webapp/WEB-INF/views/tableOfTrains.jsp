@@ -2,7 +2,11 @@
 <%@include file="/WEB-INF/jspf/nav.jspf" %>
 
 <section>
-
+<c:choose>
+    <c:when test="${empty findTrainInfo}">
+        <h3>No trains found!</h3>
+    </c:when>
+    <c:otherwise>
     <h2>Choose train:</h2>
     <table>
         <tr>
@@ -20,10 +24,11 @@
             </tr>
         </c:forEach>
     </table>
+    <br>
+    <p><input class="btn btn-success" id = "chooseTrainButton" type="button" value="Choose"></p>
 
-    <p><input id = "chooseTrainButton" type="button" value="Choose"></p>
-
-    <%@include file="/WEB-INF/jspf/image.jspf" %>
+</c:otherwise>
+    </c:choose>
 </section>
 <script src="/scripts/tableOfTrains.js"></script>
 <%@include file="/WEB-INF/jspf/footer.jspf" %>

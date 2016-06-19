@@ -4,10 +4,10 @@
 
 <section>
     <h2>Find trains</h2>
-    <form class="findTrains">
-
+    <form role="form" class="findTrains">
+        <div class="form-group">
         <p><label>Route</label>
-            <select id="route">
+            <select class="form-control" id="route">
                 <option value="null">Select</option>
                 <c:forEach var="route" items="${routes}">
                     <option value="${route.id}">${route.title}</option>
@@ -16,11 +16,11 @@
         </p>
 
 
-        <input id = "chooseRouteButton" type="button" value="Choose Route">
-
+        <input class="btn btn-success" id = "chooseRouteButton" type="button" value="Choose Route">
+    </div>
     </form>
 
-    <%@include file="/WEB-INF/jspf/image.jspf" %>
+
 </section>
 <script src="/scripts/findTrainForm.js"></script>
 <%@include file="/WEB-INF/jspf/footer.jspf" %>

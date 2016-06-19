@@ -19,7 +19,6 @@
         <p><input class="btn btn-success" id = "search" type="button" value="Search"></p>
     </div>
     </form>
-    <%@include file="/WEB-INF/jspf/image.jspf" %>
 </section>
 <script src="/scripts/stationTimetableSearch.js"></script>
 

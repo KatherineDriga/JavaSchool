@@ -8,6 +8,6 @@
 
     </form>
 
-    <%@include file="/WEB-INF/jspf/image.jspf" %>
+
 </section>
 <%@include file="/WEB-INF/jspf/footer.jspf" %>

@@ -14,13 +14,12 @@ $(function () {
             success: function (data) {
                 window.location.href = "/addedStation?"
                     + "stationId=" + data.id + "&"
-                    + "title=" + data.title + "&"
-                    + "message=" + data.message;
+                    + "title=" + data.title;
             },
-            error: function () {
+            error: function (error) {
                 /*window.location.href = "/purchasedTicketError?"
                  + "message=" + data.message;*/
-                alert("error");
+                alert("Station already exists");
             }
         });
 

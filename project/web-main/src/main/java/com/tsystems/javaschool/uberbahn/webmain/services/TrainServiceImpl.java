@@ -171,11 +171,10 @@ public class TrainServiceImpl extends BaseServiceImpl implements TrainService {
     public AddTrainInfo getAddTrainInfo(int routeId, LocalDate dateOfDeparture, int numberOfSeats) {
         AddTrainInfo addTrainInfo = new AddTrainInfo();
         Train findTrain = trainRepository.findByRouteIdAndDateOfDeparture(routeId, dateOfDeparture);
-
         if (findTrain != null){
-            addTrainInfo.setMessage("Train already exists");
+            throw new RuntimeException("Train already exists");
         }
-        else {
+
             Train train = new Train();
             Collection<Ticket> tickets = null;
             Route route = routeRepository.findById(routeId);
@@ -194,7 +193,7 @@ public class TrainServiceImpl extends BaseServiceImpl implements TrainService {
                 addTrainInfo.setMessage("Train " + trainId + " is added");
 
             }
-        }
+
 
         return addTrainInfo;
     }

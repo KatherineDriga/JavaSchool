@@ -20,8 +20,8 @@ $(function () {
                     + "trainId=" + data.id + "&"
                     + "message=" + data.message;
             },
-            error: function () {
-                alert("error");
+            error: function (error) {
+                alert("Train already exists");
             }
         });
 

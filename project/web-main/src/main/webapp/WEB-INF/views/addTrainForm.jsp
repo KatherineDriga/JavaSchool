@@ -4,10 +4,11 @@
 
 <section>
     <h2>Add train</h2>
-    <form class="addTrain" method="post">
+    <form role="form" class="addTrain" method="post">
+        <div class="form-group">
 
         <p><label>Route</label>
-            <select id="route">
+            <select class="form-control" id="route">
                 <option value="null">Select</option>
                 <c:forEach var="route" items="${routes}">
                     <option value="${route.id}">${route.title}</option>
@@ -15,18 +16,20 @@
             </select>
         </p>
         <p><label>Date of Departure</label>
-            <input type="date" id = "dateOfDeparture" />
+            <input class="form-control" type="date" id = "dateOfDeparture" />
         </p>
         <p><label>Number of Seats</label>
-            <input type="number" id = "numberOfSeats" />
+            <input class="form-control" type="number" id = "numberOfSeats" />
         </p>
 
 
-        <input id = "addTrainButton" type="button" value="Add Train">
-
+        <input class="btn btn-success" id = "addTrainButton" type="button" value="Add Train">
+        </div>
     </form>
+    <div>
+        <span id="errorMessage"></span>
+    </div>
 
-    <%@include file="/WEB-INF/jspf/image.jspf" %>
 </section>
 <script src="/scripts/addTrainForm.js"></script>
 <%@include file="/WEB-INF/jspf/footer.jspf" %>

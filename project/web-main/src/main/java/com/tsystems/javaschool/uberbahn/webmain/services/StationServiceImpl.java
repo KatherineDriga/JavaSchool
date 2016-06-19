@@ -84,12 +84,12 @@ public class StationServiceImpl extends BaseServiceImpl implements StationServic
     @Override
     public StationInfo getStationInfo(String stationTitle) {
         StationInfo stationInfo = new StationInfo();
-        Station findStation = stationRepository.findByTitle(stationTitle);
+        /*Station findStation = stationRepository.findByTitle(stationTitle);
 
         if (findStation != null){
-            stationInfo.setMessage("Station " + stationTitle + " already exists");
+            throw new RuntimeException("Station already exists");
         }
-        else {
+        else {*/
             Station station = new Station();
             Collection<Spot> spots = null;
             Collection<Ticket> departures = null;
@@ -107,9 +107,10 @@ public class StationServiceImpl extends BaseServiceImpl implements StationServic
                 stationInfo.setMessage("Station " + stationTitle + " is added");
 
             }
-        }
+
 
         return stationInfo;
+
     }
 }
 

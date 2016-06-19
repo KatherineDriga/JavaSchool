@@ -28,8 +28,8 @@ $(function () {
                 window.location.href = "/routeInfo?"
                     + "routeId=" + data.id;
             },
-            error: function () {
-                alert("error");
+            error: function (error) {
+                alert("Route already exists");
             }
         });
 

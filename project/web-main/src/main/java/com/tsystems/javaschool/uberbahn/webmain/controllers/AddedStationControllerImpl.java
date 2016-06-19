@@ -19,12 +19,12 @@ public class AddedStationControllerImpl extends BaseControllerImpl {
 
         int stationId = getIntParameter("stationId", req);
         String title = getRequiredParameter("title", req);
-        String message = getRequiredParameter("message", req);
+        //String message = getRequiredParameter("message", req);
 
 
         req.setAttribute("stationId", stationId);
         req.setAttribute("title", title);
-        req.setAttribute("message", message);
+        //req.setAttribute("message", message);
 
         render("addedStation", req, resp);
 

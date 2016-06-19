@@ -32,9 +32,7 @@
                     <input class="form-control" type="text" name="lname" id="lname" required></p>
                 <p><label for="dateOfBirth">Date of Birth</label>
                     <input class="form-control" type="date" name="dateOfBirth" id="dateOfBirth" required></p>
-                <p>
-                    <span id="errorMessage"></span>
-                </p>
+
                 <input class="btn btn-success" id = "buyTicketButton" type="button" value="Buy Ticket">
             <!-- </div> -->
         </div>
@@ -44,7 +42,9 @@
         <span hidden="true" id="stationOfArrivalId">${stationOfArrivalId}</span>
 
     </form>
-
+    <div>
+        <span id="errorMessage"></span>
+    </div>
 
 </section>
 <script src="/scripts/ticketPurchaseForm.js"></script>
