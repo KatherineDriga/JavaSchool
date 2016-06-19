@@ -10,7 +10,7 @@ import java.util.Set;
 @Table(name = "account")
 public class Account extends BaseEntity {
 
-    @OneToMany (mappedBy = "account")
+    @OneToMany (cascade = CascadeType.ALL, mappedBy = "account")
     private Collection<Ticket> tickets;
 
     @Column(name = "login")

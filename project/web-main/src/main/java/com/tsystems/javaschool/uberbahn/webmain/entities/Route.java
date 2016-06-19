@@ -13,10 +13,10 @@ import java.util.Set;
 public class Route extends BaseEntity {
 
 
-    @OneToMany (mappedBy = "route")
+    @OneToMany (cascade = CascadeType.ALL, mappedBy = "route")
     private Collection<Train> trains;
 
-    @OneToMany (mappedBy = "route")
+    @OneToMany (cascade = CascadeType.ALL, mappedBy = "route")
     @OrderBy("minutesSinceDeparture ASC")
     private List<Spot> spots;
 

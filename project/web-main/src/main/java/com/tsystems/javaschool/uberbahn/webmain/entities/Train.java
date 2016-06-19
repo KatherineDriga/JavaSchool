@@ -11,7 +11,7 @@ import java.util.Set;
 public class Train extends BaseEntity {
 
 
-    @OneToMany (mappedBy = "train")
+    @OneToMany (cascade = CascadeType.ALL, mappedBy = "train")
     private Collection<Ticket> tickets;
 
     @ManyToOne
