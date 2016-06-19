@@ -2,6 +2,9 @@ $(function () {
 
     $("#buyTicketButton").click(function () {
 
+        var errorMessageSpan = $("#errorMessage");
+
+        errorMessageSpan.text("");
 
         var stationA = $("#stationOfDepartureId").text();
         var stationB = $("#stationOfArrivalId").text();
@@ -23,13 +26,10 @@ $(function () {
             },
             success: function (data) {
                 window.location.href = "/purchasedTicket?"
-                    + "ticketId=" + data.id + "&"
-                    + "message=" + data.message;
+                    + "ticketId=" + data.id;
             },
-            error: function () {
-                /*window.location.href = "/purchasedTicketError?"
-                    + "message=" + data.message;*/
-                alert("error");
+            error: function (error) {
+                errorMessageSpan.text(error);
             }
         });
         

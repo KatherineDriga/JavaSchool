@@ -31,8 +31,9 @@
                     <input type="text" name="lname" id="lname"></p>
                 <p><label for="dateOfBirth" class="label">Date of Birth</label>
                     <input type="date" name="dateOfBirth" id="dateOfBirth"></p>
-                <p> <label for="comments" class="label">Additional comments </label>
-                    <textarea name="comments" cols="35" rows="4" id="comments"></textarea></p>
+                <p>
+                    <span id="errorMessage"></span>
+                </p>
                 <input id = "buyTicketButton" type="button" value="Buy Ticket">
             </div>
         </div>

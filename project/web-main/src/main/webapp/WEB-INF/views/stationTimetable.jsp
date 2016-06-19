@@ -9,7 +9,7 @@
     </c:when>
     <c:otherwise>
         <table>
-            <thead>
+            <thread>
             <tr>
                 <th>Date</th>
                 <th>Time On Station</th>
@@ -18,7 +18,7 @@
                 <th>Arrives at</th>
                 <th>Train</th>
             </tr>
-            </thead>
+            </thread>
             <tbody>
             <c:forEach var="event" items="${timetable.scheduleEvents}">
                 <tr>

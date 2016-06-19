@@ -4,7 +4,7 @@
 <section>
 
     <h2>Choose train:</h2>
-    <table>
+    <table class="table table-striped">
         <tr>
             <th></th>
             <th>Train</th>
@@ -13,7 +13,7 @@
             <th>Arrival</th>
             <th>Number Of Seats Available</th>
         </tr>
-        <c:forEach var="train" items="${trains}" varStatus="status">
+        <c:forEach var="train" items="${trains}">
         <tr>
         <c:choose>
             <c:when test="${train.numberOfSeatsAvailable>0}">
@@ -34,9 +34,8 @@
     <span hidden="true" id="stationOfDepartureId">${stationOfDepartureId}</span>
     <span hidden="true" id="stationOfArrivalId">${stationOfArrivalId}</span>
     <br>
-    <p><input id = "chooseTrain" type="button" value="Choose"></p>
+    <p><input class="btn btn-success" id = "chooseTrain" type="button" value="Choose"></p>
 
-    <%@include file="/WEB-INF/jspf/image.jspf" %>
 </section>
 <script src="/scripts/trainChoose.js"></script>
 <%@include file="/WEB-INF/jspf/footer.jspf" %>

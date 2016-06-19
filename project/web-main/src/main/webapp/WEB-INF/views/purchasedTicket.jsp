@@ -3,7 +3,7 @@
 <%@include file="/WEB-INF/jspf/nav.jspf" %>
 
 <section>
-    <h3>${message}!</h3>
+    <h3>You've purchased ticket #${ticketId}!</h3>
 
     <!--<form class="ticket_info">
 

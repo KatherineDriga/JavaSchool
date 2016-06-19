@@ -16,7 +16,6 @@ public class TicketInfo {
     private LocalDateTime datetimeOfPurchase;
     private LocalDateTime datetimeOfDeparture;
     private LocalDateTime datetimeOfArrival;
-    private String message;
 
     public int getId() {
         return id;
@@ -80,14 +79,6 @@ public class TicketInfo {
 
     public void setDatetimeOfPurchase(LocalDateTime datetimeOfPurchase) {
         this.datetimeOfPurchase = datetimeOfPurchase;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
     }
 
     public LocalDateTime getDatetimeOfDeparture() {

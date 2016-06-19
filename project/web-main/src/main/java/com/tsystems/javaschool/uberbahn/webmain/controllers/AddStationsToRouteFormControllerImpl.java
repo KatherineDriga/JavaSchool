@@ -21,7 +21,7 @@ public class AddStationsToRouteFormControllerImpl extends  BaseControllerImpl {
 
         String routeTitle = getRequiredParameter("routeTitle", req);
         int numberOfStations = getIntParameter("numberOfStations", req);
-         LocalTime timeOfDeparture = getTimeParameter("timeOfDeparture", req);
+        LocalTime timeOfDeparture = getTimeParameter("timeOfDeparture", req);
 
         boolean existsRoute = runTransaction((session -> {
 

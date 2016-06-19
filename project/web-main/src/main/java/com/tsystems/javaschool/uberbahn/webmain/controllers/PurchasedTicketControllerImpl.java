@@ -12,11 +12,9 @@ public class PurchasedTicketControllerImpl extends BaseControllerImpl {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         int ticketId = getIntParameter("ticketId", req);
-        String message = getRequiredParameter("message", req);
 
 
         req.setAttribute("ticketId", ticketId);
-        req.setAttribute("message", message);
 
         render("purchasedTicket", req, resp);
     }

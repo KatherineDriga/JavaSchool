@@ -20,8 +20,8 @@ public class TicketRepositoryImpl extends BaseRepositoryImpl<Ticket> implements 
     public Collection<Ticket> getByTrainIdAndStationOfDeparture(int trainId, int stationOfDeparture) {
         return getSession()
                 .createQuery("FROM Ticket " +
-                        "WHERE train = :trainId " +
-                        "AND stationOfDeparture = :stationOfDeparture")
+                        "WHERE train.id = :trainId " +
+                        "AND stationOfDeparture.id = :stationOfDeparture")
                 .setInteger("trainId", trainId)
                 .setInteger("stationOfDeparture", stationOfDeparture)
                 .list();

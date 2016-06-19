@@ -10,9 +10,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
+import java.util.*;
 
 
 public class TrainServiceImpl extends BaseServiceImpl implements TrainService {
@@ -41,14 +39,13 @@ public class TrainServiceImpl extends BaseServiceImpl implements TrainService {
         TrainTimetable timetable = new TrainTimetable();
         Station stationA = stationRepository.findById(stationOfDepartureId);
         Station stationB = stationRepository.findById(stationOfArrivalId);
-        Collection<TrainScheduleEvent> events = new ArrayList<>();
+        Map events = new HashMap<Integer, TrainScheduleEvent>();
         timetable.setStationOfDeparture(stationA.getTitle());
         timetable.setStationOfArrival(stationB.getTitle());
-        timetable.setScheduleEvents(events);
+
 
         Collection<Route> routesPassStationA = routeRepository.findByStationId(stationA.getId());
         Collection<Route> routesPassStationB = routeRepository.findByStationId(stationA.getId());
-        Collection<Route> routesPassStationAAndB = null;
 
         routesPassStationA.forEach(routeA -> {
             routesPassStationB.forEach(routeB -> {
@@ -76,7 +73,7 @@ public class TrainServiceImpl extends BaseServiceImpl implements TrainService {
                                     event.setDateOfArrival(datetimeOfArrival.toLocalDate());
                                     event.setTimeOfArrival(datetimeOfArrival.toLocalTime());
 
-                                    events.add(event);
+                                    events.put(train.getId(), event);
                                 }
 
                             });
@@ -88,14 +85,16 @@ public class TrainServiceImpl extends BaseServiceImpl implements TrainService {
 
             });
         });
-
+        Collection<TrainScheduleEvent> scheduleEvents = new ArrayList<>();
+        scheduleEvents = events.values();
+        timetable.setScheduleEvents(scheduleEvents);
         return timetable;
     }
 
     @Override
     public Collection<TrainInfo> getTrainInfo(int stationOfDepartureId, int stationOfArrivalId, LocalDateTime since, LocalDateTime until) {
-        Collection<TrainInfo> trainInfos = new ArrayList<>();
 
+        Map trInfos = new HashMap<Integer, TrainInfo>();
         TrainTimetable timetable = getTimetable(stationOfDepartureId, stationOfArrivalId, since, until);
         Collection<TrainScheduleEvent> events = timetable.getScheduleEvents();
         Collection<Route> routes = new ArrayList<>();
@@ -151,11 +150,12 @@ public class TrainServiceImpl extends BaseServiceImpl implements TrainService {
 
                 info.setNumberOfSeatsAvailable(numberOfSeatsAvailable);
 
-                trainInfos.add(info);
+                trInfos.put(train.getId(), info);
 
                 });
             });
-
+        Collection<TrainInfo> trainInfos = new ArrayList<>();
+        trainInfos = trInfos.values();
         return trainInfos;
     }
 

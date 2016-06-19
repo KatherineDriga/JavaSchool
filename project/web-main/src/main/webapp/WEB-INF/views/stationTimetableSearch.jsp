@@ -5,17 +5,19 @@
 
 <section>
     <h2>Station Timetable</h2>
-    <form class="station_timetable_search_form">
+    <form role="form" class="stationTimetableSearchForm">
+        <div class="form-group">
         <p><label>Station </label>
-            <select id="station">
+            <select id="station" class="form-control">
                 <option value="null">Select</option>
                 <c:forEach var="station" items="${stations}">
                 <option value="${station.id}">${station.title}</option>
                 </c:forEach>
             </select></p>
-        <p><label>Since </label><input id="sinceDate" type="date"><input id="sinceTime" type="time" value="00:00" /></p>
-        <p><label>Until </label><input id="untilDate" type="date"><input id="untilTime" type="time" value="23:59"/></p>
-        <p><input id = "search" type="button" value="Search"></p>
+        <p><label>Since </label><input class="form-control" id="sinceDate" type="date"><input class="form-control" id="sinceTime" type="time" value="00:00" /></p>
+        <p><label>Until </label><input class="form-control" id="untilDate" type="date"><input class="form-control" id="untilTime" type="time" value="23:59"/></p>
+        <p><input class="btn btn-success" id = "search" type="button" value="Search"></p>
+    </div>
     </form>
     <%@include file="/WEB-INF/jspf/image.jspf" %>
 </section>
