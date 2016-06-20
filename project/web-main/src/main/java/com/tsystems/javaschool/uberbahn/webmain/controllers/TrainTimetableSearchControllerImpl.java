@@ -9,6 +9,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.Collection;
 
 public class TrainTimetableSearchControllerImpl extends BaseControllerImpl {
@@ -21,8 +22,12 @@ public class TrainTimetableSearchControllerImpl extends BaseControllerImpl {
             StationService service = new StationServiceImpl(session); // TODO: with DI
             return service.getAll();
         }));
+        LocalDate sinceDate = LocalDate.now();
+        LocalDate untilDate = sinceDate.plusDays(7);
 
         req.setAttribute("stations", stations);
+        req.setAttribute("sinceDate", sinceDate);
+        req.setAttribute("untilDate", untilDate);
 
         render("trainTimetableSearch", req, resp);
     }

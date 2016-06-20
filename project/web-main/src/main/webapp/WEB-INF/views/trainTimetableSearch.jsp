@@ -34,8 +34,8 @@
         <div class="right_column">
             <form role="form">
                 <div class="form-group">
-        <p><label class="control-label">Since </label><input class="form-control" id="sinceDate" type="date"><input class="form-control" id="sinceTime" type="time" value="00:00" /></p>
-        <p><label class="control-label">Until </label><input class="form-control" id="untilDate" type="date"><input class="form-control" id="untilTime" type="time" value="23:59"/></p>
+        <p><label class="control-label">Since </label><input class="form-control" id="sinceDate" type="date" value="${sinceDate}"><input class="form-control" id="sinceTime" type="time" value="00:00" /></p>
+        <p><label class="control-label">Until </label><input class="form-control" id="untilDate" type="date" value="${untilDate}"><input class="form-control" id="untilTime" type="time" value="23:59"/></p>
             </div>
     </form>
             </div>
