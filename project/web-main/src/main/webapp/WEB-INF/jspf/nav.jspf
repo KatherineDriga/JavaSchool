@@ -1,4 +1,16 @@
 <nav>
+    <h4>Clients Information</h4>
+    <ul>
+        <li><a href="/trainTimetableSearch"><h5>Search for Train & Buy Ticket</h5></a></li>
+        <li><a href="/stationTimetableSearch"><h5>Station Timetable</h5></a></li>
+        </ul>
+    <h4>Employees Information</h4>
+    <ul>
+        <li><a href="/addStationForm"><h5>Add Station</h5></a></li>
+        <li><a href="/addRouteForm"><h5>Add Route</h5></a></li>
+        <li><a href="/addTrainForm"><h5>Add Train</h5></a></li>
+        <li><a href="/findTrainForm"><h5>Find Train & Registered Passengers</h5></a></li>
+    </ul>
     <br>
     <br>
     <div class="form-group">

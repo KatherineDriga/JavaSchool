@@ -1,4 +1,3 @@
-SELECT * FROM uberbahn.account;
 
 insert into uberbahn.station (title) values ('Moscow');
 insert into uberbahn.station (title) values ('St-Petersburg');
@@ -15,10 +14,10 @@ insert into uberbahn.route (title,timeOfDeparture) values ('St-Petersburg-Tver-M
 insert into uberbahn.route (title,timeOfDeparture) values ('St-Petersburg-Sochi', '20:25:00');
 
 
-insert into uberbahn.train (routeId,dateOfDeparture,numberOfSeats) values (1,'2016-06-20',3);
-insert into uberbahn.train (routeId,dateOfDeparture,numberOfSeats) values (2,'2016-07-21',3);
-insert into uberbahn.train (routeId,dateOfDeparture,numberOfSeats) values (3,'2016-06-20',3);
-insert into uberbahn.train (routeId,dateOfDeparture,numberOfSeats) values (4,'2016-07-21',3);
+insert into uberbahn.train (routeId,dateOfDeparture,numberOfSeats) values (1,'2016-08-20',3);
+insert into uberbahn.train (routeId,dateOfDeparture,numberOfSeats) values (2,'2016-08-21',3);
+insert into uberbahn.train (routeId,dateOfDeparture,numberOfSeats) values (3,'2016-08-20',3);
+insert into uberbahn.train (routeId,dateOfDeparture,numberOfSeats) values (4,'2016-08-21',3);
 
 
 insert into uberbahn.spot (routeId,stationId,minutesSinceDeparture) values (1,1, 0);
@@ -48,3 +47,5 @@ insert into uberbahn.ticket (trainId, firstName, lastName, dateOfBirth, stationO
 values ('4', 'Oleg', 'Ivanov', '1988-05-06', 3, 1, '2016-06-05 14:25:00', 1);
 insert into uberbahn.ticket (trainId, firstName, lastName, dateOfBirth, stationOfDepartureId, stationOfArrivalId, datetimeOfPurchase, accountId)
 values ('4', 'Olga', 'Maksimova', '1990-04-02', 2, 1, '2016-06-05 14:20:00', 1);
+
+select * from ticket;

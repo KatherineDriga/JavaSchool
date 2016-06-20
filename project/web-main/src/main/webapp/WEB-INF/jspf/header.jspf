@@ -19,7 +19,7 @@
     <br>
     <div class="menu">
         <ul class="menuclass">
-            <li><a href="/index.jsp">Home</a></li>
+            <li><a href="/">Home</a></li>
             <li><a href="/">About us</a></li>
             <li><a href="/">Passenger information</a></li>
             <li><a href="/">Timetable</a></li>
