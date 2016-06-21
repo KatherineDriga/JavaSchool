@@ -9,16 +9,17 @@
         <p><label>Route Title</label>
             <input class="form-control" type="text" id="routeTitle"></p>
         <p><label>Number of Stations</label>
-            <input class="form-control" type="text" id="numberOfStations"></p>
+            <input class="form-control" type="number" id="numberOfStations"></p>
         <p><label>Time of Departure</label>
             <input class="form-control" type="time" id="timeOfDeparture" value="00:00"></p>
 
         <input class="btn btn-success" id = "addStationsButton" type="button" value="Add Stations to Route">
-  </div>
+            <div>
+                <span id="errorMessage"></span>
+            </div>
+        </div>
     </form>
-    <div>
-        <span id="errorMessage"></span>
-    </div>
+
 
 </section>
 <script src="/scripts/addRouteForm.js"></script>

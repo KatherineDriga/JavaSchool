@@ -10,12 +10,13 @@
                     <input class="form-control" type="text" id="stationTitle" required></p>
 
                 <input class="btn btn-success" id = "addStationButton" type="button" value="Add Station">
+            <div>
+                <span id="errorMessage"></span>
+            </div>
         </div>
     </form>
 
-    <div>
-        <span id="errorMessage1"></span>
-    </div>
+
 
 </section>
 <script src="/scripts/addStationForm.js"></script>

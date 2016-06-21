@@ -2,10 +2,17 @@ $(function () {
 
     $("#chooseRouteButton").click(function () {
 
-
+        var errorMessageSpan = $("#errorMessage");
+        errorMessageSpan.text("");
         var routeId = $("#route").val();
-        
-        window.location.href = "/tableOfTrains?"
-            + "routeId=" + routeId;
+
+        if ($("#route").val() == "null") {
+            errorMessageSpan.text("Choose route");
+        }
+        else {
+            window.location.href = "/tableOfTrains?"
+                + "routeId=" + routeId;
+        }
     });
+
 });

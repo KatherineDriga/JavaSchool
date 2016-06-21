@@ -28,12 +28,13 @@
         </c:forEach>
 
         <p><input class="btn btn-success" id = "addRouteButton" type="button" value="Add"></p>
+        <div>
+            <span id="errorMessage"></span>
+        </div>
     </form>
     <span hidden="true" id="timeOfDeparture">${timeOfDeparture}</span>
     <span hidden="true" id="routeTitle">${routeTitle}</span>
-    <div>
-        <span id="errorMessage"></span>
-    </div>
+
 </section>
 <script src="/scripts/addStationsToRouteForm.js"></script>
 

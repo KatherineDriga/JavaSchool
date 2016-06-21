@@ -24,11 +24,12 @@
 
 
         <input class="btn btn-success" id = "addTrainButton" type="button" value="Add Train">
+            <div>
+                <span id="errorMessage"></span>
+            </div>
         </div>
     </form>
-    <div>
-        <span id="errorMessage"></span>
-    </div>
+
 
 </section>
 <script src="/scripts/addTrainForm.js"></script>

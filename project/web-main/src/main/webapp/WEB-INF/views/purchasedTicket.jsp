@@ -4,10 +4,27 @@
 
 <section>
     <h3>You've purchased ticket #${ticket.id}!</h3>
-    <h4>Station of Departure: ${ticket.stationOfDeparture}</h4>
-    <h4>Date and Time of Departure: ${ticket.datetimeOfDeparture}</h4>
-    <h4>Station of Arrival: ${ticket.stationOfArrival}</h4>
-    <h4>Date and Time of Arrival: ${ticket.datetimeOfArrival}</h4>
+    <br>
+    <table class="table">
+        <th></th>
+        <th></th>
+        <tr>
+            <td><h4>Station of Departure:</h4></td>
+            <td><h4>${ticket.stationOfDeparture}</h4></td>
+        </tr>
+        <tr>
+            <td><h4>Date and Time of Departure:</h4></td>
+            <td><h4>${ticket.datetimeOfDeparture}</h4></td>
+        </tr>
+        <tr>
+            <td><h4>Station of Arrival:</h4></td>
+            <td><h4>${ticket.stationOfArrival}</h4></td>
+        </tr>
+        <tr>
+            <td><h4>Date and Time of Arrival:</h4></td>
+            <td><h4>${ticket.datetimeOfArrival}</h4></td>
+        </tr>
+    </table>
 
 
     <!--<form class="ticket_info">

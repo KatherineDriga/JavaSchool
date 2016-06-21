@@ -39,7 +39,10 @@
     <span hidden="true" id="stationOfArrivalId">${stationOfArrivalId}</span>
 
     <br>
-    <p><input class="btn btn-success" id = "chooseTrain" type="button" value="Choose"></p>
+    <p><input class="btn btn-success" id = "chooseTrain" type="button" value="Proceed to purchase"></p>
+        <div>
+            <span id="errorMessage"></span>
+        </div>
     </c:otherwise>
 </c:choose>
 </section>

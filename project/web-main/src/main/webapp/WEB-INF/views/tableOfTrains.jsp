@@ -25,8 +25,10 @@
         </c:forEach>
     </table>
     <br>
-    <p><input class="btn btn-success" id = "chooseTrainButton" type="button" value="Choose"></p>
-
+    <p><input class="btn btn-success" id = "chooseTrainButton" type="button" value="Show passengers"></p>
+        <div>
+            <span id="errorMessage"></span>
+        </div>
 </c:otherwise>
     </c:choose>
 </section>

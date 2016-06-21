@@ -16,8 +16,11 @@
         </p>
 
 
-        <input class="btn btn-success" id = "chooseRouteButton" type="button" value="Choose Route">
-    </div>
+        <input class="btn btn-success" id = "chooseRouteButton" type="button" value="Show trains">
+            <div>
+                <span id="errorMessage"></span>
+            </div>
+        </div>
     </form>
 
 

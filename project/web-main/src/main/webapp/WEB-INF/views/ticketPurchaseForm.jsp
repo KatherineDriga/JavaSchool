@@ -43,7 +43,9 @@
 
     </form>
     <div>
-        <span id="errorMessage"></span>
+        <span id="errorMessage"></span><br />
+        <span id="errorMessage1"></span><br />
+        <span id="errorMessage2"></span>
     </div>
 
 </section>
