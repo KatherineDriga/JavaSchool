@@ -7,8 +7,6 @@
 
 
 
-    </form>
-
 
 </section>
 <%@include file="/WEB-INF/jspf/footer.jspf" %>

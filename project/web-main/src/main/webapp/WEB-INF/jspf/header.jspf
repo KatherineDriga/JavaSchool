@@ -1,19 +1,19 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c"
            uri="http://java.sun.com/jsp/jstl/core" %>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-"http://www.w3.org/TR/html4/loose.dtd">
+
+<!DOCTYPE HTML>
 <html>
 <head>
     <title>UberBahn</title>
-    <link href="bootstrap.css" rel="stylesheet" media="screen">
-    <link rel="stylesheet" type="text/css" href="style.css">
+    <link href="bootstrap.css" rel="stylesheet" media="screen" type="text/css">
+    <link href="style.css" rel="stylesheet" type="text/css">
     <script src="/scripts/jquery-3.0.0.min.js"></script>
 
 </head>
 <body>
 <header>
-    <p><img id = "logotype" src="/images/train-large.png" alt="Image Not Found"></p>
+    <p><a href="/"><img id = "logotype" src="/images/train-large.png" alt="Image Not Found"></a></p>
     <h1>UberBahn</h1>
     <br>
     <br>

@@ -136,18 +136,3 @@ div.menu ul li a:active
     float: right;
     width: 200px;
 }
-.link {
-    color: #ffffff;
-}
-.link:visited {
-    color: #ffffff;
-}
-.link:active {
-    color: #ffffff;
-}
-.link:hover {
-    color: #ffffff;
-}
-.linkTitle {
-    color: #cfdbe6;
-}
