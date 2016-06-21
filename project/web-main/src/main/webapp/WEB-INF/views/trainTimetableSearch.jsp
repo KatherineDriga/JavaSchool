@@ -25,11 +25,12 @@
         </select></p>
             <br><br><br>
             <p><input class="btn btn-success" id = "searchTrains" type="button" value="Search"></p>
-
+            <div>
+                <span id="errorMessage"></span>
+            </div>
         </div>
         </form>
             </div>
-
 
         <div class="right_column">
             <form role="form">
