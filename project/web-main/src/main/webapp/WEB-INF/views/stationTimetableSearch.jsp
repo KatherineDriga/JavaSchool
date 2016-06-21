@@ -14,10 +14,13 @@
                 <option value="${station.id}">${station.title}</option>
                 </c:forEach>
             </select></p>
-        <p><label>Since </label><input class="form-control" id="sinceDate" type="date"><input class="form-control" id="sinceTime" type="time" value="00:00" /></p>
-        <p><label>Until </label><input class="form-control" id="untilDate" type="date"><input class="form-control" id="untilTime" type="time" value="23:59"/></p>
+        <p><label>Since </label><input class="form-control" id="sinceDate" type="date" value="${sinceDate}"><input class="form-control" id="sinceTime" type="time" value="00:00" /></p>
+        <p><label>Until </label><input class="form-control" id="untilDate" type="date" value="${untilDate}"><input class="form-control" id="untilTime" type="time" value="23:59"/></p>
         <p><input class="btn btn-success" id = "search" type="button" value="Search"></p>
-    </div>
+            <div>
+                <span id="errorMessage"></span>
+            </div>
+        </div>
     </form>
 </section>
 <script src="/scripts/stationTimetableSearch.js"></script>
