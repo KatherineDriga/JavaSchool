@@ -151,3 +151,6 @@ div.menu ul li a:active
 .linkTitle {
     color: #cfdbe6;
 }
+#errorMessage, #errorMessage1, #errorMessage2{
+    color: red;
+}
