@@ -3,6 +3,7 @@ package com.tsystems.javaschool.uberbahn.webmain.entities;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalTime;
+import java.util.Collection;
 
 @Entity
 @Table(name = "spot")
@@ -19,6 +20,9 @@ public class Spot extends BaseEntity {
 
     @Column(name = "minutesSinceDeparture")
     private Integer minutesSinceDeparture;
+
+    @OneToMany (cascade = CascadeType.ALL, mappedBy = "presence")
+    private Collection<Presence> presences;
 
     public Route getRoute() {
         return route;
@@ -42,6 +46,14 @@ public class Spot extends BaseEntity {
 
     public void setMinutesSinceDeparture(Integer minutesSinceDeparture) {
         this.minutesSinceDeparture = minutesSinceDeparture;
+    }
+
+    public Collection<Presence> getPresences() {
+        return presences;
+    }
+
+    public void setPresences(Collection<Presence> presences) {
+        this.presences = presences;
     }
 }
 

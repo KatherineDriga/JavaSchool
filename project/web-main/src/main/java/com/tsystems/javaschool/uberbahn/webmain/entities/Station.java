@@ -23,6 +23,9 @@ public class Station extends BaseEntity {
     @OrderBy("title ASC")
     private String title;
 
+    @Column(name = "timeZone")
+    private double timeZone;
+
     public Collection<Spot> getSpots() {
         return spots;
     }
@@ -53,5 +56,13 @@ public class Station extends BaseEntity {
 
     public void setArrivals(Collection<Ticket> arrivals) {
         this.arrivals = arrivals;
+    }
+
+    public double getTimeZone() {
+        return timeZone;
+    }
+
+    public void setTimeZone(double timeZone) {
+        this.timeZone = timeZone;
     }
 }

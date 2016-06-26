@@ -24,6 +24,12 @@ public class Train extends BaseEntity {
     @Column(name = "numberOfSeats")
     private int numberOfSeats;
 
+    @Column(name = "priceCoefficient")
+    private double priceCoefficient;
+
+    @OneToMany (cascade = CascadeType.ALL, mappedBy = "presence")
+    private Collection<Presence> presences;
+
     public Collection<Ticket> getTickets() {
         return tickets;
     }
@@ -54,5 +60,21 @@ public class Train extends BaseEntity {
 
     public void setNumberOfSeats(int numberOfSeats) {
         this.numberOfSeats = numberOfSeats;
+    }
+
+    public double getPriceCoefficient() {
+        return priceCoefficient;
+    }
+
+    public void setPriceCoefficient(double priceCoefficient) {
+        this.priceCoefficient = priceCoefficient;
+    }
+
+    public Collection<Presence> getPresences() {
+        return presences;
+    }
+
+    public void setPresences(Collection<Presence> presences) {
+        this.presences = presences;
     }
 }

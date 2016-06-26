@@ -5,12 +5,12 @@
   <parent>
     <groupId>com.tsystems.javaschool.uberbahn</groupId>
     <artifactId>uberbahn-root</artifactId>
-    <version>1.0.0-alpha2</version>
+    <version>1.0.0-SNAPSHOT</version>
   </parent>
 
   <groupId>com.tsystems.javaschool.uberbahn</groupId>
   <artifactId>uberbahn-web-main</artifactId>
-  <version>1.0.0-alpha2</version>
+  <version>1.0.0-SNAPSHOT</version>
   <packaging>war</packaging>
 
   <name>UberBahn Web-Main</name>

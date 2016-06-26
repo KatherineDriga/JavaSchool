@@ -2,6 +2,7 @@ package com.tsystems.javaschool.uberbahn.webmain.entities;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.time.LocalTime;
 import java.util.Collection;
 import java.util.List;
@@ -25,6 +26,9 @@ public class Route extends BaseEntity {
 
     @Column(name = "timeOfDeparture")
     private LocalTime timeOfDeparture;
+
+    @Column(name = "pricePerMinute")
+    private BigDecimal pricePerMinute;
 
     public Collection<Train> getTrains() {
         return trains;
@@ -56,5 +60,13 @@ public class Route extends BaseEntity {
 
     public void setTimeOfDeparture(LocalTime timeOfDeparture) {
         this.timeOfDeparture = timeOfDeparture;
+    }
+
+    public BigDecimal getPricePerMinute() {
+        return pricePerMinute;
+    }
+
+    public void setPricePerMinute(BigDecimal pricePerMinute) {
+        this.pricePerMinute = pricePerMinute;
     }
 }
