@@ -30,8 +30,17 @@ public class BaseControllerImpl extends HttpServlet {
     private static final SessionFactory SESSION_FACTORY;
 
     static {
-        Configuration configuration = new Configuration().configure();
-        SESSION_FACTORY = configuration.buildSessionFactory();
+        try {
+            Configuration configuration = new Configuration().configure();
+            SESSION_FACTORY = configuration.buildSessionFactory();
+        }
+        catch (Exception e){
+            throw new RuntimeException(e);
+        }
+        finally {
+
+        }
+
     }
 
     protected <R> R runTransaction(Function<Session, R> function) {

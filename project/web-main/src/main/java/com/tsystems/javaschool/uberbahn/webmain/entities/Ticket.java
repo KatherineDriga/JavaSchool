@@ -2,6 +2,7 @@ package com.tsystems.javaschool.uberbahn.webmain.entities;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.Instant;
 import java.time.LocalDateTime;
@@ -38,6 +39,9 @@ public class Ticket extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "accountId")
     private Account account;
+
+    @Column(name = "price")
+    private BigDecimal price;
 
     public Train getTrain() {
         return train;
@@ -101,5 +105,13 @@ public class Ticket extends BaseEntity {
 
     public void setAccount(Account account) {
         this.account = account;
+    }
+
+    public BigDecimal getPrice() {
+        return price;
+    }
+
+    public void setPrice(BigDecimal price) {
+        this.price = price;
     }
 }

@@ -30,8 +30,7 @@
         <mapping class="com.tsystems.javaschool.uberbahn.webmain.entities.Spot"/>
         <mapping class="com.tsystems.javaschool.uberbahn.webmain.entities.Station"/>
         <mapping class="com.tsystems.javaschool.uberbahn.webmain.entities.Train"/>
-<!--
-        <mapping class="com.tsystems.javaschool.uberbahn.webmain.temp.entities.Model"/>
--->
+        <mapping class="com.tsystems.javaschool.uberbahn.webmain.entities.Presence"/>
+
     </session-factory>
 </hibernate-configuration>

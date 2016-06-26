@@ -2,7 +2,7 @@ package com.tsystems.javaschool.uberbahn.webmain.entities;
 
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 @Entity
 @Table(name = "presence")
@@ -17,7 +17,7 @@ public class Presence extends BaseEntity {
     private Spot spot;
 
     @Column (name = "instant")
-    private LocalDateTime instant;
+    private Instant instant;
 
     public Train getTrain() {
         return train;
@@ -35,11 +35,11 @@ public class Presence extends BaseEntity {
         this.spot = spot;
     }
 
-    public LocalDateTime getInstant() {
+    public Instant getInstant() {
         return instant;
     }
 
-    public void setInstant(LocalDateTime instant) {
+    public void setInstant(Instant instant) {
         this.instant = instant;
     }
 }

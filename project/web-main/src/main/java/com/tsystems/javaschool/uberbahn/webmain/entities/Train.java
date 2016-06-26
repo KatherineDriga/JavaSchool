@@ -27,8 +27,11 @@ public class Train extends BaseEntity {
     @Column(name = "priceCoefficient")
     private double priceCoefficient;
 
-    @OneToMany (cascade = CascadeType.ALL, mappedBy = "presence")
+    @OneToMany (cascade = CascadeType.ALL, mappedBy = "train")
     private Collection<Presence> presences;
+
+    @Column(name = "archived")
+    private boolean archived;
 
     public Collection<Ticket> getTickets() {
         return tickets;
@@ -76,5 +79,13 @@ public class Train extends BaseEntity {
 
     public void setPresences(Collection<Presence> presences) {
         this.presences = presences;
+    }
+
+    public boolean isArchived() {
+        return archived;
+    }
+
+    public void setArchived(boolean archived) {
+        this.archived = archived;
     }
 }
