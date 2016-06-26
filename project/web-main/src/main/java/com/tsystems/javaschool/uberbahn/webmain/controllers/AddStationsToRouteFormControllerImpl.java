@@ -35,7 +35,7 @@ public class AddStationsToRouteFormControllerImpl extends  BaseControllerImpl {
         else {
              Collection<StationInfo> stations = runTransaction((session -> {
 
-                 StationService service = new StationServiceImpl(session); // TODO: with DI
+                 StationService service = null; // TODO: with DI
                  return service.getAll();
              }));
 

@@ -19,7 +19,7 @@ public class StationTimetableSearchControllerImpl extends BaseControllerImpl {
 
         Collection<StationInfo> stations = runTransaction((session -> {
 
-            StationService service = new StationServiceImpl(session); // TODO: with DI
+            StationService service = null; // TODO: with DI
             return service.getAll();
         }));
         LocalDate sinceDate = LocalDate.now();

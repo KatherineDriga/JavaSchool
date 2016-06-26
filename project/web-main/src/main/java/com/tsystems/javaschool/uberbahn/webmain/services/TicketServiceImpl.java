@@ -26,10 +26,10 @@ public class TicketServiceImpl extends BaseServiceImpl implements TicketService 
     public TicketServiceImpl(Session session) {
         super(session);
         this.trainRepository = new TrainRepositoryImpl(session);
-        this.stationRepository = new StationRepositoryImpl(session);
+        this.stationRepository = null;
         this.accountRepository = new AccountRepositoryImpl(session);
         this.ticketRepository = new TicketRepositoryImpl(session);
-        this.routeRepository = new RouteRepositoryImpl(session);
+        this.routeRepository = null;
         this.spotRepository = new SpotRepositoryImpl(session);
     }
 
@@ -38,7 +38,7 @@ public class TicketServiceImpl extends BaseServiceImpl implements TicketService 
         TicketInfo ticketInfo = new TicketInfo();
 
         Train train = trainRepository.findById(trainId);
-        Route route = routeRepository.findById(train.getRoute().getId());
+        Route route = routeRepository.findOne(train.getRoute().getId());
         Spot stationOfDep = spotRepository.findByStationIdAndRouteId(stationOfDepartureId, route.getId());
         Spot stationOfArr = spotRepository.findByStationIdAndRouteId(stationOfArrivalId, route.getId());
         Integer minutesSinceDepartureForStationA = stationOfDep.getMinutesSinceDeparture();
@@ -52,8 +52,8 @@ public class TicketServiceImpl extends BaseServiceImpl implements TicketService 
             }
         });
 
-        Station stationOfDeparture = stationRepository.findById(stationOfDepartureId);
-        Station stationOfArrival = stationRepository.findById(stationOfArrivalId);
+        Station stationOfDeparture = stationRepository.findOne(stationOfDepartureId);
+        Station stationOfArrival = stationRepository.findOne(stationOfArrivalId);
         LocalDateTime datetimeOfPurchase = LocalDateTime.now();
         Account account = accountRepository.findById(accountId);
         Spot spotDeparture = spotRepository.findByStationIdAndRouteId(stationOfDepartureId, route.getId());

@@ -5,26 +5,25 @@ import com.tsystems.javaschool.uberbahn.webmain.repositories.*;
 import com.tsystems.javaschool.uberbahn.webmain.transports.StationInfo;
 import com.tsystems.javaschool.uberbahn.webmain.transports.StationScheduleEvent;
 import com.tsystems.javaschool.uberbahn.webmain.transports.StationTimetable;
-import org.hibernate.Session;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.time.*;
 import java.time.temporal.ChronoUnit;
-import java.time.temporal.TemporalUnit;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-
-public class StationServiceImpl extends BaseServiceImpl implements StationService {
+@Service
+public class StationServiceImpl implements StationService {
 
     private final RouteRepository routeRepository;
     private final StationRepository stationRepository;
 
-
-    public StationServiceImpl(Session session) {
-        super(session);
-        this.routeRepository = new RouteRepositoryImpl(session);
-        this.stationRepository = new StationRepositoryImpl(session);
+    @Autowired
+    public StationServiceImpl(RouteRepository routeRepository, StationRepository stationRepository) {
+        this.routeRepository = routeRepository;
+        this.stationRepository = stationRepository;
     }
 
 
@@ -34,7 +33,7 @@ public class StationServiceImpl extends BaseServiceImpl implements StationServic
         StationTimetable timetable = new StationTimetable();
 
         Collection<StationScheduleEvent> events = new ArrayList<>();
-        Station station = stationRepository.findById(stationId);
+        Station station = stationRepository.findOne(stationId);
         timetable.setTitle(station.getTitle());
         timetable.setScheduleEvents(events);
 

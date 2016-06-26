@@ -22,7 +22,7 @@ public class AddStationControllerImpl extends BaseControllerImpl {
 
         StationInfo stationInfo = runTransaction((session -> {
 
-            StationService service = new StationServiceImpl(session); // TODO: with DI
+            StationService service = null; // TODO: with DI
             return service.getStationInfo(stationTitle);
         }));
 

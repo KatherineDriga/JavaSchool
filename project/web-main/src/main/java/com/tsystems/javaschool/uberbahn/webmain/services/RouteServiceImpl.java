@@ -23,8 +23,8 @@ public class RouteServiceImpl extends BaseServiceImpl implements RouteService {
 
     public RouteServiceImpl(Session session) {
         super(session);
-        this.routeRepository = new RouteRepositoryImpl(session);
-        this.stationRepository = new StationRepositoryImpl(session);
+        this.routeRepository = null;
+        this.stationRepository = null;
         this.spotRepository = new SpotRepositoryImpl(session);
     }
 
@@ -63,7 +63,7 @@ public class RouteServiceImpl extends BaseServiceImpl implements RouteService {
             Spot spot = new Spot();
             spot.setRoute(route);
             spot.setMinutesSinceDeparture(minutesSinceDepartures.get(i));
-            spot.setStation(stationRepository.findById(stationIds.get(i)));
+            spot.setStation(stationRepository.findOne(stationIds.get(i)));
             spotRepository.save(spot);
 
         }
@@ -72,7 +72,7 @@ public class RouteServiceImpl extends BaseServiceImpl implements RouteService {
 
     @Override
     public RouteInfo getById(int id) {
-        Route route = routeRepository.findById(id);
+        Route route = routeRepository.findOne(id);
         RouteInfo routeInfo = new RouteInfo();
         routeInfo.setId(route.getId());
         routeInfo.setTitle(route.getTitle());

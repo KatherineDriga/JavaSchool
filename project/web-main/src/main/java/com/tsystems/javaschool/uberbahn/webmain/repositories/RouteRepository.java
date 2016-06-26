@@ -1,14 +1,18 @@
 package com.tsystems.javaschool.uberbahn.webmain.repositories;
 
 import com.tsystems.javaschool.uberbahn.webmain.entities.Route;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.util.Collection;
 import java.util.List;
 
 
-public interface RouteRepository extends BaseRepository<Route> {
+public interface RouteRepository extends JpaRepository<Route, Integer> {
 
-    Collection<Route> findByStationId (int stationId);
-    Route findByTitle (String routeTitle);
-    Collection<Route> findAll();
+    @Query("SELECT r FROM Route AS r JOIN r.spots AS s WHERE s.station.id = :stationId")
+    Collection<Route> findByStationId (@Param("stationId") int stationId);
+
+    Route findByTitle(String title);
 }

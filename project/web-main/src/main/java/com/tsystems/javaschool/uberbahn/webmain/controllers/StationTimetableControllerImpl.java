@@ -24,7 +24,7 @@ public class StationTimetableControllerImpl extends BaseControllerImpl {
 
         StationTimetable timetable = runTransaction((session -> {
 
-            StationService service = new StationServiceImpl(session); // TODO: with DI
+            StationService service = null; // TODO: with DI
             return service.getTimetable(stationId, since, until);
         }));
 

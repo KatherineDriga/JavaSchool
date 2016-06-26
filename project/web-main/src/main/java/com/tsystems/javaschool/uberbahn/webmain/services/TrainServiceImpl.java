@@ -23,8 +23,8 @@ public class TrainServiceImpl extends BaseServiceImpl implements TrainService {
 
     public TrainServiceImpl(Session session) {
         super(session);
-        this.routeRepository = new RouteRepositoryImpl(session);
-        this.stationRepository = new StationRepositoryImpl(session);
+        this.routeRepository = null;
+        this.stationRepository = null;
         this.spotRepository = new SpotRepositoryImpl(session);
         this.ticketRepository = new TicketRepositoryImpl(session);
         this.trainRepository = new TrainRepositoryImpl(session);
@@ -37,8 +37,8 @@ public class TrainServiceImpl extends BaseServiceImpl implements TrainService {
                                        LocalDateTime until) {
 
         TrainTimetable timetable = new TrainTimetable();
-        Station stationA = stationRepository.findById(stationOfDepartureId);
-        Station stationB = stationRepository.findById(stationOfArrivalId);
+        Station stationA = stationRepository.findOne(stationOfDepartureId);
+        Station stationB = stationRepository.findOne(stationOfArrivalId);
         Map events = new HashMap<Integer, TrainScheduleEvent>();
         timetable.setStationOfDeparture(stationA.getTitle());
         timetable.setStationOfArrival(stationB.getTitle());
@@ -131,7 +131,7 @@ public class TrainServiceImpl extends BaseServiceImpl implements TrainService {
                 });
                 info.setTrainId(train.getId());
                 info.setRouteTitle(route.getTitle());
-                info.setStationOfDeparture(stationRepository.findById(stationOfDepartureId).getTitle());
+                info.setStationOfDeparture(stationRepository.findOne(stationOfDepartureId).getTitle());
 
                 LocalDate dateOfDeparture = train.getDateOfDeparture();
                 LocalTime timeOfDeparture = route.getTimeOfDeparture();
@@ -142,7 +142,7 @@ public class TrainServiceImpl extends BaseServiceImpl implements TrainService {
 
                 info.setDateOfDeparture(datetimeOfDeparture.toLocalDate());
                 info.setTimeOfDeparture(datetimeOfDeparture.toLocalTime());
-                info.setStationOfArrival(stationRepository.findById(stationOfArrivalId).getTitle());
+                info.setStationOfArrival(stationRepository.findOne(stationOfArrivalId).getTitle());
                 info.setDateOfArrival(datetimeOfArrival.toLocalDate());
                 info.setTimeOfArrival(datetimeOfArrival.toLocalTime());
 
@@ -177,7 +177,7 @@ public class TrainServiceImpl extends BaseServiceImpl implements TrainService {
 
             Train train = new Train();
             Collection<Ticket> tickets = null;
-            Route route = routeRepository.findById(routeId);
+            Route route = routeRepository.findOne(routeId);
             train.setTickets(tickets);
             train.setRoute(route);
             train.setDateOfDeparture(dateOfDeparture);

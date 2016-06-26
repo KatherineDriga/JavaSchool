@@ -10,7 +10,8 @@ import java.util.Collection;
 public interface StationService {
 
     StationTimetable getTimetable (int stationId, LocalDateTime since, LocalDateTime until);
-    Collection<StationInfo> getAll ();
-    StationInfo getStationInfo (String stationTitle);
 
+    Collection<StationInfo> getAll ();
+
+    StationInfo getStationInfo (String stationTitle);
 }
