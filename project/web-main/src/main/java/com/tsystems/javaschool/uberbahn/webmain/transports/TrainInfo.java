@@ -16,7 +16,7 @@ public class TrainInfo {
     private LocalDate dateOfArrival;
     private LocalTime timeOfArrival;
     private int numberOfSeatsAvailable;
-    private Collection<TicketsPurchasedPerStation> ticketsPurchasedPerStations;
+    //private Collection<TicketsPurchasedPerStation> ticketsPurchasedPerStations;
 
     public int getTrainId() {
         return trainId;
@@ -90,11 +90,11 @@ public class TrainInfo {
         this.numberOfSeatsAvailable = numberOfSeatsAvailable;
     }
 
-    public Collection<TicketsPurchasedPerStation> getTicketsPurchasedPerStations() {
+    /*public Collection<TicketsPurchasedPerStation> getTicketsPurchasedPerStations() {
         return ticketsPurchasedPerStations;
     }
     public void setTicketsPurchasedPerStations(Collection<TicketsPurchasedPerStation> ticketsPurchasedPerStations) {
         this.ticketsPurchasedPerStations = ticketsPurchasedPerStations;
-    }
+    }*/
 }
 

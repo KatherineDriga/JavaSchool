@@ -20,7 +20,7 @@ public class TableOfTrainsControllerImpl extends BaseControllerImpl {
 
         Collection<FindTrainInfo> findTrainInfos = runTransaction((session -> {
 
-            TrainService service = new TrainServiceImpl(session); // TODO: with DI
+            TrainService service = null; //new TrainServiceImpl(session); // TODO: with DI
             return service.getFindTrainInfo(routeId);
         }));
 

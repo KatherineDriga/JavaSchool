@@ -29,7 +29,7 @@ public class TrainChooseControllerImpl extends BaseControllerImpl {
 
         Collection<TrainInfo> trains = runTransaction((session -> {
 
-            TrainService service = new TrainServiceImpl(session); // TODO: with DI
+            TrainService service = null; //new TrainServiceImpl(session); // TODO: with DI
             return service.getTrainInfo(stationOfDeparture, stationOfArrival, since, until);
         }));
 

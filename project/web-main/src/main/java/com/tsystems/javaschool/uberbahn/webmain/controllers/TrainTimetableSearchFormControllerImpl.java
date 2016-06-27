@@ -23,7 +23,7 @@ public class TrainTimetableSearchFormControllerImpl {
     }
 
     @RequestMapping(path = "/", method = RequestMethod.GET)
-    public String showHomePage(Model model, @RequestParam(name = "example", required = false) int example) {
+    public String showHomePage(Model model) {
 
         LocalDate sinceDate = LocalDate.now();
         LocalDate untilDate = sinceDate.plusDays(7);

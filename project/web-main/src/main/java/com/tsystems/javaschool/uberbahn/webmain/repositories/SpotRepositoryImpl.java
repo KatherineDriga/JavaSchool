@@ -29,7 +29,7 @@ public class SpotRepositoryImpl extends BaseRepositoryImpl<Spot> implements  Spo
                 .uniqueResult();
     }
 
-    @Override
+    //@Override
     public Collection<Spot> findAllBetweenStationsByRouteIdAndTime(int routeId, Integer timeSinceDepartureForStA, Integer timeSinceDepartureForStB) {
         return getSession()
                 .createQuery("FROM Spot " +

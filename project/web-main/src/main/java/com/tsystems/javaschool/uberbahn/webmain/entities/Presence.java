@@ -19,6 +19,9 @@ public class Presence extends BaseEntity {
     @Column (name = "instant")
     private Instant instant;
 
+    @Column (name = "numberOfTickets")
+    private int numberOfTickets;
+
     public Train getTrain() {
         return train;
     }
@@ -41,5 +44,13 @@ public class Presence extends BaseEntity {
 
     public void setInstant(Instant instant) {
         this.instant = instant;
+    }
+
+    public int getNumberOfTickets() {
+        return numberOfTickets;
+    }
+
+    public void setNumberOfTickets(int numberOfTickets) {
+        this.numberOfTickets = numberOfTickets;
     }
 }

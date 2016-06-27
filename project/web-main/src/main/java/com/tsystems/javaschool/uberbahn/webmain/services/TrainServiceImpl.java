@@ -4,30 +4,31 @@ package com.tsystems.javaschool.uberbahn.webmain.services;
 import com.tsystems.javaschool.uberbahn.webmain.entities.*;
 import com.tsystems.javaschool.uberbahn.webmain.repositories.*;
 import com.tsystems.javaschool.uberbahn.webmain.transports.*;
-import org.hibernate.Session;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
+import java.time.*;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
 
-
-public class TrainServiceImpl extends BaseServiceImpl implements TrainService {
+@Service
+public class TrainServiceImpl implements TrainService {
 
     private final RouteRepository routeRepository;
     private final StationRepository stationRepository;
     private final SpotRepository spotRepository;
     private final TicketRepository ticketRepository;
     private final TrainRepository trainRepository;
+    private final PresenceRepository presenceRepository;
 
-    public TrainServiceImpl(Session session) {
-        super(session);
-        this.routeRepository = null;
-        this.stationRepository = null;
-        this.spotRepository = new SpotRepositoryImpl(session);
-        this.ticketRepository = new TicketRepositoryImpl(session);
-        this.trainRepository = new TrainRepositoryImpl(session);
+    @Autowired
+    public TrainServiceImpl(RouteRepository routeRepository, StationRepository stationRepository, SpotRepository spotRepository, TicketRepository ticketRepository, TrainRepository trainRepository, PresenceRepository presenceRepositary) {
+        this.routeRepository = routeRepository;
+        this.stationRepository = stationRepository;
+        this.spotRepository = spotRepository;
+        this.ticketRepository = ticketRepository;
+        this.trainRepository = trainRepository;
+        this.presenceRepository = presenceRepositary;
     }
 
     @Override
@@ -93,8 +94,56 @@ public class TrainServiceImpl extends BaseServiceImpl implements TrainService {
 
     @Override
     public Collection<TrainInfo> getTrainInfo(int stationOfDepartureId, int stationOfArrivalId, LocalDateTime since, LocalDateTime until) {
+        Collection<TrainInfo> trainInfos = new ArrayList<>();
+        Collection<Route> routesPassStationA = routeRepository.findByStationId(stationOfDepartureId);
+        Collection<Route> routesPassStationB = routeRepository.findByStationId(stationOfArrivalId);
+        Collection<Route> routesPassStatiobAAndB = new HashSet<>(); //get from repository
+        routesPassStationA.forEach(routeA -> {
+            routesPassStationB.forEach(routeB -> {
+                routeA.getSpots().forEach(spotA -> {
+                    routeB.getSpots().forEach(spotB -> {
+                        if (spotA.getRoute().getId() == spotB.getRoute().getId()
+                        && spotA.getStation().getId() == stationOfDepartureId
+                        && spotB.getStation().getId() == stationOfArrivalId) {
+                            routesPassStatiobAAndB.add(routeA);
+                        }
+                     });
+                });
+            });
+         });
+        Collection<Train> trains = new ArrayList<>();
+        routesPassStatiobAAndB.forEach(route -> {
+            Collection<Train> trains1  = trainRepository.findByRouteId(route.getId());
+            trains1.forEach(train1 -> {
+                trains.add(train1);
+            });
+        });
+        trains.forEach(train -> {
+            TrainInfo trainInfo = new TrainInfo();
+            trainInfo.setTrainId(train.getId());
+            trainInfo.setRouteTitle(train.getRoute().getTitle());
+            trainInfo.setStationOfDeparture(stationRepository.findOne(stationOfDepartureId).getTitle());
+            Instant instantDeparture = presenceRepository.findByTrainIdAndSpotId(train.getId(),
+                    spotRepository.findByStationIdAndRouteId(stationOfDepartureId, train.getRoute().getId()).getId()).getInstant();
+            trainInfo.setDateOfDeparture(LocalDateTime.ofInstant(instantDeparture, ZoneId.systemDefault()).toLocalDate());
+            trainInfo.setTimeOfDeparture(LocalDateTime.ofInstant(instantDeparture, ZoneId.systemDefault()).toLocalTime());
+            trainInfo.setStationOfArrival(stationRepository.findOne(stationOfArrivalId).getTitle());
+            Instant instantArrival = presenceRepository.findByTrainIdAndSpotId(train.getId(),
+                    spotRepository.findByStationIdAndRouteId(stationOfArrivalId, train.getRoute().getId()).getId()).getInstant();
+            trainInfo.setDateOfArrival(LocalDateTime.ofInstant(instantArrival, ZoneId.systemDefault()).toLocalDate());
+            trainInfo.setTimeOfArrival(LocalDateTime.ofInstant(instantArrival, ZoneId.systemDefault()).toLocalTime());
+            Collection<Presence> presences = presenceRepository.findAllBetweenStationsByTrainIdAndInstant(train.getId(), since.toInstant(ZoneOffset.UTC), until.toInstant(ZoneOffset.UTC));
+            int ticketsPurchased = 0;
+            for (Presence presence : presences){
+                if (presence.getNumberOfTickets() > ticketsPurchased) {
+                    ticketsPurchased = presence.getNumberOfTickets();
+                }
+            }
+            trainInfo.setNumberOfSeatsAvailable(train.getNumberOfSeats()-ticketsPurchased);
+            trainInfos.add(trainInfo);
+        });
 
-        Map trInfos = new HashMap<Integer, TrainInfo>();
+        /*Map trInfos = new HashMap<Integer, TrainInfo>();
         TrainTimetable timetable = getTimetable(stationOfDepartureId, stationOfArrivalId, since, until);
         Collection<TrainScheduleEvent> events = timetable.getScheduleEvents();
         Collection<Route> routes = new ArrayList<>();
@@ -163,7 +212,7 @@ public class TrainServiceImpl extends BaseServiceImpl implements TrainService {
                 });
             });
         Collection<TrainInfo> trainInfos = new ArrayList<>();
-        trainInfos = trInfos.values();
+        trainInfos = trInfos.values();*/
         return trainInfos;
     }
 

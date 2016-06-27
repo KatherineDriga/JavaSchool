@@ -32,7 +32,7 @@ $(function () {
         }  else if ($("#untilTime").val().length == 0) {
             errorMessageSpan.text("Enter until time");
         } else {
-        window.location.href = "/trainChoose?"
+        window.location.href = "/listOfTrains?"
             + "stationOfDeparture=" + stationA + "&"
             + "stationOfArrival=" + stationB + "&"
             + "since=" + since + "&"

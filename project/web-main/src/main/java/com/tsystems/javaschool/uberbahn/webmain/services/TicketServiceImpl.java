@@ -43,7 +43,7 @@ public class TicketServiceImpl extends BaseServiceImpl implements TicketService 
         Spot stationOfArr = spotRepository.findByStationIdAndRouteId(stationOfArrivalId, route.getId());
         Integer minutesSinceDepartureForStationA = stationOfDep.getMinutesSinceDeparture();
         Integer minutesSinceDepartureForStationB = stationOfArr.getMinutesSinceDeparture();
-        Collection<Spot> spots = spotRepository.findAllBetweenStationsByRouteIdAndTime(route.getId(), minutesSinceDepartureForStationA, minutesSinceDepartureForStationB);
+        Collection<Spot> spots = null; //spotRepository.findAllBetweenStationsByRouteIdAndTime(route.getId(), minutesSinceDepartureForStationA, minutesSinceDepartureForStationB);
         spots.forEach(spot -> {
             Collection<Ticket> tickets = ticketRepository.getByTrainIdAndStationOfDeparture(train.getId(), spot.getStation().getId());
             int ticketsPurchasedPerStation = tickets.size();

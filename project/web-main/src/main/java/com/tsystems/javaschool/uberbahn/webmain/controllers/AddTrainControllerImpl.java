@@ -24,7 +24,7 @@ public class AddTrainControllerImpl extends BaseControllerImpl {
 
         AddTrainInfo addTrainInfo = runTransaction((session -> {
 
-            TrainService service = new TrainServiceImpl(session); // TODO: with DI
+            TrainService service = null;//new TrainServiceImpl(session); // TODO: with DI
             return service.getAddTrainInfo(routeId, dateOfDeparture, numberOfSeats);
         }));
 

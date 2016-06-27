@@ -20,7 +20,7 @@ public class FindPassengersControllerImpl extends  BaseControllerImpl{
 
         Collection<PassengerInfo> passengerInfos = runTransaction((session -> {
 
-            TrainService service = new TrainServiceImpl(session); // TODO: with DI
+            TrainService service = null; // new TrainServiceImpl(session); // TODO: with DI
             return service.getPassengerInfo(trainId);
         }));
 

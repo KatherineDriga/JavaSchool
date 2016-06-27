@@ -28,7 +28,7 @@ public class TrainTimetableControllerImpl extends BaseControllerImpl {
 
         TrainTimetable timetable = runTransaction((session -> {
 
-            TrainService service = new TrainServiceImpl(session); // TODO: with DI
+            TrainService service = null; //new TrainServiceImpl(session); // TODO: with DI
             return service.getTimetable(stationOfDeparture, stationOfArrival, since, until);
         }));
 
