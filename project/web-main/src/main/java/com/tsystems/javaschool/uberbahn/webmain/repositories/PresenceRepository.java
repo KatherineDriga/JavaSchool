@@ -20,6 +20,7 @@ public interface PresenceRepository extends JpaRepository<Presence, Integer> {
     Collection<Presence> findAllBetweenStationsByTrainIdAndInstant(@Param("trainId") int trainId,
                                                                    @Param("instantDeparture")Instant instantDeparture,
                                                                    @Param("instantArrival")Instant instantArrival);
+
 }
 
 

@@ -3,6 +3,13 @@ package com.tsystems.javaschool.uberbahn.webmain.controllers;
 import com.tsystems.javaschool.uberbahn.webmain.services.StationService;
 import com.tsystems.javaschool.uberbahn.webmain.services.StationServiceImpl;
 import com.tsystems.javaschool.uberbahn.webmain.transports.StationTimetable;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -10,26 +17,24 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.time.LocalDateTime;
 
+@Controller
+@RequestMapping("/")
+public class StationTimetableControllerImpl {
+    private final StationService stationService;
 
-public class StationTimetableControllerImpl extends BaseControllerImpl {
-
-
-
-    @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
-        int stationId = getIntParameter("stationId", req);
-        LocalDateTime since = getDatetimeParameter("since", req);
-        LocalDateTime until = getDatetimeParameter("until", req);
-
-        StationTimetable timetable = runTransaction((session -> {
-
-            StationService service = null; // TODO: with DI
-            return service.getTimetable(stationId, since, until);
-        }));
-
-        req.setAttribute("timetable", timetable);
-
-        render("stationTimetable", req, resp);
+    @Autowired
+    public StationTimetableControllerImpl(StationService stationService) {
+        this.stationService = stationService;
     }
+
+    @RequestMapping(path = "/stationTimetable", method = RequestMethod.GET)
+    public String showStationTimetable(Model model, @RequestParam(name = "stationId") int stationId,
+                                       @RequestParam(name = "since") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime since,
+                                       @RequestParam(name = "until") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime until) {
+
+        model.addAttribute("timetable", stationService.getTimetable(stationId, since, until));
+
+        return "stationTimetable";
+    }
+
 }

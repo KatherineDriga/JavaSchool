@@ -14,6 +14,8 @@ public interface SpotRepository extends JpaRepository<Spot, Integer> {
     @Query("SELECT s FROM Spot AS s WHERE s.station.id = :stationId AND s.route.id = :routeId")
     Spot findByStationIdAndRouteId (@Param("stationId") int stationId, @Param("routeId") int routeId);
 
+    @Query("SELECT s FROM Spot AS s WHERE s.station.id = :stationId")
+    Collection<Spot> findByStationId (@Param("stationId") int stationId);
     /*
     Collection<Spot> findAllBetweenStationsByRouteIdAndTime(int routeId, Integer timeSinceDepartureForStA, Integer timeSinceDepartureForStB);
     */

@@ -19,11 +19,15 @@ public class StationServiceImpl implements StationService {
 
     private final RouteRepository routeRepository;
     private final StationRepository stationRepository;
+    private final PresenceRepository presenceRepository;
+    private final TrainRepository trainRepository;
 
     @Autowired
-    public StationServiceImpl(RouteRepository routeRepository, StationRepository stationRepository) {
+    public StationServiceImpl(RouteRepository routeRepository, StationRepository stationRepository, PresenceRepository presenceRepository, TrainRepository trainRepository) {
         this.routeRepository = routeRepository;
         this.stationRepository = stationRepository;
+        this.presenceRepository = presenceRepository;
+        this.trainRepository = trainRepository;
     }
 
 
@@ -37,7 +41,30 @@ public class StationServiceImpl implements StationService {
         timetable.setTitle(station.getTitle());
         timetable.setScheduleEvents(events);
 
+        Collection<Train> trains = new ArrayList<>();
+
         station.getSpots().forEach(spot -> {
+            Collection<Presence> presences = spot.getPresences();
+                presences.forEach(presence -> {
+                    if (presence.getInstant().isAfter(since.toInstant(ZoneOffset.UTC)) &&
+                            presence.getInstant().isBefore(until.toInstant(ZoneOffset.UTC))){
+
+                        StationScheduleEvent event = new StationScheduleEvent();
+                        event.setDate(LocalDateTime.ofInstant(presence.getInstant(), ZoneId.systemDefault()).toLocalDate());
+                        event.setTime(LocalDateTime.ofInstant(presence.getInstant(), ZoneId.systemDefault()).toLocalTime());
+                        event.setRoute(presence.getTrain().getRoute().getTitle());
+                        List<Spot> spots = presence.getTrain().getRoute().getSpots();
+                        event.setDepartsFrom(spots.get(0).getStation().getTitle());
+                        event.setArrivesAt(spots.get(spots.size()-1).getStation().getTitle());
+                        event.setTrain(presence.getTrain().getId());
+                        events.add(event);
+
+                    }
+                });
+        });
+
+
+        /*station.getSpots().forEach(spot -> {
             Route route = spot.getRoute();
             route.getTrains().forEach(train -> {
 
@@ -63,7 +90,7 @@ public class StationServiceImpl implements StationService {
                     events.add(event);
                 }
             });
-        });
+        });*/
         return timetable;
     }
 

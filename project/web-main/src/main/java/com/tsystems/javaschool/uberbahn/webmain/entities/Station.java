@@ -10,13 +10,13 @@ import java.util.Set;
 public class Station extends BaseEntity {
 
 
-    @OneToMany (cascade = CascadeType.ALL, mappedBy = "station")
+    @OneToMany (cascade = CascadeType.ALL, mappedBy = "station", fetch = FetchType.EAGER)
     private Collection<Spot> spots;
 
-    @OneToMany (cascade = CascadeType.ALL, mappedBy = "stationOfDeparture")
+    @OneToMany (cascade = CascadeType.ALL, mappedBy = "stationOfDeparture", fetch = FetchType.EAGER)
     private Collection<Ticket> departures;
 
-    @OneToMany (cascade = CascadeType.ALL, mappedBy = "stationOfArrival")
+    @OneToMany (cascade = CascadeType.ALL, mappedBy = "stationOfArrival", fetch = FetchType.EAGER)
     private Collection<Ticket> arrivals;
 
     @Column(name = "title")
