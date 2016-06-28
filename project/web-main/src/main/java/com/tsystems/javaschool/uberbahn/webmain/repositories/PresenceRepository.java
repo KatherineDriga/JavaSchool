@@ -11,10 +11,10 @@ import java.util.Collection;
 
 public interface PresenceRepository extends JpaRepository<Presence, Integer> {
 
-    @Query("SELECT p FROM Presence AS p WHERE p.trainId = :trainId AND p.spotId = :spotId")
+    @Query("SELECT p FROM Presence AS p WHERE p.train.id = :trainId AND p.spot.id = :spotId")
     Presence findByTrainIdAndSpotId(@Param("trainId") int trainId, @Param("spotId") int spotId);
 
-    @Query("SELECT p FROM Presence AS p WHERE p.trainId = :trainId " +
+    @Query("SELECT p FROM Presence AS p WHERE p.train.id = :trainId " +
             "AND p.instant >= :instantDeparture " +
             "AND p.instant <= :instantArrival")
     Collection<Presence> findAllBetweenStationsByTrainIdAndInstant(@Param("trainId") int trainId,

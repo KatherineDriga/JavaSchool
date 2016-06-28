@@ -25,7 +25,7 @@ public class RouteServiceImpl extends BaseServiceImpl implements RouteService {
         super(session);
         this.routeRepository = null;
         this.stationRepository = null;
-        this.spotRepository = new SpotRepositoryImpl(session);
+        this.spotRepository = null; //new SpotRepositoryImpl(session);
     }
 
 

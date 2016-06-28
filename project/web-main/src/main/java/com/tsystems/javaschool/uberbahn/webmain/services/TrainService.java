@@ -10,8 +10,12 @@ import java.util.Collection;
 public interface TrainService {
 
     TrainTimetable getTimetable (int stationOfDepartureId, int stationOfArrivalId, LocalDateTime since, LocalDateTime until);
+
     Collection<TrainInfo> getTrainInfo (int stationOfDepartureId, int stationOfArrivalId, LocalDateTime since, LocalDateTime until);
+
     AddTrainInfo getAddTrainInfo (int routeId, LocalDate dateOfDeparture, int numberOfSeats);
+
     Collection<FindTrainInfo> getFindTrainInfo (int routeId);
+
     Collection<PassengerInfo> getPassengerInfo (int trainId);
 }

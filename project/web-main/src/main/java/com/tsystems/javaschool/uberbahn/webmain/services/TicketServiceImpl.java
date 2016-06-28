@@ -25,19 +25,19 @@ public class TicketServiceImpl extends BaseServiceImpl implements TicketService 
 
     public TicketServiceImpl(Session session) {
         super(session);
-        this.trainRepository = new TrainRepositoryImpl(session);
+        this.trainRepository = null;//TrainRepositoryImpl(session);
         this.stationRepository = null;
         this.accountRepository = new AccountRepositoryImpl(session);
-        this.ticketRepository = new TicketRepositoryImpl(session);
+        this.ticketRepository = null; //new TicketRepositoryImpl(session);
         this.routeRepository = null;
-        this.spotRepository = new SpotRepositoryImpl(session);
+        this.spotRepository = null; //new SpotRepositoryImpl(session);
     }
 
     @Override
     public TicketInfo getTicketInfo(int trainId, int stationOfDepartureId, int stationOfArrivalId, String firstName, String lastName, LocalDate dateOfBirth, int accountId) {
         TicketInfo ticketInfo = new TicketInfo();
 
-        Train train = trainRepository.findById(trainId);
+        Train train = trainRepository.findOne(trainId);
         Route route = routeRepository.findOne(train.getRoute().getId());
         Spot stationOfDep = spotRepository.findByStationIdAndRouteId(stationOfDepartureId, route.getId());
         Spot stationOfArr = spotRepository.findByStationIdAndRouteId(stationOfArrivalId, route.getId());
@@ -105,7 +105,7 @@ public class TicketServiceImpl extends BaseServiceImpl implements TicketService 
     @Override
     public TicketInfo getTicketInfoByTicketId(int ticketId) {
         TicketInfo ticketInfo = new TicketInfo();
-        Ticket ticket = ticketRepository.findById(ticketId);
+        Ticket ticket = ticketRepository.findOne(ticketId);
         Train train = ticket.getTrain();
         ticketInfo.setId(ticketId);
         ticketInfo.setTrainId(ticket.getTrain().getId());

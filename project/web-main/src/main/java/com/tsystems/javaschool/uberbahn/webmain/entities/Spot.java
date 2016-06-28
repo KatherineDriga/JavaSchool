@@ -21,7 +21,7 @@ public class Spot extends BaseEntity {
     @Column(name = "minutesSinceDeparture")
     private Integer minutesSinceDeparture;
 
-    @OneToMany (cascade = CascadeType.ALL, mappedBy = "spot")
+    @OneToMany (cascade = CascadeType.ALL, mappedBy = "spot", fetch = FetchType.EAGER)
     private Collection<Presence> presences;
 
     public Route getRoute() {

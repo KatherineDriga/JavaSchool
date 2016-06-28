@@ -12,7 +12,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Controller
-@RequestMapping ("/listOfTrains")
+@RequestMapping ("/")
 public class ListOfTrainsTableControllerImpl {
 
     private final TrainService trainService;
@@ -23,14 +23,16 @@ public class ListOfTrainsTableControllerImpl {
     }
 
     @RequestMapping(path = "/listOfTrains", method = RequestMethod.GET)
-    public String showListOfTrains(Model model, @RequestParam(name = "stationOfDepartureId") int stationOfDepartureId,
-                                   @RequestParam(name = "stationOfArrival") int stationOfArrival,
+    public String showListOfTrains(Model model, @RequestParam(name = "stationOfDeparture") int stationOfDepartureId,
+                                   @RequestParam(name = "stationOfArrival") int stationOfArrivalId/*,
                                    @RequestParam(name = "since") LocalDateTime since,
-                                   @RequestParam(name = "until") LocalDateTime until) {
+                                   @RequestParam(name = "until") LocalDateTime until*/) {
 
-
-        model.addAttribute("trains", trainService.getTrainInfo(stationOfDepartureId, stationOfArrival, since, until));
-
+        LocalDateTime since = LocalDateTime.of(2015,01,01,0,0);
+        LocalDateTime until = LocalDateTime.of(2017,01,01,0,0);
+        model.addAttribute("trains", trainService.getTrainInfo(stationOfDepartureId, stationOfArrivalId, since, until));
+        model.addAttribute("stationOfDepartureId", stationOfDepartureId);
+        model.addAttribute("stationOfArrivalId", stationOfArrivalId);
         return "listOfTrains";
     }
 }

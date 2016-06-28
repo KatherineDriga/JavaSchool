@@ -11,7 +11,7 @@ import java.util.Set;
 public class Train extends BaseEntity {
 
 
-    @OneToMany (cascade = CascadeType.ALL, mappedBy = "train")
+    @OneToMany (cascade = CascadeType.ALL, mappedBy = "train", fetch = FetchType.EAGER)
     private Collection<Ticket> tickets;
 
     @ManyToOne
@@ -27,7 +27,7 @@ public class Train extends BaseEntity {
     @Column(name = "priceCoefficient")
     private double priceCoefficient;
 
-    @OneToMany (cascade = CascadeType.ALL, mappedBy = "train")
+    @OneToMany (cascade = CascadeType.ALL, mappedBy = "train", fetch = FetchType.EAGER)
     private Collection<Presence> presences;
 
     @Column(name = "archived")
