@@ -23,6 +23,6 @@
         </div>
     </form>
 </section>
-<script src="/scripts/stationTimetableSearch.js"></script>
+<script src="static/scripts/stationTimetableSearch.js"></script>
 
 <%@include file="/WEB-INF/jspf/footer.jspf" %>

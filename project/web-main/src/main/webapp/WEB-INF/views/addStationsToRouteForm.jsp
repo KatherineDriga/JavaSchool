@@ -36,7 +36,7 @@
     <span hidden="true" id="routeTitle">${routeTitle}</span>
 
 </section>
-<script src="/scripts/addStationsToRouteForm.js"></script>
+<script src="static/scripts/addStationsToRouteForm.js"></script>
 
 <%@include file="/WEB-INF/jspf/footer.jspf" %>
 

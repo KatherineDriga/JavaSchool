@@ -43,6 +43,5 @@
         </div>
 
 </section>
-<span>example = ${example}</span>
 <script src="static/scripts/trainTimetableSearch.js"></script>
 <%@include file="/WEB-INF/jspf/footer.jspf" %>

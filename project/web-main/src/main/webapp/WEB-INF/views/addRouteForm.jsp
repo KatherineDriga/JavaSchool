@@ -22,7 +22,7 @@
 
 
 </section>
-<script src="/scripts/addRouteForm.js"></script>
+<script src="static/scripts/addRouteForm.js"></script>
 <%@include file="/WEB-INF/jspf/footer.jspf" %>
 
 

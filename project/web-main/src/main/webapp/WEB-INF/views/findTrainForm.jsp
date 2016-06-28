@@ -25,6 +25,6 @@
 
 
 </section>
-<script src="/scripts/findTrainForm.js"></script>
+<script src="static/scripts/findTrainForm.js"></script>
 <%@include file="/WEB-INF/jspf/footer.jspf" %>
 

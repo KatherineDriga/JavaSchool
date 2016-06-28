@@ -32,6 +32,6 @@
 
 
 </section>
-<script src="/scripts/addTrainForm.js"></script>
+<script src="static/scripts/addTrainForm.js"></script>
 <%@include file="/WEB-INF/jspf/footer.jspf" %>
 

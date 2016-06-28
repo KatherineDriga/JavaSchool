@@ -32,5 +32,5 @@
 </c:otherwise>
     </c:choose>
 </section>
-<script src="/scripts/tableOfTrains.js"></script>
+<script src="static/scripts/tableOfTrains.js"></script>
 <%@include file="/WEB-INF/jspf/footer.jspf" %>

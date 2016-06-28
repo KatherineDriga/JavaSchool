@@ -19,6 +19,6 @@
 
 
 </section>
-<script src="/scripts/addStationForm.js"></script>
+<script src="static/scripts/addStationForm.js"></script>
 <%@include file="/WEB-INF/jspf/footer.jspf" %>
 

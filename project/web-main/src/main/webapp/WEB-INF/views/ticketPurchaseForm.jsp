@@ -49,5 +49,5 @@
     </div>
 
 </section>
-<script src="/scripts/ticketPurchaseForm.js"></script>
+<script src="static/scripts/ticketPurchaseForm.js"></script>
 <%@include file="/WEB-INF/jspf/footer.jspf" %>
