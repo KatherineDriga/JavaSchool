@@ -18,7 +18,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.time.LocalDate;
 
-@Controller
+/*@Controller
 @RequestMapping("/")
 public class AddStationControllerImpl {
 
@@ -29,8 +29,8 @@ public class AddStationControllerImpl {
         this.stationService = stationService;
     }
 
-    @RequestMapping(path = "/", method = RequestMethod.POST, consumes="application/json")
-    public String showHomePage(Model model) {
+    @RequestMapping(path = "/addStation", method = RequestMethod.POST, consumes="application/json")
+    public String addStation(Model model) {
 
         LocalDate sinceDate = LocalDate.now();
         LocalDate untilDate = sinceDate.plusDays(7);
@@ -41,10 +41,8 @@ public class AddStationControllerImpl {
 
         return "trainTimetableSearch";
     }
-
-
-}
-/*public class AddStationControllerImpl extends BaseControllerImpl {
+}*/
+public class AddStationControllerImpl extends BaseControllerImpl {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -63,4 +61,4 @@ public class AddStationControllerImpl {
         PrintWriter out = resp.getWriter();
         mapper.writeValue(out, stationInfo);
     }
-}*/
+}

@@ -107,9 +107,8 @@ public class StationServiceImpl implements StationService {
 
             }
 
-
         return stationInfo;
-
     }
+
 }
 

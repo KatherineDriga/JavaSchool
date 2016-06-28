@@ -37,6 +37,7 @@ insert into uberbahn.spot (routeId,stationId,minutesSinceDeparture) values (4,5,
 insert into uberbahn.spot (routeId,stationId,minutesSinceDeparture) values (4,6,3100);
 insert into uberbahn.spot (routeId,stationId,minutesSinceDeparture) values (4,7,4000);
 
+insert into uberbahn.presence (trainId, spotId, instant, numberOfTickets) values (2, 2, '16-06-27 14:00:00', 1);
 insert into uberbahn.presence (trainId, spotId, instant, numberOfTickets) values (2, 3, '16-06-27 14:00:00', 1);
 insert into uberbahn.presence (trainId, spotId, instant, numberOfTickets) values (2, 4, '16-06-27 20:00:00', 0);
 
