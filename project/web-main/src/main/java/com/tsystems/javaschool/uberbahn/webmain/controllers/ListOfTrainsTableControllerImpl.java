@@ -2,6 +2,7 @@ package com.tsystems.javaschool.uberbahn.webmain.controllers;
 
 import com.tsystems.javaschool.uberbahn.webmain.services.TrainService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,12 +25,10 @@ public class ListOfTrainsTableControllerImpl {
 
     @RequestMapping(path = "/listOfTrains", method = RequestMethod.GET)
     public String showListOfTrains(Model model, @RequestParam(name = "stationOfDeparture") int stationOfDepartureId,
-                                   @RequestParam(name = "stationOfArrival") int stationOfArrivalId/*,
-                                   @RequestParam(name = "since") LocalDateTime since,
-                                   @RequestParam(name = "until") LocalDateTime until*/) {
-
-        LocalDateTime since = LocalDateTime.of(2015,01,01,0,0);
-        LocalDateTime until = LocalDateTime.of(2017,01,01,0,0);
+                                   @RequestParam(name = "stationOfArrival") int stationOfArrivalId,
+                                   @RequestParam(name = "since") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime since,
+                                   @RequestParam(name = "until") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime until) {
+        
         model.addAttribute("trains", trainService.getTrainInfo(stationOfDepartureId, stationOfArrivalId, since, until));
         model.addAttribute("stationOfDepartureId", stationOfDepartureId);
         model.addAttribute("stationOfArrivalId", stationOfArrivalId);
