@@ -7,6 +7,7 @@ import com.tsystems.javaschool.uberbahn.webmain.transports.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.time.*;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
@@ -155,6 +156,9 @@ public class TrainServiceImpl implements TrainService {
                 }
             }
             trainInfo.setNumberOfSeatsAvailable(train.getNumberOfSeats()-ticketsPurchased);
+            int travelTime = spotRepository.findByStationIdAndRouteId(stationOfArrivalId, train.getRoute().getId()).getMinutesSinceDeparture() - spotRepository.findByStationIdAndRouteId(stationOfDepartureId, train.getRoute().getId()).getMinutesSinceDeparture();
+            BigDecimal ticketPrice = train.getRoute().getPricePerMinute().multiply(new BigDecimal(travelTime)).multiply(new BigDecimal(train.getPriceCoefficient()));
+            trainInfo.setTicketPrice(ticketPrice);
             trainInfos.add(trainInfo);
         });
 

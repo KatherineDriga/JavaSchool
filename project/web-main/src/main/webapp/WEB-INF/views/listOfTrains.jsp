@@ -16,6 +16,7 @@
             <th>Departure</th>
             <th>Arrival</th>
             <th>Number Of Seats Available</th>
+            <th>Price</th>
         </tr>
         <c:forEach var="train" items="${trains}">
         <tr>
@@ -32,6 +33,7 @@
             <td>${train.dateOfDeparture}<br />${train.timeOfDeparture}<br />${train.stationOfDeparture}</td>
             <td>${train.dateOfArrival}<br />${train.timeOfArrival}<br />${train.stationOfArrival}</td>
             <td>${train.numberOfSeatsAvailable}</td>
+            <td>${train.ticketPrice}</td>
         </tr>
         </c:forEach>
     </table>
@@ -46,5 +48,5 @@
     </c:otherwise>
 </c:choose>
 </section>
-<script src="static/scripts/trainChoose.js"></script>
+<script src="static/scripts/listOfTrains.js"></script>
 <%@include file="/WEB-INF/jspf/footer.jspf" %>

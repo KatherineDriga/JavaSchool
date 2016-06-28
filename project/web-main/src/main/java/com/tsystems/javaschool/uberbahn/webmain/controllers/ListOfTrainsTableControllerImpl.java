@@ -28,7 +28,7 @@ public class ListOfTrainsTableControllerImpl {
                                    @RequestParam(name = "stationOfArrival") int stationOfArrivalId,
                                    @RequestParam(name = "since") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime since,
                                    @RequestParam(name = "until") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime until) {
-        
+
         model.addAttribute("trains", trainService.getTrainInfo(stationOfDepartureId, stationOfArrivalId, since, until));
         model.addAttribute("stationOfDepartureId", stationOfDepartureId);
         model.addAttribute("stationOfArrivalId", stationOfArrivalId);
