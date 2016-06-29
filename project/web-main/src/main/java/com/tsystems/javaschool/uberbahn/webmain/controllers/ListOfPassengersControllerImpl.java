@@ -3,7 +3,7 @@ package com.tsystems.javaschool.uberbahn.webmain.controllers;
 
 import com.tsystems.javaschool.uberbahn.webmain.services.TrainService;
 import com.tsystems.javaschool.uberbahn.webmain.services.TrainServiceImpl;
-import com.tsystems.javaschool.uberbahn.webmain.transports.FindTrainInfo;
+import com.tsystems.javaschool.uberbahn.webmain.transports.PassengerInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,21 +19,21 @@ import java.util.Collection;
 
 @Controller
 @RequestMapping("/")
-public class TableOfTrainsControllerImpl {
-
+public class ListOfPassengersControllerImpl {
     private final TrainService trainService;
 
     @Autowired
-    public TableOfTrainsControllerImpl(TrainService trainService) {
+    public ListOfPassengersControllerImpl(TrainService trainService) {
         this.trainService = trainService;
     }
 
-    @RequestMapping(path = "/tableOfTrains", method = RequestMethod.GET)
-    public String addTrainForm(Model model, @RequestParam(name = "routeId") int id) {
+    @RequestMapping(path = "/listOfPassengers", method = RequestMethod.GET)
+    public String showListOfPassengers(Model model, @RequestParam(name = "trainId") int id) {
 
-        model.addAttribute("findTrainInfo", trainService.getFindTrainInfo(id));
+        model.addAttribute("passengerInfos", trainService.getPassengerInfo(id));
+        model.addAttribute("trainId", id);
 
-        return "tableOfTrains";
+        return "listOfPassengers";
     }
 
 }

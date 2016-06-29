@@ -11,7 +11,7 @@ $(function () {
             errorMessageSpan.text("Choose train");
         }
         else {
-            window.location.href = "/findPassengers?"
+            window.location.href = "/listOfPassengers?"
                 + "trainId=" + trainId;
         }
     });

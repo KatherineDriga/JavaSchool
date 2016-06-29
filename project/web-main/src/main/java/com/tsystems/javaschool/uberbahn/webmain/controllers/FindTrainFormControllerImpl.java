@@ -4,6 +4,11 @@ package com.tsystems.javaschool.uberbahn.webmain.controllers;
 import com.tsystems.javaschool.uberbahn.webmain.services.RouteService;
 import com.tsystems.javaschool.uberbahn.webmain.services.RouteServiceImpl;
 import com.tsystems.javaschool.uberbahn.webmain.transports.RouteInfo;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -11,19 +16,22 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Collection;
 
-public class FindTrainFormControllerImpl extends BaseControllerImpl {
+@Controller
+@RequestMapping("/")
+public class FindTrainFormControllerImpl {
+    private final RouteService routeService;
 
-    @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
-        Collection<RouteInfo> routes = runTransaction((session -> {
-
-            RouteService service = null;//new RouteServiceImpl(session); // TODO: with DI
-            return service.getAll();
-        }));
-
-        req.setAttribute("routes", routes);
-        render("findTrainForm", req, resp);
-
+    @Autowired
+    public FindTrainFormControllerImpl(RouteService routeService) {
+        this.routeService = routeService;
     }
+
+    @RequestMapping(path = "/findTrainForm", method = RequestMethod.GET)
+    public String findTrainForm(Model model) {
+
+        model.addAttribute("routes", routeService.getAll());
+
+        return "findTrainForm";
+    }
+
 }
