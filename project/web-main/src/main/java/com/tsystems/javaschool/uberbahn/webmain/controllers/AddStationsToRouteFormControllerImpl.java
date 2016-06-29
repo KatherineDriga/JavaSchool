@@ -48,36 +48,4 @@ public class AddStationsToRouteFormControllerImpl {
         }
     }
 
-
-   /* @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
-        String routeTitle = getRequiredParameter("routeTitle", req);
-        int numberOfStations = getIntParameter("numberOfStations", req);
-        LocalTime timeOfDeparture = getTimeParameter("timeOfDeparture", req);
-
-        boolean existsRoute = runTransaction((session -> {
-
-            RouteService service = new RouteServiceImpl(session); // TODO: with DI
-            return service.existsRoute(routeTitle);
-        }));
-
-         if (existsRoute == true) {
-             render("addRouteError", req, resp);
-         }
-        else {
-             Collection<StationInfo> stations = runTransaction((session -> {
-
-                 StationService service = null; // TODO: with DI
-                 return service.getAll();
-             }));
-
-             req.setAttribute("stations", stations);
-             req.setAttribute("routeTitle", routeTitle);
-             req.setAttribute("numberOfStations", numberOfStations);
-             req.setAttribute("timeOfDeparture", timeOfDeparture);
-
-             render("addStationsToRouteForm", req, resp);
-         }
-    }*/
 }
