@@ -18,7 +18,7 @@ public class FindTrainFormControllerImpl extends BaseControllerImpl {
 
         Collection<RouteInfo> routes = runTransaction((session -> {
 
-            RouteService service = new RouteServiceImpl(session); // TODO: with DI
+            RouteService service = null;//new RouteServiceImpl(session); // TODO: with DI
             return service.getAll();
         }));
 

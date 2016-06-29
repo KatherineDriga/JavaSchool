@@ -3,7 +3,8 @@ package com.tsystems.javaschool.uberbahn.webmain.transports;
 public class StationInfo {
     private int id;
     private String title;
-    private String message;
+    private int timezone;
+    //private String message;
 
     public int getId() {
         return id;
@@ -21,11 +22,18 @@ public class StationInfo {
         this.title = title;
     }
 
-    public String getMessage() {
+    public int getTimezone() {
+        return timezone;
+    }
+
+    public void setTimezone(int timezone) {
+        this.timezone = timezone;
+    }
+    /*public String getMessage() {
         return message;
     }
 
     public void setMessage(String message) {
         this.message = message;
-    }
+    }*/
 }

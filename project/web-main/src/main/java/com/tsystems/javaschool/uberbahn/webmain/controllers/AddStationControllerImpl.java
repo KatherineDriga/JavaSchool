@@ -10,6 +10,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -18,7 +20,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.time.LocalDate;
 
-/*@Controller
+@RestController
 @RequestMapping("/")
 public class AddStationControllerImpl {
 
@@ -29,20 +31,15 @@ public class AddStationControllerImpl {
         this.stationService = stationService;
     }
 
-    @RequestMapping(path = "/addStation", method = RequestMethod.POST, consumes="application/json")
-    public String addStation(Model model) {
+    @RequestMapping(path = "/addStation", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
+    public StationInfo addStation(Model model, @RequestParam(name = "stationTitle") String stationTitle,
+                                          @RequestParam(name = "timezone") int timezone) {
 
-        LocalDate sinceDate = LocalDate.now();
-        LocalDate untilDate = sinceDate.plusDays(7);
-
-        model.addAttribute("stations", stationService.getAll());
-        model.addAttribute("sinceDate", sinceDate);
-        model.addAttribute("untilDate", untilDate);
-
-        return "trainTimetableSearch";
+        StationInfo stationInfo = stationService.getStationInfo(stationTitle, timezone);
+        return stationInfo;
     }
-}*/
-public class AddStationControllerImpl extends BaseControllerImpl {
+}
+/*public class AddStationControllerImpl extends BaseControllerImpl {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -61,4 +58,4 @@ public class AddStationControllerImpl extends BaseControllerImpl {
         PrintWriter out = resp.getWriter();
         mapper.writeValue(out, stationInfo);
     }
-}
+}*/

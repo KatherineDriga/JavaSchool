@@ -14,6 +14,7 @@ public interface StationService {
 
     Collection<StationInfo> getAll ();
 
-    StationInfo getStationInfo (String stationTitle);
+    StationInfo getStationInfo (String stationTitle, int timezone);
+
 
 }

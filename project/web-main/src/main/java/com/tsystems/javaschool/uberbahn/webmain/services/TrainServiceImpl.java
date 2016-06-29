@@ -127,25 +127,14 @@ public class TrainServiceImpl implements TrainService {
             Spot departure = spotRepository.findByStationIdAndRouteId(stationOfDepartureId, train.getRoute().getId());
             Spot arrival = spotRepository.findByStationIdAndRouteId(stationOfArrivalId, train.getRoute().getId());
 
-            Instant instantDeparture = null;
-            try {
-                instantDeparture = presenceRepository.findByTrainIdAndSpotId(train.getId(), departure.getId()).getInstant();
-            }
-            catch (Exception e){
-                instantDeparture = Instant.now();
-            }
+            Instant instantDeparture = presenceRepository.findByTrainIdAndSpotId(train.getId(), departure.getId()).getInstant();
 
             trainInfo.setDateOfDeparture(LocalDateTime.ofInstant(instantDeparture, ZoneId.systemDefault()).toLocalDate());
             trainInfo.setTimeOfDeparture(LocalDateTime.ofInstant(instantDeparture, ZoneId.systemDefault()).toLocalTime());
             trainInfo.setStationOfArrival(stationRepository.findOne(stationOfArrivalId).getTitle());
 
-            Instant instantArrival = null;
-            try {
-                instantArrival = presenceRepository.findByTrainIdAndSpotId(train.getId(), arrival.getId()).getInstant();
-            }
-            catch (Exception e) {
-                instantArrival = Instant.now();
-            }
+            Instant instantArrival = presenceRepository.findByTrainIdAndSpotId(train.getId(), arrival.getId()).getInstant();
+
             trainInfo.setDateOfArrival(LocalDateTime.ofInstant(instantArrival, ZoneId.systemDefault()).toLocalDate());
             trainInfo.setTimeOfArrival(LocalDateTime.ofInstant(instantArrival, ZoneId.systemDefault()).toLocalTime());
             Collection<Presence> presences = presenceRepository.findAllBetweenStationsByTrainIdAndInstant(train.getId(), since.toInstant(ZoneOffset.UTC), until.toInstant(ZoneOffset.UTC));

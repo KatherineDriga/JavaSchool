@@ -108,7 +108,7 @@ public class StationServiceImpl implements StationService {
     }
 
     @Override
-    public StationInfo getStationInfo(String stationTitle) {
+    public StationInfo getStationInfo(String stationTitle, int timezone) {
         StationInfo stationInfo = new StationInfo();
         /*Station findStation = stationRepository.findByTitle(stationTitle);
 
@@ -124,18 +124,18 @@ public class StationServiceImpl implements StationService {
             station.setSpots(spots);
             station.setDepartures(departures);
             station.setArrivals(arrivals);
+            station.setTimezone(timezone);
 
             int stationId = stationRepository.save(station).getId();
 
             if (stationId != 0){
                 stationInfo.setId(stationId);
                 stationInfo.setTitle(stationTitle);
-                stationInfo.setMessage("Station " + stationTitle + " is added");
-
             }
 
         return stationInfo;
     }
+
 
 }
 

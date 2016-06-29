@@ -29,7 +29,7 @@ public class AddRouteControllerImpl extends BaseControllerImpl {
 
         RouteInfo route = runTransaction((session -> {
 
-            RouteService service = new RouteServiceImpl(session); // TODO: with DI
+            RouteService service = null;//new RouteServiceImpl(session); // TODO: with DI
             return service.create(title,timeOfDeparture,stationIds,minutesSinceDepartures);
         }));
 

@@ -19,7 +19,7 @@ public class RouteInfoControllerImpl extends BaseControllerImpl {
 
         RouteInfo route = runTransaction((session -> {
 
-            RouteService service = new RouteServiceImpl(session); // TODO: with DI
+            RouteService service = null;// new RouteServiceImpl(session); // TODO: with DI
             return service.getById(routeId);
         }));
 

@@ -6,6 +6,7 @@ $(function () {
         errorMessageSpan.text("");
         var routeTitle = $("#routeTitle").text();
         var timeOfDeparture = $("#timeOfDeparture").text();
+        var pricePerMinute = $("#pricePerMinute").text();
 
 
         $(".stationId").each(function () {
@@ -37,7 +38,8 @@ $(function () {
                     title: routeTitle,
                     timeOfDeparture: timeOfDeparture,
                     stationIds: stationIds.join(";"),
-                    minutesSinceDepartures: minutesSinceDepartures.join(";")
+                    minutesSinceDepartures: minutesSinceDepartures.join(";"),
+                    pricePerMinute: pricePerMinute
                 },
                 success: function (data) {
                     window.location.href = "/routeInfo?"

@@ -8,26 +8,27 @@ import com.tsystems.javaschool.uberbahn.webmain.repositories.*;
 import com.tsystems.javaschool.uberbahn.webmain.transports.RouteInfo;
 import com.tsystems.javaschool.uberbahn.webmain.transports.RouteSpotInfo;
 import org.hibernate.Session;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class RouteServiceImpl extends BaseServiceImpl implements RouteService {
+@Service
+public class RouteServiceImpl implements RouteService {
 
     private final RouteRepository routeRepository;
     private final StationRepository stationRepository;
     private final SpotRepository spotRepository;
 
-
-    public RouteServiceImpl(Session session) {
-        super(session);
-        this.routeRepository = null;
-        this.stationRepository = null;
-        this.spotRepository = null; //new SpotRepositoryImpl(session);
+    @Autowired
+    public RouteServiceImpl(RouteRepository routeRepository, StationRepository stationRepository, SpotRepository  spotRepository) {
+        this.routeRepository = routeRepository;
+        this.stationRepository = stationRepository;
+        this.spotRepository = spotRepository;
     }
-
 
 
     @Override

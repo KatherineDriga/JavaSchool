@@ -34,6 +34,7 @@
     </form>
     <span hidden="true" id="timeOfDeparture">${timeOfDeparture}</span>
     <span hidden="true" id="routeTitle">${routeTitle}</span>
+    <span hidden="true" id="pricePerMinute">${pricePerMinute}</span>
 
 </section>
 <script src="static/scripts/addStationsToRouteForm.js"></script>

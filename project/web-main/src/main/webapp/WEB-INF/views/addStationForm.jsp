@@ -8,6 +8,8 @@
         <div class="form-group">
                 <p><label>Station</label>
                     <input class="form-control" type="text" id="stationTitle" required></p>
+            <p><label>Timezone</label>
+                <input class="form-control" type="number" id="timezone" required></p>
 
                 <input class="btn btn-success" id = "addStationButton" type="button" value="Add Station">
             <div>
