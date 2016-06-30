@@ -187,6 +187,24 @@ public class TrainServiceImpl implements TrainService {
         return trainInfo;
     }
 
+    @Override
+    public Collection<TrainInfo> getTrainInfos(int routeId) {
+
+        Collection<TrainInfo> trainInfos = new ArrayList<>();
+        Collection<Train> trains = trainRepository.findByRouteId(routeId);
+        trains.forEach(train -> {
+            if (!train.isArchived()) {
+                TrainInfo trainInfo = new TrainInfo();
+                trainInfo.setTrainId(train.getId());
+                trainInfo.setRouteTitle(train.getRoute().getTitle());
+                trainInfo.setDateOfDeparture(train.getDateOfDeparture());
+                trainInfos.add(trainInfo);
+            }
+        });
+
+        return trainInfos;
+    }
+
 
 
 
@@ -268,23 +286,6 @@ public class TrainServiceImpl implements TrainService {
     }
 
 
-
-
-
-    @Override
-    public Collection<FindTrainInfo> getFindTrainInfo(int routeId) {
-        Collection<FindTrainInfo> findTrainInfos = new ArrayList<>();
-        Collection<Train> trains = trainRepository.findByRouteId(routeId);
-        trains.forEach(train -> {
-            FindTrainInfo findTrainInfo = new FindTrainInfo();
-            findTrainInfo.setId(train.getId());
-            findTrainInfo.setRouteTitle(train.getRoute().getTitle());
-            findTrainInfo.setDateOfDeparture(train.getDateOfDeparture());
-            findTrainInfos.add(findTrainInfo);
-        });
-
-        return findTrainInfos;
-    }
 
     @Override
     public Collection<PassengerInfo> getPassengerInfo(int trainId) {

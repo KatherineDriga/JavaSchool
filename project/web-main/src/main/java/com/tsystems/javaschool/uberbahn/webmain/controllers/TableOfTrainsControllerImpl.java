@@ -31,7 +31,7 @@ public class TableOfTrainsControllerImpl {
     @RequestMapping(path = "/tableOfTrains", method = RequestMethod.GET)
     public String addTrainForm(Model model, @RequestParam(name = "routeId") int id) {
 
-        model.addAttribute("findTrainInfo", trainService.getFindTrainInfo(id));
+        model.addAttribute("trainInfo", trainService.getTrainInfos(id));
 
         return "tableOfTrains";
     }

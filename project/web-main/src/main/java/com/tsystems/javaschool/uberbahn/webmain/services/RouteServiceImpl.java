@@ -3,11 +3,9 @@ package com.tsystems.javaschool.uberbahn.webmain.services;
 
 import com.tsystems.javaschool.uberbahn.webmain.entities.Route;
 import com.tsystems.javaschool.uberbahn.webmain.entities.Spot;
-import com.tsystems.javaschool.uberbahn.webmain.entities.Train;
 import com.tsystems.javaschool.uberbahn.webmain.repositories.*;
 import com.tsystems.javaschool.uberbahn.webmain.transports.RouteInfo;
 import com.tsystems.javaschool.uberbahn.webmain.transports.RouteSpotInfo;
-import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -88,19 +86,6 @@ public class RouteServiceImpl implements RouteService {
 
         //return getById(route.getId());
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     @Override
     public boolean existsRoute(String title) {

@@ -21,6 +21,14 @@ public interface PresenceRepository extends JpaRepository<Presence, Integer> {
                                                                    @Param("instantDeparture")Instant instantDeparture,
                                                                    @Param("instantArrival")Instant instantArrival);
 
+    @Query("SELECT p FROM Presence AS p WHERE p.spot.station.id = :stationId " +
+            "AND p.instant >= :instantSince " +
+            "AND p.instant <= :instantUntil")
+    Collection<Presence> findByStationAndTime(@Param("stationId") int stationId,
+                                              @Param("instantSince")Instant instantSince,
+                                              @Param("instantUntil")Instant instantUntil);
+
+
 }
 
 

@@ -15,7 +15,7 @@ public interface TrainService {
 
     TrainInfo create(int routeId, LocalDate dateOfDeparture, int numberOfSeats, double priceCoefficient);
 
-    Collection<FindTrainInfo> getFindTrainInfo (int routeId);
+    Collection<TrainInfo> getTrainInfos (int routeId);
 
     Collection<PassengerInfo> getPassengerInfo (int trainId);
 }

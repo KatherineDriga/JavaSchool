@@ -3,7 +3,7 @@
 
 <section>
 <c:choose>
-    <c:when test="${empty findTrainInfo}">
+    <c:when test="${empty trainInfo}">
         <h3>No trains found!</h3>
     </c:when>
     <c:otherwise>
@@ -15,10 +15,10 @@
             <th>Route Title</th>
             <th>Date of Departure</th>
         </tr>
-        <c:forEach var="info" items="${findTrainInfo}">
+        <c:forEach var="info" items="${trainInfo}">
             <tr>
-                <td><input type="radio" name="radioButton" value="${info.id}"/></td>
-                <td>${info.id}</td>
+                <td><input type="radio" name="radioButton" value="${info.trainId}"/></td>
+                <td>${info.trainId}</td>
                 <td>${info.routeTitle}</td>
                 <td>${info.dateOfDeparture}</td>
             </tr>
