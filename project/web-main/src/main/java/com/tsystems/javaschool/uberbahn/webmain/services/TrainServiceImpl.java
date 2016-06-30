@@ -11,6 +11,8 @@ import java.math.BigDecimal;
 import java.time.*;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @Service
 public class TrainServiceImpl implements TrainService {
@@ -31,6 +33,128 @@ public class TrainServiceImpl implements TrainService {
         this.trainRepository = trainRepository;
         this.presenceRepository = presenceRepositary;
     }
+    @Override
+    public Collection<TrainInfo> getAll(int stationOfDepartureId, int stationOfArrivalId, LocalDateTime since, LocalDateTime until) {
+
+        Station stationOfDeparture = stationRepository.findOne(stationOfDepartureId);
+        int timezoneDeparture = stationOfDeparture.getTimezone();
+        Instant sinceDateTime = since.toInstant(ZoneOffset.ofHours(timezoneDeparture));
+        Instant untilDateTime = until.toInstant(ZoneOffset.ofHours(timezoneDeparture));
+
+        Collection<Train> trains = trainRepository.findByDepartureArrivalAndTime(
+                stationOfDepartureId, stationOfDepartureId, sinceDateTime, untilDateTime);
+        Collection<TrainInfo> trainInfos = new ArrayList<>();
+        trains.forEach(train -> {
+            TrainInfo trainInfo = new TrainInfo();
+            trainInfo.setTrainId(train.getId());
+            trainInfo.setRouteTitle(train.getRoute().getTitle());
+            trainInfo.setStationOfDeparture(stationRepository.findOne(stationOfDepartureId).getTitle());
+            trainInfo.setStationOfArrival(stationRepository.findOne(stationOfArrivalId).getTitle());
+
+            Collection<Presence> presences = train.getPresences();
+            boolean isDeparturePassed = false;
+            boolean isArrivalNotPassed = true;
+            int minutesDeparture = 0;
+            int minutesArrival = 0;
+
+            int ticketsAvailable = train.getNumberOfSeats();
+
+            for (Presence presence : presences) {
+                if (presence.getSpot().getStation().getId() == stationOfDepartureId) {
+                    isDeparturePassed = true;
+                    LocalDateTime datetimeDeparture = train.getDateOfDeparture()
+                            .atTime(train.getRoute().getTimeOfDeparture())
+                            .plus(presence.getSpot().getMinutesSinceDeparture(), ChronoUnit.MINUTES);
+                    trainInfo.setDateOfDeparture(datetimeDeparture.toLocalDate());
+                    trainInfo.setTimeOfDeparture(datetimeDeparture.toLocalTime());
+                    minutesDeparture = presence.getSpot().getMinutesSinceDeparture();
+                }
+                if (presence.getSpot().getStation().getId() == stationOfArrivalId) {
+                    isArrivalNotPassed = false;
+                    LocalDateTime datetimeArrival = train.getDateOfDeparture()
+                            .atTime(train.getRoute().getTimeOfDeparture())
+                            .plus(presence.getSpot().getMinutesSinceDeparture(), ChronoUnit.MINUTES);
+                    trainInfo.setDateOfArrival(datetimeArrival.toLocalDate());
+                    trainInfo.setTimeOfArrival(datetimeArrival.toLocalTime());
+                    minutesArrival = presence.getSpot().getMinutesSinceDeparture();
+
+                }
+                if (isDeparturePassed && isArrivalNotPassed) {
+                    ticketsAvailable = Math.min(presence.getNumberOfTickets(), ticketsAvailable);
+                }
+            }
+            trainInfo.setNumberOfSeatsAvailable(ticketsAvailable);
+
+            trainInfo.setTicketPrice((new BigDecimal(minutesArrival-minutesDeparture)).multiply(new BigDecimal(train.getPriceCoefficient())).multiply(train.getRoute().getPricePerMinute()));
+            if (trainInfo.getTicketPrice().compareTo(BigDecimal.ZERO) > 0){
+                trainInfos.add(trainInfo);
+            }
+        });
+        return trainInfos;
+        /*return trains.stream().map(train -> {
+
+            TrainInfo trainInfo = new TrainInfo();
+            trainInfo.setTrainId(train.getId());
+            trainInfo.setRouteTitle(train.getRoute().getTitle());
+            trainInfo.setStationOfDeparture(stationRepository.findOne(stationOfDepartureId).getTitle());
+            trainInfo.setStationOfArrival(stationRepository.findOne(stationOfArrivalId).getTitle());
+
+            Collection<Presence> presences = train.getPresences();
+            boolean isDeparturePassed = false;
+            boolean isArrivalNotPassed = true;
+            int minutesDeparture = 0;
+            int minutesArrival = 0;
+
+            int ticketsAvailable = train.getNumberOfSeats();
+
+            for (Presence presence : presences) {
+                if (presence.getSpot().getStation().getId() == stationOfDepartureId) {
+                    isDeparturePassed = true;
+                    LocalDateTime datetimeDeparture = train.getDateOfDeparture()
+                            .atTime(train.getRoute().getTimeOfDeparture())
+                            .plus(presence.getSpot().getMinutesSinceDeparture(), ChronoUnit.MINUTES);
+                    trainInfo.setDateOfDeparture(datetimeDeparture.toLocalDate());
+                    trainInfo.setTimeOfDeparture(datetimeDeparture.toLocalTime());
+                    minutesDeparture = presence.getSpot().getMinutesSinceDeparture();
+                }
+                if (presence.getSpot().getStation().getId() == stationOfArrivalId) {
+                    isArrivalNotPassed = false;
+                    LocalDateTime datetimeArrival = train.getDateOfDeparture()
+                            .atTime(train.getRoute().getTimeOfDeparture())
+                            .plus(presence.getSpot().getMinutesSinceDeparture(), ChronoUnit.MINUTES);
+                    trainInfo.setDateOfArrival(datetimeArrival.toLocalDate());
+                    trainInfo.setTimeOfArrival(datetimeArrival.toLocalTime());
+                    minutesArrival = presence.getSpot().getMinutesSinceDeparture();
+
+                }
+                if (isDeparturePassed && isArrivalNotPassed) {
+                    ticketsAvailable = Math.min(presence.getNumberOfTickets(), ticketsAvailable);
+                }
+            }
+            trainInfo.setNumberOfSeatsAvailable(ticketsAvailable);
+
+            trainInfo.setTicketPrice((new BigDecimal(minutesArrival-minutesDeparture)).multiply(new BigDecimal(train.getPriceCoefficient())).multiply(train.getRoute().getPricePerMinute()));
+            if (trainInfo.getTicketPrice().compareTo(BigDecimal.ZERO) < 0){
+                return null;
+            }
+            return trainInfo;
+        }).collect(Collectors.toList());*/
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     @Override
     public TrainTimetable getTimetable(int stationOfDepartureId,
@@ -45,7 +169,6 @@ public class TrainServiceImpl implements TrainService {
         timetable.setStationOfDeparture(stationA.getTitle());
         timetable.setStationOfArrival(stationB.getTitle());
 
-
         Collection<Route> routesPassStationA = routeRepository.findByStationId(stationA.getId());
         Collection<Route> routesPassStationB = routeRepository.findByStationId(stationA.getId());
 
@@ -56,7 +179,7 @@ public class TrainServiceImpl implements TrainService {
                         if (spotA.getRoute().getId() == spotB.getRoute().getId()
                                 && spotA.getStation().getId() == stationA.getId()
                                 && spotB.getStation().getId() == stationB.getId()
-                                && spotA.getMinutesSinceDeparture() < spotB.getMinutesSinceDeparture()){
+                                && spotA.getMinutesSinceDeparture() < spotB.getMinutesSinceDeparture()) {
                             routeA.getTrains().forEach(train -> {
                                 TrainScheduleEvent event = new TrainScheduleEvent();
                                 LocalDate dateOfDeparture = train.getDateOfDeparture();
@@ -65,7 +188,7 @@ public class TrainServiceImpl implements TrainService {
                                         .plus(spotA.getMinutesSinceDeparture(), ChronoUnit.MINUTES);
 
                                 if (datetimeOfDeparture.isBefore(until) &&
-                                        (datetimeOfDeparture.isAfter(since) || datetimeOfDeparture.isEqual(since))){
+                                        (datetimeOfDeparture.isAfter(since) || datetimeOfDeparture.isEqual(since))) {
                                     LocalDateTime datetimeOfArrival = dateOfDeparture.atTime(timeOfDeparture)
                                             .plus(spotB.getMinutesSinceDeparture(), ChronoUnit.MINUTES);
                                     event.setTrainId(train.getId());
@@ -93,164 +216,34 @@ public class TrainServiceImpl implements TrainService {
         return timetable;
     }
 
-    @Override
-    public Collection<TrainInfo> getTrainInfo(int stationOfDepartureId, int stationOfArrivalId, LocalDateTime since, LocalDateTime until) {
-        Collection<TrainInfo> trainInfos = new ArrayList<>();
-        Collection<Route> routesPassStationA = routeRepository.findByStationId(stationOfDepartureId);
-        Collection<Route> routesPassStationB = routeRepository.findByStationId(stationOfArrivalId);
-        Collection<Route> routesPassStatiobAAndB = new HashSet<>(); //get from repository
-        routesPassStationA.forEach(routeA -> {
-            routesPassStationB.forEach(routeB -> {
-                routeA.getSpots().forEach(spotA -> {
-                    routeB.getSpots().forEach(spotB -> {
-                        if (spotA.getRoute().getId() == spotB.getRoute().getId()
-                        && spotA.getStation().getId() == stationOfDepartureId
-                        && spotB.getStation().getId() == stationOfArrivalId) {
-                            routesPassStatiobAAndB.add(routeA);
-                        }
-                     });
-                });
-            });
-         });
-        Collection<Train> trains = new ArrayList<>();
-        routesPassStatiobAAndB.forEach(route -> {
-            Collection<Train> trains1  = trainRepository.findByRouteId(route.getId());
-            trains1.forEach(train1 -> {
-                trains.add(train1);
-            });
-        });
-        trains.forEach(train -> {
-            TrainInfo trainInfo = new TrainInfo();
-            trainInfo.setTrainId(train.getId());
-            trainInfo.setRouteTitle(train.getRoute().getTitle());
-            trainInfo.setStationOfDeparture(stationRepository.findOne(stationOfDepartureId).getTitle());
-            Spot departure = spotRepository.findByStationIdAndRouteId(stationOfDepartureId, train.getRoute().getId());
-            Spot arrival = spotRepository.findByStationIdAndRouteId(stationOfArrivalId, train.getRoute().getId());
 
-            Instant instantDeparture = presenceRepository.findByTrainIdAndSpotId(train.getId(), departure.getId()).getInstant();
-
-            trainInfo.setDateOfDeparture(LocalDateTime.ofInstant(instantDeparture, ZoneId.systemDefault()).toLocalDate());
-            trainInfo.setTimeOfDeparture(LocalDateTime.ofInstant(instantDeparture, ZoneId.systemDefault()).toLocalTime());
-            trainInfo.setStationOfArrival(stationRepository.findOne(stationOfArrivalId).getTitle());
-
-            Instant instantArrival = presenceRepository.findByTrainIdAndSpotId(train.getId(), arrival.getId()).getInstant();
-
-            trainInfo.setDateOfArrival(LocalDateTime.ofInstant(instantArrival, ZoneId.systemDefault()).toLocalDate());
-            trainInfo.setTimeOfArrival(LocalDateTime.ofInstant(instantArrival, ZoneId.systemDefault()).toLocalTime());
-            Collection<Presence> presences = presenceRepository.findAllBetweenStationsByTrainIdAndInstant(train.getId(), since.toInstant(ZoneOffset.UTC), until.toInstant(ZoneOffset.UTC));
-            int ticketsPurchased = 0;
-            for (Presence presence : presences){
-                if (presence.getNumberOfTickets() > ticketsPurchased) {
-                    ticketsPurchased = presence.getNumberOfTickets();
-                }
-            }
-            trainInfo.setNumberOfSeatsAvailable(train.getNumberOfSeats()-ticketsPurchased);
-            int travelTime = spotRepository.findByStationIdAndRouteId(stationOfArrivalId, train.getRoute().getId()).getMinutesSinceDeparture() - spotRepository.findByStationIdAndRouteId(stationOfDepartureId, train.getRoute().getId()).getMinutesSinceDeparture();
-            BigDecimal ticketPrice = train.getRoute().getPricePerMinute().multiply(new BigDecimal(travelTime)).multiply(new BigDecimal(train.getPriceCoefficient()));
-            trainInfo.setTicketPrice(ticketPrice);
-            trainInfos.add(trainInfo);
-        });
-
-        /*Map trInfos = new HashMap<Integer, TrainInfo>();
-        TrainTimetable timetable = getTimetable(stationOfDepartureId, stationOfArrivalId, since, until);
-        Collection<TrainScheduleEvent> events = timetable.getScheduleEvents();
-        Collection<Route> routes = new ArrayList<>();
-        events.forEach(trainScheduleEvent -> {
-            String routeTitle = trainScheduleEvent.getRouteTitle();
-            Route route = routeRepository.findByTitle(routeTitle);
-            routes.add(route);
-        });
-        routes.forEach(route -> {
-            Spot stationOfDep = spotRepository.findByStationIdAndRouteId(stationOfDepartureId, route.getId());
-            Spot stationOfArr = spotRepository.findByStationIdAndRouteId(stationOfArrivalId, route.getId());
-            Integer minutesSinceDepartureForStationA = stationOfDep.getMinutesSinceDeparture();
-            Integer minutesSinceDepartureForStationB = stationOfArr.getMinutesSinceDeparture();
-            //Collection<Spot> spots = spotRepository.findAllBetweenStationsByRouteIdAndTime(route.getId(), minutesSinceDepartureForStationA, minutesSinceDepartureForStationB);
-            Collection<Train> trains = route.getTrains();
-            trains.forEach(train -> {
-                TrainInfo info = new TrainInfo();
-                Collection<Spot> spots = route.getSpots();
-                Map stationsNumberOfPurchasedSeats = new HashMap<Integer, Integer>();
-                spots.forEach(spot -> {
-                    stationsNumberOfPurchasedSeats.put(spot.getStation().getId(), 0);
-                });
-                Collection<Ticket> tickets = train.getTickets();
-                Collection<TicketsPurchasedPerStation> ticketsPurchasedPerStations = new ArrayList<>();
-                tickets.forEach(ticket -> {
-                    int minutesSinceDepartureDep = spotRepository.findByStationIdAndRouteId(ticket.getStationOfDeparture().getId(), route.getId()).getMinutesSinceDeparture();
-                    int minutesSinceDepartureArr = spotRepository.findByStationIdAndRouteId(ticket.getStationOfArrival().getId(), route.getId()).getMinutesSinceDeparture();
-                    Collection<Spot> spotsBetweenStations = spotRepository.findAllBetweenStationsByRouteIdAndTime(route.getId(), minutesSinceDepartureDep, minutesSinceDepartureArr);
-                    spotsBetweenStations.forEach(spot -> {
-                            int numberOfSeats = (int) stationsNumberOfPurchasedSeats.get(spot.getStation().getId());
-                            numberOfSeats++;
-                            stationsNumberOfPurchasedSeats.put(spot.getStation().getId(), numberOfSeats);
-                    });
-                });
-                info.setTrainId(train.getId());
-                info.setRouteTitle(route.getTitle());
-                info.setStationOfDeparture(stationRepository.findOne(stationOfDepartureId).getTitle());
-
-                LocalDate dateOfDeparture = train.getDateOfDeparture();
-                LocalTime timeOfDeparture = route.getTimeOfDeparture();
-                LocalDateTime datetimeOfDeparture = dateOfDeparture.atTime(timeOfDeparture)
-                        .plus(minutesSinceDepartureForStationA, ChronoUnit.MINUTES);
-                LocalDateTime datetimeOfArrival = dateOfDeparture.atTime(timeOfDeparture)
-                        .plus(minutesSinceDepartureForStationB, ChronoUnit.MINUTES);
-
-                info.setDateOfDeparture(datetimeOfDeparture.toLocalDate());
-                info.setTimeOfDeparture(datetimeOfDeparture.toLocalTime());
-                info.setStationOfArrival(stationRepository.findOne(stationOfArrivalId).getTitle());
-                info.setDateOfArrival(datetimeOfArrival.toLocalDate());
-                info.setTimeOfArrival(datetimeOfArrival.toLocalTime());
-
-                Collection<Spot> spotsBetweenSearch = spotRepository.findAllBetweenStationsByRouteIdAndTime(route.getId(), minutesSinceDepartureForStationA, minutesSinceDepartureForStationB);
-                int ticketsPurchased = 0;
-                for (Spot spot : spotsBetweenSearch){
-                    int purchasedSeats = (int) stationsNumberOfPurchasedSeats.get(spot.getStation().getId());
-                    if (purchasedSeats > ticketsPurchased){
-                        ticketsPurchased = purchasedSeats;
-                    }
-                }
-                int numberOfSeatsAvailable = train.getNumberOfSeats() - ticketsPurchased;
-
-                info.setNumberOfSeatsAvailable(numberOfSeatsAvailable);
-
-                trInfos.put(train.getId(), info);
-
-                });
-            });
-        Collection<TrainInfo> trainInfos = new ArrayList<>();
-        trainInfos = trInfos.values();*/
-        return trainInfos;
-    }
 
     @Override
     public AddTrainInfo getAddTrainInfo(int routeId, LocalDate dateOfDeparture, int numberOfSeats) {
         AddTrainInfo addTrainInfo = new AddTrainInfo();
         Train findTrain = trainRepository.findByRouteIdAndDateOfDeparture(routeId, dateOfDeparture);
-        if (findTrain != null){
+        if (findTrain != null) {
             throw new RuntimeException("Train already exists");
         }
 
-            Train train = new Train();
-            Collection<Ticket> tickets = null;
-            Route route = routeRepository.findOne(routeId);
-            train.setTickets(tickets);
-            train.setRoute(route);
-            train.setDateOfDeparture(dateOfDeparture);
-            train.setNumberOfSeats(numberOfSeats);
+        Train train = new Train();
+        Collection<Ticket> tickets = null;
+        Route route = routeRepository.findOne(routeId);
+        train.setTickets(tickets);
+        train.setRoute(route);
+        train.setDateOfDeparture(dateOfDeparture);
+        train.setNumberOfSeats(numberOfSeats);
 
-            int trainId = trainRepository.save(train).getId();
+        int trainId = trainRepository.save(train).getId();
 
-            if (trainId != 0){
-                addTrainInfo.setId(trainId);
-                addTrainInfo.setRouteId(routeId);
-                addTrainInfo.setDateOfDeparture(dateOfDeparture);
-                addTrainInfo.setNumberOfSeats(numberOfSeats);
-                addTrainInfo.setMessage("Train " + trainId + " is added");
+        if (trainId != 0) {
+            addTrainInfo.setId(trainId);
+            addTrainInfo.setRouteId(routeId);
+            addTrainInfo.setDateOfDeparture(dateOfDeparture);
+            addTrainInfo.setNumberOfSeats(numberOfSeats);
+            addTrainInfo.setMessage("Train " + trainId + " is added");
 
-            }
-
+        }
 
         return addTrainInfo;
     }

@@ -2,7 +2,6 @@ package com.tsystems.javaschool.uberbahn.webmain.controllers;
 
 
 import com.tsystems.javaschool.uberbahn.webmain.services.TrainService;
-import com.tsystems.javaschool.uberbahn.webmain.services.TrainServiceImpl;
 import com.tsystems.javaschool.uberbahn.webmain.transports.TrainInfo;
 
 import javax.servlet.ServletException;
@@ -30,7 +29,7 @@ public class TrainChooseControllerImpl extends BaseControllerImpl {
         Collection<TrainInfo> trains = runTransaction((session -> {
 
             TrainService service = null; //new TrainServiceImpl(session); // TODO: with DI
-            return service.getTrainInfo(stationOfDeparture, stationOfArrival, since, until);
+            return service.getAll(stationOfDeparture, stationOfArrival, since, until);
         }));
 
 

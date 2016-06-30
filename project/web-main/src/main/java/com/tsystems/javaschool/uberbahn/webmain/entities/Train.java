@@ -28,6 +28,7 @@ public class Train extends BaseEntity {
     private double priceCoefficient;
 
     @OneToMany (cascade = CascadeType.ALL, mappedBy = "train", fetch = FetchType.EAGER)
+    @OrderBy("instant ASC")
     private Collection<Presence> presences;
 
     @Column(name = "archived")

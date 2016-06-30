@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Controller
@@ -29,7 +28,7 @@ public class ListOfTrainsTableControllerImpl {
                                    @RequestParam(name = "since") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime since,
                                    @RequestParam(name = "until") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime until) {
 
-        model.addAttribute("trains", trainService.getTrainInfo(stationOfDepartureId, stationOfArrivalId, since, until));
+        model.addAttribute("trains", trainService.getAll(stationOfDepartureId, stationOfArrivalId, since, until));
         model.addAttribute("stationOfDepartureId", stationOfDepartureId);
         model.addAttribute("stationOfArrivalId", stationOfArrivalId);
         return "listOfTrains";

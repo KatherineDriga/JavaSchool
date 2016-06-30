@@ -45,22 +45,22 @@ public class StationServiceImpl implements StationService {
 
         station.getSpots().forEach(spot -> {
             Collection<Presence> presences = spot.getPresences();
-                presences.forEach(presence -> {
-                    if (presence.getInstant().isAfter(since.toInstant(ZoneOffset.UTC)) &&
-                            presence.getInstant().isBefore(until.toInstant(ZoneOffset.UTC))){
+            presences.forEach(presence -> {
+                if (presence.getInstant().isAfter(since.toInstant(ZoneOffset.UTC)) &&
+                        presence.getInstant().isBefore(until.toInstant(ZoneOffset.UTC))) {
 
-                        StationScheduleEvent event = new StationScheduleEvent();
-                        event.setDate(LocalDateTime.ofInstant(presence.getInstant(), ZoneId.systemDefault()).toLocalDate());
-                        event.setTime(LocalDateTime.ofInstant(presence.getInstant(), ZoneId.systemDefault()).toLocalTime());
-                        event.setRoute(presence.getTrain().getRoute().getTitle());
-                        List<Spot> spots = presence.getTrain().getRoute().getSpots();
-                        event.setDepartsFrom(spots.get(0).getStation().getTitle());
-                        event.setArrivesAt(spots.get(spots.size()-1).getStation().getTitle());
-                        event.setTrain(presence.getTrain().getId());
-                        events.add(event);
+                    StationScheduleEvent event = new StationScheduleEvent();
+                    event.setDate(LocalDateTime.ofInstant(presence.getInstant(), ZoneId.systemDefault()).toLocalDate());
+                    event.setTime(LocalDateTime.ofInstant(presence.getInstant(), ZoneId.systemDefault()).toLocalTime());
+                    event.setRoute(presence.getTrain().getRoute().getTitle());
+                    List<Spot> spots = presence.getTrain().getRoute().getSpots();
+                    event.setDepartsFrom(spots.get(0).getStation().getTitle());
+                    event.setArrivesAt(spots.get(spots.size() - 1).getStation().getTitle());
+                    event.setTrain(presence.getTrain().getId());
+                    events.add(event);
 
-                    }
-                });
+                }
+            });
         });
 
 
@@ -98,40 +98,33 @@ public class StationServiceImpl implements StationService {
     public Collection<StationInfo> getAll() {
         Collection<StationInfo> result = new ArrayList<>();
 
-       stationRepository.findAll().forEach(station -> {
-           StationInfo info = new StationInfo();
-           info.setId(station.getId());
-           info.setTitle(station.getTitle());
-           result.add(info);
-       });
+        stationRepository.findAll().forEach(station -> {
+            StationInfo info = new StationInfo();
+            info.setId(station.getId());
+            info.setTitle(station.getTitle());
+            result.add(info);
+        });
         return result;
     }
 
     @Override
-    public StationInfo getStationInfo(String stationTitle, int timezone) {
+    public StationInfo create(String stationTitle, int timezone) {
+
+        Station station = new Station();
+        Collection<Spot> spots = null;
+        Collection<Ticket> departures = null;
+        Collection<Ticket> arrivals = null;
+        station.setTitle(stationTitle);
+        station.setSpots(spots);
+        station.setDepartures(departures);
+        station.setArrivals(arrivals);
+        station.setTimezone(timezone);
+
+        int stationId = stationRepository.save(station).getId();
+
         StationInfo stationInfo = new StationInfo();
-        /*Station findStation = stationRepository.findByTitle(stationTitle);
-
-        if (findStation != null){
-            throw new RuntimeException("Station already exists");
-        }
-        else {*/
-            Station station = new Station();
-            Collection<Spot> spots = null;
-            Collection<Ticket> departures = null;
-            Collection<Ticket> arrivals = null;
-            station.setTitle(stationTitle);
-            station.setSpots(spots);
-            station.setDepartures(departures);
-            station.setArrivals(arrivals);
-            station.setTimezone(timezone);
-
-            int stationId = stationRepository.save(station).getId();
-
-            if (stationId != 0){
-                stationInfo.setId(stationId);
-                stationInfo.setTitle(stationTitle);
-            }
+        stationInfo.setId(stationId);
+        stationInfo.setTitle(stationTitle);
 
         return stationInfo;
     }
