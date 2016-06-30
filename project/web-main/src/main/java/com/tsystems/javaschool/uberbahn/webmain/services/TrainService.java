@@ -13,7 +13,7 @@ public interface TrainService {
 
     Collection<TrainInfo> getAll(int stationOfDepartureId, int stationOfArrivalId, LocalDateTime since, LocalDateTime until);
 
-    AddTrainInfo getAddTrainInfo (int routeId, LocalDate dateOfDeparture, int numberOfSeats);
+    TrainInfo create(int routeId, LocalDate dateOfDeparture, int numberOfSeats, double priceCoefficient);
 
     Collection<FindTrainInfo> getFindTrainInfo (int routeId);
 

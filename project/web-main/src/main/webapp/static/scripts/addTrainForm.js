@@ -8,6 +8,7 @@ $(function () {
         var routeId = $("#route").val();
         var dateOfDeparture = $("#dateOfDeparture").val();
         var numberOfSeats = $("#numberOfSeats").val();
+        var priceCoefficient = $("#priceCoefficient").val();
 
         if ($("#route").val() == "null") {
             errorMessageSpan.text("Choose route");
@@ -18,6 +19,9 @@ $(function () {
         else if ($("#numberOfSeats").val().length == 0 || $("#numberOfSeats").val() < 1){
             errorMessageSpan.text("Enter number of seats");
         }
+        else if ($("#priceCoefficient").val().length == 0 || $("#priceCoefficient").val() < 0){
+            errorMessageSpan.text("Enter price coefficient");
+        }
         else {
             $.ajax({
                 type: "POST",
@@ -25,12 +29,12 @@ $(function () {
                 data: {
                     routeId: routeId,
                     dateOfDeparture: dateOfDeparture,
-                    numberOfSeats: numberOfSeats
+                    numberOfSeats: numberOfSeats,
+                    priceCoefficient: priceCoefficient
                 },
                 success: function (data) {
                     window.location.href = "/addedTrain?"
-                        + "trainId=" + data.id + "&"
-                        + "message=" + data.message;
+                        + "trainId=" + data.trainId;
                 },
                 error: function (error) {
                     errorMessageSpan.text("Train already exists");

@@ -2,29 +2,29 @@ package com.tsystems.javaschool.uberbahn.webmain.controllers;
 
 
 import com.tsystems.javaschool.uberbahn.webmain.services.RouteService;
-import com.tsystems.javaschool.uberbahn.webmain.services.RouteServiceImpl;
-import com.tsystems.javaschool.uberbahn.webmain.transports.RouteInfo;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
+@Controller
+@RequestMapping("/")
+public class RouteInfoControllerImpl {
 
-public class RouteInfoControllerImpl extends BaseControllerImpl {
+    private final RouteService routeService;
 
-    @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
-        int routeId = getIntParameter("routeId", req);
-
-        RouteInfo route = runTransaction((session -> {
-
-            RouteService service = null;// new RouteServiceImpl(session); // TODO: with DI
-            return service.getById(routeId);
-        }));
-
-        req.setAttribute("route", route);
-
-        render("routeInfo", req, resp);
+    @Autowired
+    public RouteInfoControllerImpl(RouteService routeService) {
+        this.routeService = routeService;
     }
+
+    @RequestMapping(path = "/routeInfo", method = RequestMethod.GET)
+    public String showRouteInfo(Model model, @RequestParam(name = "routeId") int routeId) {
+
+        model.addAttribute("route", routeService.getById(routeId));
+        return "routeInfo";
+    }
+
 }

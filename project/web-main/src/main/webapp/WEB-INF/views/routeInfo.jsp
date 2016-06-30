@@ -13,6 +13,7 @@
         <li>${spot.stationTitle}</li>
     </c:forEach>
     </ul>
+    <p>Price per Minute: ${route.pricePerMinute}</p>
 
 
 

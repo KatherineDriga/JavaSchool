@@ -9,7 +9,7 @@ public class AddTrainInfo {
     private int routeId;
     private LocalDate dateOfDeparture;
     private int numberOfSeats;
-    private String message;
+    private double priceCoefficient;
 
     public int getId() {
         return id;
@@ -43,11 +43,11 @@ public class AddTrainInfo {
         this.numberOfSeats = numberOfSeats;
     }
 
-    public String getMessage() {
-        return message;
+    public double getPriceCoefficient() {
+        return priceCoefficient;
     }
 
-    public void setMessage(String message) {
-        this.message = message;
+    public void setPriceCoefficient(double priceCoefficient) {
+        this.priceCoefficient = priceCoefficient;
     }
 }

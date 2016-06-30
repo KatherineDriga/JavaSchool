@@ -6,6 +6,9 @@ import com.tsystems.javaschool.uberbahn.webmain.repositories.*;
 import com.tsystems.javaschool.uberbahn.webmain.transports.TicketInfo;
 import com.tsystems.javaschool.uberbahn.webmain.transports.TicketsPurchasedPerStation;
 import org.hibernate.Session;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -14,7 +17,9 @@ import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Collection;
 
-public class TicketServiceImpl extends BaseServiceImpl implements TicketService {
+@Service
+@Transactional
+public class TicketServiceImpl implements TicketService {
 
     private final TrainRepository trainRepository;
     private final StationRepository stationRepository;
@@ -23,14 +28,14 @@ public class TicketServiceImpl extends BaseServiceImpl implements TicketService 
     private final RouteRepository routeRepository;
     private final SpotRepository spotRepository;
 
-    public TicketServiceImpl(Session session) {
-        super(session);
-        this.trainRepository = null;//TrainRepositoryImpl(session);
-        this.stationRepository = null;
-        this.accountRepository = new AccountRepositoryImpl(session);
-        this.ticketRepository = null; //new TicketRepositoryImpl(session);
-        this.routeRepository = null;
-        this.spotRepository = null; //new SpotRepositoryImpl(session);
+    @Autowired
+    public TicketServiceImpl(TrainRepository trainRepository, StationRepository stationRepository, AccountRepository accountRepository, TicketRepository ticketRepository, RouteRepository routeRepository, SpotRepository spotRepository) {
+        this.trainRepository = trainRepository;
+        this.stationRepository = stationRepository;
+        this.accountRepository = accountRepository;
+        this.ticketRepository = ticketRepository;
+        this.routeRepository = routeRepository;
+        this.spotRepository = spotRepository;
     }
 
     @Override
@@ -55,7 +60,7 @@ public class TicketServiceImpl extends BaseServiceImpl implements TicketService 
         Station stationOfDeparture = stationRepository.findOne(stationOfDepartureId);
         Station stationOfArrival = stationRepository.findOne(stationOfArrivalId);
         LocalDateTime datetimeOfPurchase = LocalDateTime.now();
-        Account account = accountRepository.findById(accountId);
+        Account account = accountRepository.findOne(accountId);
         Spot spotDeparture = spotRepository.findByStationIdAndRouteId(stationOfDepartureId, route.getId());
         Spot spotArrival = spotRepository.findByStationIdAndRouteId(stationOfArrivalId, route.getId());
         LocalDate dateOfDeparture = train.getDateOfDeparture();

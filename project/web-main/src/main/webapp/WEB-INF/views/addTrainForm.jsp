@@ -21,6 +21,9 @@
         <p><label>Number of Seats</label>
             <input class="form-control" type="number" id = "numberOfSeats" />
         </p>
+        <p><label>Price Coefficient</label>
+            <input class="form-control" type="number" step="0.01" id = "priceCoefficient" />
+        </p>
 
 
         <input class="btn btn-success" id = "addTrainButton" type="button" value="Add Train">

@@ -10,13 +10,17 @@ import com.tsystems.javaschool.uberbahn.webmain.transports.RouteSpotInfo;
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
+@Transactional
 public class RouteServiceImpl implements RouteService {
 
     private final RouteRepository routeRepository;
@@ -29,6 +33,73 @@ public class RouteServiceImpl implements RouteService {
         this.stationRepository = stationRepository;
         this.spotRepository = spotRepository;
     }
+
+    @Override
+    public RouteInfo getById(int id) {
+        Route route = routeRepository.findOne(id);
+        RouteInfo routeInfo = new RouteInfo();
+        routeInfo.setId(id);
+        routeInfo.setTitle(route.getTitle());
+        routeInfo.setTimeOfDeparture(route.getTimeOfDeparture());
+        Collection<RouteSpotInfo> routeSpotInfos = route.getSpots().stream().map(spot -> {
+            RouteSpotInfo spotInfo = new RouteSpotInfo();
+            spotInfo.setStationTitle(spot.getStation().getTitle());
+            spotInfo.setMinutesSinceDeparture(spot.getMinutesSinceDeparture());
+            return spotInfo;
+        }).collect(Collectors.toList());
+        routeInfo.setSpots(routeSpotInfos);
+        routeInfo.setPricePerMinute(route.getPricePerMinute());
+        return routeInfo;
+    }
+
+    @Override
+    public RouteInfo create(String title, LocalTime timeOfDeparture, List<Integer> stationIds, List<Integer> minutesSinceDepartures, BigDecimal pricePerMinute) {
+        Route findRoute = routeRepository.findByTitle(title);
+        if (findRoute != null) {
+            throw new RuntimeException("Route already exists");
+        }
+
+        Route route = new Route();
+        route.setTitle(title);
+        route.setTimeOfDeparture(timeOfDeparture);
+        route.setPricePerMinute(pricePerMinute);
+        int routeId = routeRepository.save(route).getId();
+
+        Collection<RouteSpotInfo> routeSpotInfos = new ArrayList<>();
+
+        for (int i=0; i<stationIds.size(); i++) {
+            Spot spot = new Spot();
+            spot.setRoute(route);
+            spot.setMinutesSinceDeparture(minutesSinceDepartures.get(i));
+            spot.setStation(stationRepository.findOne(stationIds.get(i)));
+            spotRepository.save(spot);
+            RouteSpotInfo spotInfo = new RouteSpotInfo();
+            spotInfo.setStationTitle(spot.getStation().getTitle());
+            spotInfo.setMinutesSinceDeparture(spot.getMinutesSinceDeparture());
+            routeSpotInfos.add(spotInfo);
+        }
+        RouteInfo routeInfo = new RouteInfo();
+        routeInfo.setId(routeId);
+        routeInfo.setTitle(title);
+        routeInfo.setTimeOfDeparture(timeOfDeparture);
+        routeInfo.setSpots(routeSpotInfos);
+        routeInfo.setPricePerMinute(route.getPricePerMinute());
+        return routeInfo;
+
+        //return getById(route.getId());
+    }
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     @Override
@@ -52,42 +123,5 @@ public class RouteServiceImpl implements RouteService {
         });
         return result;
     }
-
-    @Override
-    public RouteInfo create(String title, LocalTime timeOfDeparture, List<Integer> stationIds, List<Integer> minutesSinceDepartures) {
-        Route route = new Route();
-        route.setTitle(title);
-        route.setTimeOfDeparture(timeOfDeparture);
-        route = routeRepository.save(route);
-
-        for (int i=0; i<stationIds.size(); i++) {
-            Spot spot = new Spot();
-            spot.setRoute(route);
-            spot.setMinutesSinceDeparture(minutesSinceDepartures.get(i));
-            spot.setStation(stationRepository.findOne(stationIds.get(i)));
-            spotRepository.save(spot);
-
-        }
-        return getById(route.getId());
-    }
-
-    @Override
-    public RouteInfo getById(int id) {
-        Route route = routeRepository.findOne(id);
-        RouteInfo routeInfo = new RouteInfo();
-        routeInfo.setId(route.getId());
-        routeInfo.setTitle(route.getTitle());
-        routeInfo.setTimeOfDeparture(route.getTimeOfDeparture());
-        Collection<RouteSpotInfo> routeSpotInfos = new ArrayList<>();
-        route.getSpots().forEach(spot -> {
-            RouteSpotInfo spotInfo = new RouteSpotInfo();
-            spotInfo.setStationTitle(spot.getStation().getTitle());
-            spotInfo.setMinutesSinceDeparture(spot.getMinutesSinceDeparture());
-            routeSpotInfos.add(spotInfo);
-        });
-        routeInfo.setSpots(routeSpotInfos);
-        return routeInfo;
-    }
-
 
 }

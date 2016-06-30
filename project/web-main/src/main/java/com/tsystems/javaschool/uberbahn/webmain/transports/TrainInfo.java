@@ -18,6 +18,7 @@ public class TrainInfo {
     private LocalTime timeOfArrival;
     private int numberOfSeatsAvailable;
     private BigDecimal ticketPrice;
+    private int numberOfSeats;
     //private Collection<TicketsPurchasedPerStation> ticketsPurchasedPerStations;
 
     public int getTrainId() {
@@ -99,6 +100,15 @@ public class TrainInfo {
     public void setTicketPrice(BigDecimal ticketPrice) {
         this.ticketPrice = ticketPrice;
     }
+
+    public int getNumberOfSeats() {
+        return numberOfSeats;
+    }
+
+    public void setNumberOfSeats(int numberOfSeats) {
+        this.numberOfSeats = numberOfSeats;
+    }
+
     /*public Collection<TicketsPurchasedPerStation> getTicketsPurchasedPerStations() {
         return ticketsPurchasedPerStations;
     }

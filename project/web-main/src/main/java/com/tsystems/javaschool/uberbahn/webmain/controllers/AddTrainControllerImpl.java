@@ -1,38 +1,35 @@
 package com.tsystems.javaschool.uberbahn.webmain.controllers;
 
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tsystems.javaschool.uberbahn.webmain.services.TrainService;
-import com.tsystems.javaschool.uberbahn.webmain.services.TrainServiceImpl;
-import com.tsystems.javaschool.uberbahn.webmain.transports.AddTrainInfo;
+import com.tsystems.javaschool.uberbahn.webmain.transports.TrainInfo;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.time.LocalDate;
 
-public class AddTrainControllerImpl extends BaseControllerImpl {
+@RestController
+@RequestMapping("/")
+public class AddTrainControllerImpl {
 
-    @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    private final TrainService trainService;
 
-        int routeId = getIntParameter("routeId", req);
-        LocalDate dateOfDeparture = getDateParameter("dateOfDeparture", req);
-        int numberOfSeats = getIntParameter("numberOfSeats", req);
+    @Autowired
+    public AddTrainControllerImpl(TrainService trainService) {
+        this.trainService = trainService;
+    }
 
-        AddTrainInfo addTrainInfo = runTransaction((session -> {
+    @RequestMapping(path = "/addTrain", method = RequestMethod.POST, produces = "application/json")
+    public TrainInfo addTrain(@RequestParam(name = "routeId") int routeId,
+                              @RequestParam(name = "dateOfDeparture") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dateOfDeparture,
+                              @RequestParam(name = "numberOfSeats") int numberOfSeats,
+                              @RequestParam(name = "priceCoefficient") double priceCoefficient) {
 
-            TrainService service = null;//new TrainServiceImpl(session); // TODO: with DI
-            return service.getAddTrainInfo(routeId, dateOfDeparture, numberOfSeats);
-        }));
-
-        ObjectMapper mapper = new ObjectMapper();
-        resp.setContentType("application/json");
-        PrintWriter out = resp.getWriter();
-        mapper.writeValue(out, addTrainInfo);
-
-
+        TrainInfo trainInfo = trainService.create(routeId, dateOfDeparture, numberOfSeats, priceCoefficient);
+        return trainInfo;
     }
 }

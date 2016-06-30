@@ -21,7 +21,7 @@ public class PurchasedTicketControllerImpl extends BaseControllerImpl {
 
         TicketInfo ticket = runTransaction((session -> {
 
-            TicketService service = new TicketServiceImpl(session); // TODO: with DI
+            TicketService service = null;//new TicketServiceImpl(session); // TODO: with DI
             return service.getTicketInfoByTicketId(ticketId);
         }));
 

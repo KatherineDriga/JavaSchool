@@ -143,6 +143,55 @@ public class TrainServiceImpl implements TrainService {
         }).collect(Collectors.toList());*/
     }
 
+    @Override
+    public TrainInfo create(int routeId, LocalDate dateOfDeparture, int numberOfSeats, double priceCoefficient) {
+
+        Train findTrain = trainRepository.findByRouteIdAndDateOfDeparture(routeId, dateOfDeparture);
+        if (findTrain != null) {
+            throw new RuntimeException("Train already exists");
+        }
+
+        Train train = new Train();
+        Collection<Ticket> tickets = null;
+        Route route = routeRepository.findOne(routeId);
+        train.setTickets(tickets);
+        train.setRoute(route);
+        train.setDateOfDeparture(dateOfDeparture);
+        train.setNumberOfSeats(numberOfSeats);
+        train.setPriceCoefficient(priceCoefficient);
+        train.setArchived(false);
+
+        int trainId = trainRepository.save(train).getId();
+
+        Train addedTrain = trainRepository.findOne(trainId);
+        Collection<Spot> spots = spotRepository.findByRouteId(routeId);
+        spots.forEach(spot -> {
+            Presence presence = new Presence();
+            presence.setTrain(addedTrain);
+            presence.setSpot(spot);
+            Instant instant = addedTrain.getDateOfDeparture()
+                    .atTime(addedTrain.getRoute().getTimeOfDeparture())
+                    .plus(spot.getMinutesSinceDeparture(), ChronoUnit.MINUTES)
+                    .toInstant(ZoneOffset.ofHours(spot.getStation().getTimezone()));
+            presence.setInstant(instant);
+            presence.setNumberOfTickets(0);
+            presenceRepository.save(presence);
+        });
+
+        TrainInfo trainInfo = new TrainInfo();
+        trainInfo.setTrainId(trainId);
+        trainInfo.setRouteTitle(routeRepository.findOne(routeId).getTitle());
+        trainInfo.setDateOfDeparture(dateOfDeparture);
+        trainInfo.setNumberOfSeats(numberOfSeats);
+
+        return trainInfo;
+    }
+
+
+
+
+
+
 
 
 
@@ -220,35 +269,7 @@ public class TrainServiceImpl implements TrainService {
 
 
 
-    @Override
-    public AddTrainInfo getAddTrainInfo(int routeId, LocalDate dateOfDeparture, int numberOfSeats) {
-        AddTrainInfo addTrainInfo = new AddTrainInfo();
-        Train findTrain = trainRepository.findByRouteIdAndDateOfDeparture(routeId, dateOfDeparture);
-        if (findTrain != null) {
-            throw new RuntimeException("Train already exists");
-        }
 
-        Train train = new Train();
-        Collection<Ticket> tickets = null;
-        Route route = routeRepository.findOne(routeId);
-        train.setTickets(tickets);
-        train.setRoute(route);
-        train.setDateOfDeparture(dateOfDeparture);
-        train.setNumberOfSeats(numberOfSeats);
-
-        int trainId = trainRepository.save(train).getId();
-
-        if (trainId != 0) {
-            addTrainInfo.setId(trainId);
-            addTrainInfo.setRouteId(routeId);
-            addTrainInfo.setDateOfDeparture(dateOfDeparture);
-            addTrainInfo.setNumberOfSeats(numberOfSeats);
-            addTrainInfo.setMessage("Train " + trainId + " is added");
-
-        }
-
-        return addTrainInfo;
-    }
 
     @Override
     public Collection<FindTrainInfo> getFindTrainInfo(int routeId) {
