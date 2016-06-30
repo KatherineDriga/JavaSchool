@@ -7,6 +7,7 @@ import com.tsystems.javaschool.uberbahn.webmain.transports.StationScheduleEvent;
 import com.tsystems.javaschool.uberbahn.webmain.transports.StationTimetable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.*;
 import java.time.temporal.ChronoUnit;
@@ -15,6 +16,7 @@ import java.util.Collection;
 import java.util.List;
 
 @Service
+@Transactional
 public class StationServiceImpl implements StationService {
 
     private final RouteRepository routeRepository;
@@ -29,6 +31,37 @@ public class StationServiceImpl implements StationService {
         this.presenceRepository = presenceRepository;
         this.trainRepository = trainRepository;
     }
+    @Override
+    public StationInfo create(String stationTitle, int timezone) {
+
+        Station station = new Station();
+        Collection<Spot> spots = null;
+        Collection<Ticket> departures = null;
+        Collection<Ticket> arrivals = null;
+        station.setTitle(stationTitle);
+        station.setSpots(spots);
+        station.setDepartures(departures);
+        station.setArrivals(arrivals);
+        station.setTimezone(timezone);
+
+        int stationId = stationRepository.save(station).getId();
+
+        StationInfo stationInfo = new StationInfo();
+        stationInfo.setId(stationId);
+        stationInfo.setTitle(stationTitle);
+
+        return stationInfo;
+    }
+
+
+
+
+
+
+
+
+
+
 
 
     @Override
@@ -107,27 +140,7 @@ public class StationServiceImpl implements StationService {
         return result;
     }
 
-    @Override
-    public StationInfo create(String stationTitle, int timezone) {
 
-        Station station = new Station();
-        Collection<Spot> spots = null;
-        Collection<Ticket> departures = null;
-        Collection<Ticket> arrivals = null;
-        station.setTitle(stationTitle);
-        station.setSpots(spots);
-        station.setDepartures(departures);
-        station.setArrivals(arrivals);
-        station.setTimezone(timezone);
-
-        int stationId = stationRepository.save(station).getId();
-
-        StationInfo stationInfo = new StationInfo();
-        stationInfo.setId(stationId);
-        stationInfo.setTitle(stationTitle);
-
-        return stationInfo;
-    }
 
 
 }

@@ -10,11 +10,19 @@ import java.util.Collection;
 
 public interface StationService {
 
+    StationInfo create(String stationTitle, int timezone);
+
+
+
+
+
+
+
     StationTimetable getTimetable (int stationId, LocalDateTime since, LocalDateTime until);
 
     Collection<StationInfo> getAll ();
 
-    StationInfo create(String stationTitle, int timezone);
+
 
 
 }

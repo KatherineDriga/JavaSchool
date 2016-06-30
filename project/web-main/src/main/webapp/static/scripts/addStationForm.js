@@ -27,8 +27,7 @@ $(function () {
                         + "title=" + data.title;
                 },
                 error: function (error) {
-                    //errorMessageSpan.text("Station already exists");
-                    errorMessageSpan.text("Error");
+                    errorMessageSpan.text("Station already exists");
                 }
             });
         }
