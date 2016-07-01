@@ -1,5 +1,6 @@
 package com.tsystems.javaschool.uberbahn.webmain.transports;
 
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
@@ -7,6 +8,7 @@ public class StationScheduleEvent {
 
     private LocalDate date;
     private LocalTime time;
+    private Instant datetime;
     private String route;
     private String departsFrom;
     private String arrivesAt;
@@ -58,5 +60,13 @@ public class StationScheduleEvent {
 
     public void setTrain(int train) {
         this.train = train;
+    }
+
+    public Instant getDatetime() {
+        return datetime;
+    }
+
+    public void setDatetime(Instant datetime) {
+        this.datetime = datetime;
     }
 }

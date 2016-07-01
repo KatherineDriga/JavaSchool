@@ -13,6 +13,7 @@
             <tr>
                 <th>Date</th>
                 <th>Time On Station</th>
+                <th>Date and Time on Station <br />(local)</th>
                 <th>Route</th>
                 <th>Departs from</th>
                 <th>Arrives at</th>
@@ -24,6 +25,7 @@
                 <tr>
                     <td>${event.date}</td>
                     <td>${event.time}</td>
+                    <td>${event.datetime}</td>
                     <td>${event.route}</td>
                     <td>${event.departsFrom}</td>
                     <td>${event.arrivesAt}</td>

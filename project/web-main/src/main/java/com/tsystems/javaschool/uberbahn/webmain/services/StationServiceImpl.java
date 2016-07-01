@@ -84,6 +84,7 @@ public class StationServiceImpl implements StationService {
             StationScheduleEvent event = new StationScheduleEvent();
             event.setDate(LocalDateTime.ofInstant(presence.getInstant(),ZoneOffset.ofHours(presence.getSpot().getStation().getTimezone())).toLocalDate());
             event.setTime(LocalDateTime.ofInstant(presence.getInstant(),ZoneOffset.ofHours(presence.getSpot().getStation().getTimezone())).toLocalTime());
+            event.setDatetime(presence.getInstant());
             event.setRoute(presence.getTrain().getRoute().getTitle());
             List<Spot> spots = presence.getTrain().getRoute().getSpots();
             event.setDepartsFrom(spots.get(0).getStation().getTitle());
