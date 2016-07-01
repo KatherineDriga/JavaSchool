@@ -16,7 +16,7 @@ public interface PresenceRepository extends JpaRepository<Presence, Integer> {
 
     @Query("SELECT p FROM Presence AS p WHERE p.train.id = :trainId " +
             "AND p.instant >= :instantDeparture " +
-            "AND p.instant <= :instantArrival")
+            "AND p.instant < :instantArrival")
     Collection<Presence> findAllBetweenStationsByTrainIdAndInstant(@Param("trainId") int trainId,
                                                                    @Param("instantDeparture")Instant instantDeparture,
                                                                    @Param("instantArrival")Instant instantArrival);
@@ -27,6 +27,9 @@ public interface PresenceRepository extends JpaRepository<Presence, Integer> {
     Collection<Presence> findByStationAndTime(@Param("stationId") int stationId,
                                               @Param("instantSince")Instant instantSince,
                                               @Param("instantUntil")Instant instantUntil);
+
+    @Query("SELECT p FROM Presence AS p WHERE p.train.id = :trainId")
+    Collection<Presence> findByTrainId(@Param("trainId") int trainId);
 
 
 }

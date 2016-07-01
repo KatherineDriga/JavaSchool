@@ -10,9 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
+import java.math.BigDecimal;
+import java.time.*;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -27,59 +26,74 @@ public class TicketServiceImpl implements TicketService {
     private final TicketRepository ticketRepository;
     private final RouteRepository routeRepository;
     private final SpotRepository spotRepository;
+    private final PresenceRepository presenceRepository;
 
     @Autowired
-    public TicketServiceImpl(TrainRepository trainRepository, StationRepository stationRepository, AccountRepository accountRepository, TicketRepository ticketRepository, RouteRepository routeRepository, SpotRepository spotRepository) {
+    public TicketServiceImpl(TrainRepository trainRepository, StationRepository stationRepository, AccountRepository accountRepository, TicketRepository ticketRepository, RouteRepository routeRepository, SpotRepository spotRepository, PresenceRepository presenceRepository) {
         this.trainRepository = trainRepository;
         this.stationRepository = stationRepository;
         this.accountRepository = accountRepository;
         this.ticketRepository = ticketRepository;
         this.routeRepository = routeRepository;
         this.spotRepository = spotRepository;
+        this.presenceRepository = presenceRepository;
     }
 
     @Override
-    public TicketInfo getTicketInfo(int trainId, int stationOfDepartureId, int stationOfArrivalId, String firstName, String lastName, LocalDate dateOfBirth, int accountId) {
-        TicketInfo ticketInfo = new TicketInfo();
+    public TicketInfo create(int trainId, int stationOfDepartureId, int stationOfArrivalId, String firstName, String lastName, LocalDate dateOfBirth, int accountId) {
 
         Train train = trainRepository.findOne(trainId);
-        Route route = routeRepository.findOne(train.getRoute().getId());
-        Spot stationOfDep = spotRepository.findByStationIdAndRouteId(stationOfDepartureId, route.getId());
-        Spot stationOfArr = spotRepository.findByStationIdAndRouteId(stationOfArrivalId, route.getId());
-        Integer minutesSinceDepartureForStationA = stationOfDep.getMinutesSinceDeparture();
-        Integer minutesSinceDepartureForStationB = stationOfArr.getMinutesSinceDeparture();
-        Collection<Spot> spots = null; //spotRepository.findAllBetweenStationsByRouteIdAndTime(route.getId(), minutesSinceDepartureForStationA, minutesSinceDepartureForStationB);
-        spots.forEach(spot -> {
-            Collection<Ticket> tickets = ticketRepository.getByTrainIdAndStationOfDeparture(train.getId(), spot.getStation().getId());
-            int ticketsPurchasedPerStation = tickets.size();
-            if (ticketsPurchasedPerStation == train.getNumberOfSeats()){
-                throw new RuntimeException("No tickets available");
+        Collection<Ticket> tickets = train.getTickets();
+        for (Ticket ticket : tickets) {
+            if (ticket.getFirstName().equals(firstName) && ticket.getLastName().equals(lastName) && ticket.getDateOfBirth().isEqual(dateOfBirth)) {
+               throw new RuntimeException("Passenger is already registered");
             }
-        });
+        }
+        Collection<Presence> presences = presenceRepository.findByTrainId(trainId);
+        int ticketsAvailable = train.getNumberOfSeats();
+        boolean isDeparturePassed = false;
+        boolean isArrivalNotPassed = true;
+        int minutesDeparture = 0;
+        int minutesArrival = 0;
+        LocalDateTime datetimeDeparture = null;
+        LocalDateTime datetimeArrival = null;
+        Collection<Presence> presencesPassed = new ArrayList<>();
+        for (Presence presence : presences) {
+            if (presence.getSpot().getStation().getId() == stationOfDepartureId) {
+                isDeparturePassed = true;
+                datetimeDeparture = train.getDateOfDeparture()
+                        .atTime(train.getRoute().getTimeOfDeparture())
+                        .plus(presence.getSpot().getMinutesSinceDeparture(), ChronoUnit.MINUTES);
+                //datetimeDeparture = presence.getInstant();
+                minutesDeparture = presence.getSpot().getMinutesSinceDeparture();
+            }
+            if (presence.getSpot().getStation().getId() == stationOfArrivalId) {
+                isArrivalNotPassed = false;
+                datetimeArrival = train.getDateOfDeparture()
+                        .atTime(train.getRoute().getTimeOfDeparture())
+                        .plus(presence.getSpot().getMinutesSinceDeparture(), ChronoUnit.MINUTES);
+                //datetimeArrival = presence.getInstant();
+                minutesArrival = presence.getSpot().getMinutesSinceDeparture();
+
+            }
+            if (isDeparturePassed && isArrivalNotPassed) {
+                ticketsAvailable = Math.min((train.getNumberOfSeats()-presence.getNumberOfTickets()), ticketsAvailable);
+                presencesPassed.add(presence);
+            }
+        }
+
+        if (ticketsAvailable == 0){
+            throw new RuntimeException("No tickets available");
+        }
+        LocalDateTime datetimeOfPurchase = LocalDateTime.now();
+        if (ChronoUnit.MINUTES.between(datetimeOfPurchase, datetimeDeparture) < 10) {
+            throw new RuntimeException("Less than 10 minutes before departure");
+        }
 
         Station stationOfDeparture = stationRepository.findOne(stationOfDepartureId);
         Station stationOfArrival = stationRepository.findOne(stationOfArrivalId);
-        LocalDateTime datetimeOfPurchase = LocalDateTime.now();
+
         Account account = accountRepository.findOne(accountId);
-        Spot spotDeparture = spotRepository.findByStationIdAndRouteId(stationOfDepartureId, route.getId());
-        Spot spotArrival = spotRepository.findByStationIdAndRouteId(stationOfArrivalId, route.getId());
-        LocalDate dateOfDeparture = train.getDateOfDeparture();
-        LocalTime timeOfDeparture = route.getTimeOfDeparture();
-        LocalDateTime datetimeOfDeparture = dateOfDeparture.atTime(timeOfDeparture)
-                .plus(spotDeparture.getMinutesSinceDeparture(), ChronoUnit.MINUTES);
-        LocalDateTime datetimeOfArrival = dateOfDeparture.atTime(timeOfDeparture)
-                .plus(spotArrival.getMinutesSinceDeparture(), ChronoUnit.MINUTES);
-/*
-        for (Ticket ticket : tickets) {
-            if (ticket.getFirstName().equals(firstName) && ticket.getLastName().equals(lastName) && ticket.getDateOfBirth().isEqual(dateOfBirth)) {
-                ticketInfo.setMessage("Passenger is already registered");
-                return ticketInfo;
-            }
-        }
-*/
-        if (ChronoUnit.MINUTES.between(datetimeOfPurchase, datetimeOfDeparture) < 10) {
-            throw new RuntimeException("Less than 10 minutes before departure");
-        }
 
         Ticket ticket = new Ticket();
         ticket.setTrain(train);
@@ -91,21 +105,36 @@ public class TicketServiceImpl implements TicketService {
         ticket.setDatetimeOfPurchase(datetimeOfPurchase);
         ticket.setAccount(account);
 
-        ticketRepository.save(ticket);
+        BigDecimal price = train.getRoute().getPricePerMinute()
+                .multiply(new BigDecimal(train.getPriceCoefficient()))
+                .multiply(new BigDecimal(minutesArrival-minutesDeparture));
+        ticket.setPrice(price);
 
-        ticketInfo.setId(ticket.getId());
+        int ticketId = ticketRepository.save(ticket).getId();
+
+        presencesPassed.forEach(presence -> {
+            int ticketsPurchased = presence.getNumberOfTickets();
+            ticketsPurchased++;
+            presence.setNumberOfTickets(ticketsPurchased);
+        });
+
+        presenceRepository.save(presencesPassed);
+
+        TicketInfo ticketInfo = new TicketInfo();
+        ticketInfo.setId(ticketId);
         ticketInfo.setTrainId(trainId);
         ticketInfo.setFirstName(firstName);
         ticketInfo.setLastName(lastName);
         ticketInfo.setDateOfBirth(dateOfBirth);
         ticketInfo.setStationOfDeparture(stationOfDeparture.getTitle());
         ticketInfo.setStationOfArrival(stationOfArrival.getTitle());
-        ticketInfo.setDatetimeOfDeparture(datetimeOfDeparture);
-        ticketInfo.setDatetimeOfArrival(datetimeOfArrival);
+        ticketInfo.setDatetimeOfDeparture(datetimeDeparture.toInstant(ZoneOffset.ofHours(stationOfDeparture.getTimezone())));
+        ticketInfo.setDatetimeOfArrival(datetimeArrival.toInstant(ZoneOffset.ofHours(stationOfArrival.getTimezone())));
         ticketInfo.setDatetimeOfPurchase(datetimeOfPurchase);
+        ticketInfo.setPrice(price);
         return ticketInfo;
-
     }
+
 
     @Override
     public TicketInfo getTicketInfoByTicketId(int ticketId) {
@@ -113,26 +142,18 @@ public class TicketServiceImpl implements TicketService {
         Ticket ticket = ticketRepository.findOne(ticketId);
         Train train = ticket.getTrain();
         ticketInfo.setId(ticketId);
-        ticketInfo.setTrainId(ticket.getTrain().getId());
+        ticketInfo.setTrainId(train.getId());
         ticketInfo.setFirstName(ticket.getFirstName());
         ticketInfo.setLastName(ticket.getLastName());
         ticketInfo.setDateOfBirth(ticket.getDateOfBirth());
         ticketInfo.setStationOfDeparture(ticket.getStationOfDeparture().getTitle());
         ticketInfo.setStationOfArrival(ticket.getStationOfArrival().getTitle());
-
-        LocalDate dateOfDeparture = train.getDateOfDeparture();
-        LocalTime timeOfDeparture = train.getRoute().getTimeOfDeparture();
-        Spot spotDeparture = spotRepository.findByStationIdAndRouteId(ticket.getStationOfDeparture().getId(), train.getRoute().getId());
-        Spot spotArrival = spotRepository.findByStationIdAndRouteId(ticket.getStationOfArrival().getId(), train.getRoute().getId());
-        LocalDateTime datetimeOfDeparture = dateOfDeparture.atTime(timeOfDeparture)
-                .plus(spotDeparture.getMinutesSinceDeparture(), ChronoUnit.MINUTES);
-        LocalDateTime datetimeOfArrival = dateOfDeparture.atTime(timeOfDeparture)
-                .plus(spotArrival.getMinutesSinceDeparture(), ChronoUnit.MINUTES);
-
-        ticketInfo.setDatetimeOfDeparture(datetimeOfDeparture);
-        ticketInfo.setDatetimeOfArrival(datetimeOfArrival);
+        Presence presenceDeparture = presenceRepository.findByTrainIdAndSpotId(train.getId(), spotRepository.findByStationIdAndRouteId(ticket.getStationOfDeparture().getId(), train.getRoute().getId()).getId());
+        Presence presenceArrival = presenceRepository.findByTrainIdAndSpotId(train.getId(), spotRepository.findByStationIdAndRouteId(ticket.getStationOfArrival().getId(), train.getRoute().getId()).getId());
+        ticketInfo.setDatetimeOfDeparture(presenceDeparture.getInstant());
+        ticketInfo.setDatetimeOfArrival(presenceArrival.getInstant());
         ticketInfo.setDatetimeOfPurchase(ticket.getDatetimeOfPurchase());
-
-        return  ticketInfo;
+        ticketInfo.setPrice(ticket.getPrice());
+        return ticketInfo;
     }
 }

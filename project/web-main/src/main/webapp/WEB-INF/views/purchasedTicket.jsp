@@ -3,26 +3,30 @@
 <%@include file="/WEB-INF/jspf/nav.jspf" %>
 
 <section>
-    <h3>You've purchased ticket #${ticket.id}!</h3>
+    <h3>You've purchased ticket #${ticketInfo.id}!</h3>
     <br>
     <table class="table">
         <th></th>
         <th></th>
         <tr>
             <td><h4>Station of Departure:</h4></td>
-            <td><h4>${ticket.stationOfDeparture}</h4></td>
+            <td><h4>${ticketInfo.stationOfDeparture}</h4></td>
         </tr>
         <tr>
             <td><h4>Date and Time of Departure:</h4></td>
-            <td><h4>${ticket.datetimeOfDeparture}</h4></td>
+            <td><h4>${ticketInfo.datetimeOfDeparture}</h4></td>
         </tr>
         <tr>
             <td><h4>Station of Arrival:</h4></td>
-            <td><h4>${ticket.stationOfArrival}</h4></td>
+            <td><h4>${ticketInfo.stationOfArrival}</h4></td>
         </tr>
         <tr>
             <td><h4>Date and Time of Arrival:</h4></td>
-            <td><h4>${ticket.datetimeOfArrival}</h4></td>
+            <td><h4>${ticketInfo.datetimeOfArrival}</h4></td>
+        </tr>
+        <tr>
+            <td><h4>Ticket Price:</h4></td>
+            <td><h4>${ticketInfo.price}</h4></td>
         </tr>
     </table>
 

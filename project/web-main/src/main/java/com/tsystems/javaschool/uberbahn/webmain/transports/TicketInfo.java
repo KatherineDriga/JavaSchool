@@ -1,6 +1,8 @@
 package com.tsystems.javaschool.uberbahn.webmain.transports;
 
 
+import java.math.BigDecimal;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
@@ -14,8 +16,9 @@ public class TicketInfo {
     private String stationOfDeparture;
     private String stationOfArrival;
     private LocalDateTime datetimeOfPurchase;
-    private LocalDateTime datetimeOfDeparture;
-    private LocalDateTime datetimeOfArrival;
+    private Instant datetimeOfDeparture;
+    private Instant datetimeOfArrival;
+    private BigDecimal price;
 
     public int getId() {
         return id;
@@ -81,20 +84,28 @@ public class TicketInfo {
         this.datetimeOfPurchase = datetimeOfPurchase;
     }
 
-    public LocalDateTime getDatetimeOfDeparture() {
+    public Instant getDatetimeOfDeparture() {
         return datetimeOfDeparture;
     }
 
-    public void setDatetimeOfDeparture(LocalDateTime datetimeOfDeparture) {
+    public void setDatetimeOfDeparture(Instant datetimeOfDeparture) {
         this.datetimeOfDeparture = datetimeOfDeparture;
     }
 
-    public LocalDateTime getDatetimeOfArrival() {
+    public Instant getDatetimeOfArrival() {
         return datetimeOfArrival;
     }
 
-    public void setDatetimeOfArrival(LocalDateTime datetimeOfArrival) {
+    public void setDatetimeOfArrival(Instant datetimeOfArrival) {
         this.datetimeOfArrival = datetimeOfArrival;
+    }
+
+    public BigDecimal getPrice() {
+        return price;
+    }
+
+    public void setPrice(BigDecimal price) {
+        this.price = price;
     }
 }
 

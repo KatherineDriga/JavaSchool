@@ -1,46 +1,40 @@
 package com.tsystems.javaschool.uberbahn.webmain.controllers;
 
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tsystems.javaschool.uberbahn.webmain.services.TicketService;
-import com.tsystems.javaschool.uberbahn.webmain.services.TicketServiceImpl;
 import com.tsystems.javaschool.uberbahn.webmain.transports.TicketInfo;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.Writer;
 import java.time.LocalDate;
 
-public class TicketPurchaseControllerImpl extends BaseControllerImpl {
+@RestController
+@RequestMapping("/")
+public class TicketPurchaseControllerImpl {
 
-    @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    private final TicketService ticketService;
 
-        int stationOfDepartureId = getIntParameter("stationOfDepartureId", req);
-        int stationOfArrivalId = getIntParameter("stationOfArrivalId", req);
-        int trainId = getIntParameter("trainId", req);
-        String firstName = getRequiredParameter("firstName", req);
-        String lastName = getRequiredParameter("lastName", req);
-        LocalDate dateOfBirth = getDateParameter("dateOfBirth", req);
+    @Autowired
+    public TicketPurchaseControllerImpl(TicketService ticketService) {
+        this.ticketService = ticketService;
+    }
+
+    @RequestMapping(path = "/ticketPurchase", method = RequestMethod.POST, produces = "application/json")
+    public TicketInfo addTicket(@RequestParam(name = "stationOfDepartureId") int stationOfDepartureId,
+                            @RequestParam(name = "stationOfArrivalId") int stationOfArrivalId,
+                            @RequestParam(name = "trainId") int trainId,
+                            @RequestParam(name = "firstName") String firstName,
+                            @RequestParam(name = "lastName") String lastName,
+                            @RequestParam(name = "dateOfBirth") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dateOfBirth) {
+
         int accountId = 1;
 
-        TicketInfo ticketInfo = runTransaction((session -> {
-
-            TicketService service = null;//new TicketServiceImpl(session); // TODO: with DI
-            return service.getTicketInfo(trainId, stationOfDepartureId, stationOfArrivalId, firstName, lastName, dateOfBirth, accountId);
-        }));
-
-        ObjectMapper mapper = new ObjectMapper();
-        resp.setContentType("application/json");
-        PrintWriter out = resp.getWriter();
-        //mapper.writeValue(out, ticketInfo.getId());
-        mapper.writeValue(out, ticketInfo);
-
-        /*Writer writer = resp.getWriter();
-        writer.write("100500");
-        writer.flush();*/
+        TicketInfo ticketInfo = ticketService.create(trainId, stationOfDepartureId, stationOfArrivalId, firstName, lastName, dateOfBirth, accountId);
+        return ticketInfo;
     }
+
 }

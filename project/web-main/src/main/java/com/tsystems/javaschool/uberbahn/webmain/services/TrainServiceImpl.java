@@ -53,7 +53,7 @@ public class TrainServiceImpl implements TrainService {
             trainInfo.setStationOfDeparture(stationRepository.findOne(stationOfDepartureId).getTitle());
             trainInfo.setStationOfArrival(stationRepository.findOne(stationOfArrivalId).getTitle());
 
-            Collection<Presence> presences = train.getPresences();
+            Collection<Presence> presences = presenceRepository.findByTrainId(train.getId());
             boolean isDeparturePassed = false;
             boolean isArrivalNotPassed = true;
             int minutesDeparture = 0;
@@ -82,7 +82,7 @@ public class TrainServiceImpl implements TrainService {
 
                 }
                 if (isDeparturePassed && isArrivalNotPassed) {
-                    ticketsAvailable = Math.min(presence.getNumberOfTickets(), ticketsAvailable);
+                    ticketsAvailable = Math.min((train.getNumberOfSeats()-presence.getNumberOfTickets()), ticketsAvailable);
                 }
             }
             trainInfo.setNumberOfSeatsAvailable(ticketsAvailable);
