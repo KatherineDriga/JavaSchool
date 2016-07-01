@@ -2,6 +2,7 @@ package com.tsystems.javaschool.uberbahn.webmain.transports;
 
 
 import java.math.BigDecimal;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Collection;
@@ -16,6 +17,8 @@ public class TrainInfo {
     private String stationOfArrival;
     private LocalDate dateOfArrival;
     private LocalTime timeOfArrival;
+    private Instant datetimeDeparture;
+    private Instant datetimeArrival;
     private int numberOfSeatsAvailable;
     private BigDecimal ticketPrice;
     private int numberOfSeats;
@@ -107,6 +110,22 @@ public class TrainInfo {
 
     public void setNumberOfSeats(int numberOfSeats) {
         this.numberOfSeats = numberOfSeats;
+    }
+
+    public Instant getDatetimeDeparture() {
+        return datetimeDeparture;
+    }
+
+    public void setDatetimeDeparture(Instant datetimeDeparture) {
+        this.datetimeDeparture = datetimeDeparture;
+    }
+
+    public Instant getDatetimeArrival() {
+        return datetimeArrival;
+    }
+
+    public void setDatetimeArrival(Instant datetimeArrival) {
+        this.datetimeArrival = datetimeArrival;
     }
 
     /*public Collection<TicketsPurchasedPerStation> getTicketsPurchasedPerStations() {

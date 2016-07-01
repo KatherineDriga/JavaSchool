@@ -64,6 +64,7 @@ public class TrainServiceImpl implements TrainService {
             for (Presence presence : presences) {
                 if (presence.getSpot().getStation().getId() == stationOfDepartureId) {
                     isDeparturePassed = true;
+                    trainInfo.setDatetimeDeparture(presence.getInstant());
                     LocalDateTime datetimeDeparture = train.getDateOfDeparture()
                             .atTime(train.getRoute().getTimeOfDeparture())
                             .plus(presence.getSpot().getMinutesSinceDeparture(), ChronoUnit.MINUTES);
@@ -73,6 +74,7 @@ public class TrainServiceImpl implements TrainService {
                 }
                 if (presence.getSpot().getStation().getId() == stationOfArrivalId) {
                     isArrivalNotPassed = false;
+                    trainInfo.setDatetimeArrival(presence.getInstant());
                     LocalDateTime datetimeArrival = train.getDateOfDeparture()
                             .atTime(train.getRoute().getTimeOfDeparture())
                             .plus(presence.getSpot().getMinutesSinceDeparture(), ChronoUnit.MINUTES);
@@ -87,7 +89,7 @@ public class TrainServiceImpl implements TrainService {
             }
             trainInfo.setNumberOfSeatsAvailable(ticketsAvailable);
 
-            trainInfo.setTicketPrice((new BigDecimal(minutesArrival-minutesDeparture)).multiply(new BigDecimal(train.getPriceCoefficient())).multiply(train.getRoute().getPricePerMinute()));
+            trainInfo.setTicketPrice(((new BigDecimal(minutesArrival-minutesDeparture)).multiply(new BigDecimal(train.getPriceCoefficient())).multiply(train.getRoute().getPricePerMinute())).setScale(2, BigDecimal.ROUND_HALF_UP));
             if (trainInfo.getTicketPrice().compareTo(BigDecimal.ZERO) > 0){
                 trainInfos.add(trainInfo);
             }
