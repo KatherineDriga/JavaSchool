@@ -25,23 +25,3 @@ public class AddStationControllerImpl {
         return stationInfo;
     }
 }
-/*public class AddStationControllerImpl extends BaseControllerImpl {
-
-    @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
-        String stationTitle = getRequiredParameter("stationTitle", req);
-
-
-        StationInfo stationInfo = runTransaction((session -> {
-
-            StationService service = null; // TODO: with DI
-            return service.create(stationTitle);
-        }));
-
-        ObjectMapper mapper = new ObjectMapper();
-        resp.setContentType("application/json");
-        PrintWriter out = resp.getWriter();
-        mapper.writeValue(out, stationInfo);
-    }
-}*/

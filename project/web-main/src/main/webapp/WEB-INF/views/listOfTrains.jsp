@@ -14,9 +14,7 @@
             <th>Train</th>
             <th>Route Title</th>
             <th>Departure</th>
-            <th>Departure <br />(local date and time)</th>
             <th>Arrival</th>
-            <th>Arrival <br />(local date and time)</th>
             <th>Number Of Seats <br />Available</th>
             <th>Price</th>
         </tr>
@@ -33,9 +31,7 @@
             <td id = "trainId">${train.trainId}</td>
             <td id = "routeTitle">${train.routeTitle}</td>
             <td>${train.dateOfDeparture}<br />${train.timeOfDeparture}<br />${train.stationOfDeparture}</td>
-            <td>${train.datetimeDeparture}</td>
             <td>${train.dateOfArrival}<br />${train.timeOfArrival}<br />${train.stationOfArrival}</td>
-            <td>${train.datetimeArrival}</td>
             <td>${train.numberOfSeatsAvailable}</td>
             <td>${train.ticketPrice}</td>
         </tr>

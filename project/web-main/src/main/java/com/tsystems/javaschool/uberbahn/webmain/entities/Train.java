@@ -1,10 +1,8 @@
 package com.tsystems.javaschool.uberbahn.webmain.entities;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Collection;
-import java.util.Set;
 
 @Entity
 @Table(name = "train")

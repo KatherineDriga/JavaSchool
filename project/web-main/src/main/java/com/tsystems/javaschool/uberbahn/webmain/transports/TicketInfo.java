@@ -16,8 +16,8 @@ public class TicketInfo {
     private String stationOfDeparture;
     private String stationOfArrival;
     private LocalDateTime datetimeOfPurchase;
-    private Instant datetimeOfDeparture;
-    private Instant datetimeOfArrival;
+    private LocalDateTime datetimeOfDeparture;
+    private LocalDateTime datetimeOfArrival;
     private BigDecimal price;
 
     public int getId() {
@@ -84,19 +84,19 @@ public class TicketInfo {
         this.datetimeOfPurchase = datetimeOfPurchase;
     }
 
-    public Instant getDatetimeOfDeparture() {
+    public LocalDateTime getDatetimeOfDeparture() {
         return datetimeOfDeparture;
     }
 
-    public void setDatetimeOfDeparture(Instant datetimeOfDeparture) {
+    public void setDatetimeOfDeparture(LocalDateTime datetimeOfDeparture) {
         this.datetimeOfDeparture = datetimeOfDeparture;
     }
 
-    public Instant getDatetimeOfArrival() {
+    public LocalDateTime getDatetimeOfArrival() {
         return datetimeOfArrival;
     }
 
-    public void setDatetimeOfArrival(Instant datetimeOfArrival) {
+    public void setDatetimeOfArrival(LocalDateTime datetimeOfArrival) {
         this.datetimeOfArrival = datetimeOfArrival;
     }
 

@@ -8,7 +8,6 @@ public class StationScheduleEvent {
 
     private LocalDate date;
     private LocalTime time;
-    private Instant datetime;
     private String route;
     private String departsFrom;
     private String arrivesAt;
@@ -62,11 +61,4 @@ public class StationScheduleEvent {
         this.train = train;
     }
 
-    public Instant getDatetime() {
-        return datetime;
-    }
-
-    public void setDatetime(Instant datetime) {
-        this.datetime = datetime;
-    }
 }

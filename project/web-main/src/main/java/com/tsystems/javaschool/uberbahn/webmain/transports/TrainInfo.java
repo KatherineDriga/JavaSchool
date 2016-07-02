@@ -17,8 +17,6 @@ public class TrainInfo {
     private String stationOfArrival;
     private LocalDate dateOfArrival;
     private LocalTime timeOfArrival;
-    private Instant datetimeDeparture;
-    private Instant datetimeArrival;
     private int numberOfSeatsAvailable;
     private BigDecimal ticketPrice;
     private int numberOfSeats;
@@ -112,27 +110,6 @@ public class TrainInfo {
         this.numberOfSeats = numberOfSeats;
     }
 
-    public Instant getDatetimeDeparture() {
-        return datetimeDeparture;
-    }
 
-    public void setDatetimeDeparture(Instant datetimeDeparture) {
-        this.datetimeDeparture = datetimeDeparture;
-    }
-
-    public Instant getDatetimeArrival() {
-        return datetimeArrival;
-    }
-
-    public void setDatetimeArrival(Instant datetimeArrival) {
-        this.datetimeArrival = datetimeArrival;
-    }
-
-    /*public Collection<TicketsPurchasedPerStation> getTicketsPurchasedPerStations() {
-        return ticketsPurchasedPerStations;
-    }
-    public void setTicketsPurchasedPerStations(Collection<TicketsPurchasedPerStation> ticketsPurchasedPerStations) {
-        this.ticketsPurchasedPerStations = ticketsPurchasedPerStations;
-    }*/
 }
 

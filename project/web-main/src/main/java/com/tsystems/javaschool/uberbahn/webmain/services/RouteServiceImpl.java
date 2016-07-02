@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 
 @Service
 @Transactional
-public class RouteServiceImpl implements RouteService {
+public class  RouteServiceImpl implements RouteService {
 
     private final RouteRepository routeRepository;
     private final StationRepository stationRepository;
@@ -84,7 +84,6 @@ public class RouteServiceImpl implements RouteService {
         routeInfo.setPricePerMinute(route.getPricePerMinute());
         return routeInfo;
 
-        //return getById(route.getId());
     }
 
     @Override
@@ -98,15 +97,14 @@ public class RouteServiceImpl implements RouteService {
 
     @Override
     public Collection<RouteInfo> getAll() {
-        Collection<RouteInfo> result = new ArrayList<>();
 
-        routeRepository.findAll().forEach(route -> {
+        return routeRepository.findAll().stream().map(route -> {
             RouteInfo info = new RouteInfo();
             info.setId(route.getId());
             info.setTitle(route.getTitle());
-            result.add(info);
-        });
-        return result;
+            return info;
+        }).collect(Collectors.toList());
+
     }
 
 }

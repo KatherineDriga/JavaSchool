@@ -100,13 +100,7 @@ public class BaseControllerImpl extends HttpServlet {
     }
 
     protected List<Integer> getIntArrayParameter(String name, HttpServletRequest request) {
-/*
-        List<Integer> result = new ArrayList<>();
-        for(String i : getArrayParameter(name, request)) {
-            result.add(Integer.parseInt(i));
-        }
-        return result;
-*/
+
         return getArrayParameter(name, request)
                 .stream()
                 .map(s -> Integer.parseInt(s))

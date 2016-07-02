@@ -7,7 +7,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.Collection;
-import java.util.List;
 
 public interface SpotRepository extends JpaRepository<Spot, Integer> {
 
@@ -19,9 +18,6 @@ public interface SpotRepository extends JpaRepository<Spot, Integer> {
 
     @Query("SELECT s FROM Spot AS s WHERE s.route.id = :routeId")
     Collection<Spot> findByRouteId (@Param("routeId") int routeId);
-    /*
-    Collection<Spot> findAllBetweenStationsByRouteIdAndTime(int routeId, Integer timeSinceDepartureForStA, Integer timeSinceDepartureForStB);
-    */
 
 }
 
