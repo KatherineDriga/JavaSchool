@@ -2,8 +2,8 @@ package com.tsystems.javaschool.uberbahn.webmain.controllers;
 
 
 
-import com.tsystems.javaschool.uberbahn.webmain.services.RouteService;
-import com.tsystems.javaschool.uberbahn.webmain.transports.RouteInfo;
+import com.tsystems.javaschool.uberbahn.services.RouteService;
+import com.tsystems.javaschool.uberbahn.transports.RouteInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.NumberFormat;

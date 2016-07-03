@@ -1,7 +1,7 @@
 package com.tsystems.javaschool.uberbahn.webmain.controllers;
 
 
-import com.tsystems.javaschool.uberbahn.webmain.services.StationService;
+import com.tsystems.javaschool.uberbahn.services.StationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

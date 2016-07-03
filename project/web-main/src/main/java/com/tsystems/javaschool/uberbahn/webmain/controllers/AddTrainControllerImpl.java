@@ -1,8 +1,8 @@
 package com.tsystems.javaschool.uberbahn.webmain.controllers;
 
 
-import com.tsystems.javaschool.uberbahn.webmain.services.TrainService;
-import com.tsystems.javaschool.uberbahn.webmain.transports.TrainInfo;
+import com.tsystems.javaschool.uberbahn.services.TrainService;
+import com.tsystems.javaschool.uberbahn.transports.TrainInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.RequestMapping;

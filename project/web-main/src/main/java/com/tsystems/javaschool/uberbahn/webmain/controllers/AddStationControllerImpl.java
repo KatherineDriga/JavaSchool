@@ -1,8 +1,8 @@
 package com.tsystems.javaschool.uberbahn.webmain.controllers;
 
 
-import com.tsystems.javaschool.uberbahn.webmain.services.StationService;
-import com.tsystems.javaschool.uberbahn.webmain.transports.StationInfo;
+import com.tsystems.javaschool.uberbahn.services.StationService;
+import com.tsystems.javaschool.uberbahn.transports.StationInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

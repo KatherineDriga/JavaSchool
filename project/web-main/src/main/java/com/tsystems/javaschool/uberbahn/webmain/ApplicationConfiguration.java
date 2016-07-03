@@ -1,16 +1,11 @@
 package com.tsystems.javaschool.uberbahn.webmain;
 
-import com.tsystems.javaschool.uberbahn.webmain.entities.BaseEntity;
-import org.hibernate.SessionFactory;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.tsystems.javaschool.uberbahn.entities.BaseEntity;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
-import org.springframework.jdbc.datasource.SimpleDriverDataSource;
-import org.springframework.jdbc.datasource.TransactionAwareDataSourceProxy;
-import org.springframework.orm.hibernate5.LocalSessionFactoryBuilder;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.Database;
@@ -23,8 +18,8 @@ import javax.sql.DataSource;
 
 @Configuration
 @EnableTransactionManagement
-@EnableJpaRepositories("com.tsystems.javaschool.uberbahn.webmain.repositories")
-@ComponentScan({ "com.tsystems.javaschool.uberbahn.webmain" })
+@EnableJpaRepositories("com.tsystems.javaschool.uberbahn.repositories")
+@ComponentScan({ "com.tsystems.javaschool.uberbahn" })
 public class ApplicationConfiguration {
 
     @Bean

@@ -11,5 +11,11 @@
 
   <modules>
 	<module>web-main</module>
+    <module>entities</module>
+    <module>transports</module>
+    <module>services-api</module>
+    <module>repositories</module>
+    <module>services-beans</module>
   </modules>
+
 </project>
