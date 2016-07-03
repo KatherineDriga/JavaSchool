@@ -12,6 +12,7 @@ import java.math.BigDecimal;
 import java.time.*;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -43,6 +44,7 @@ public class TrainServiceImpl implements TrainService {
         Instant sinceDateTime = since.toInstant(ZoneOffset.ofHours(0));
         Instant untilDateTime = until.toInstant(ZoneOffset.ofHours(0));
 
+        Collection<Integer> trainIds = trainRepository.getTrainIds(stationOfDepartureId, stationOfDepartureId, sinceDateTime, untilDateTime);
         Collection<Train> trains = trainRepository.findByDepartureArrivalAndTime(
                 stationOfDepartureId, stationOfDepartureId, sinceDateTime, untilDateTime);
         Collection<TrainInfo> trainInfos = new ArrayList<>();
@@ -86,6 +88,7 @@ public class TrainServiceImpl implements TrainService {
             trainInfo.setNumberOfSeatsAvailable(ticketsAvailable);
 
             trainInfo.setTicketPrice(((new BigDecimal(minutesArrival-minutesDeparture)).multiply(new BigDecimal(train.getPriceCoefficient())).multiply(train.getRoute().getPricePerMinute())).setScale(2, BigDecimal.ROUND_HALF_UP));
+
 
             if (trainInfo.getTicketPrice().compareTo(BigDecimal.ZERO) > 0){
                 trainInfos.add(trainInfo);
@@ -202,42 +205,17 @@ public class TrainServiceImpl implements TrainService {
     }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     @Override
     public Collection<PassengerInfo> getPassengerInfo(int trainId) {
-        Collection<PassengerInfo> passengerInfos = new ArrayList<>();
-        Collection<Ticket> tickets = trainRepository.getTicketsByTrainId(trainId);
-        tickets.forEach(ticket -> {
+        return trainRepository.getTicketsByTrainId(trainId).stream().map(ticket -> {
             PassengerInfo passengerInfo = new PassengerInfo();
             passengerInfo.setFirstName(ticket.getFirstName());
             passengerInfo.setLastName(ticket.getLastName());
             passengerInfo.setDateOfBirth(ticket.getDateOfBirth());
             passengerInfo.setStationOfDeparture(ticket.getStationOfDeparture().getTitle());
             passengerInfo.setStationOfArrival(ticket.getStationOfArrival().getTitle());
-            passengerInfos.add(passengerInfo);
-        });
-
-        return passengerInfos;
+            return passengerInfo;
+        }).collect(Collectors.toList());
     }
 }
 
