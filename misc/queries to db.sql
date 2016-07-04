@@ -30,7 +30,8 @@ join spot as s1
 on s1.id=p1.spotId
 join spot as s2
 on s2.id=p2.spotId
-where s1.stationId=1
-and s2.stationId=7
+where s1.stationId=7
+and s2.stationId=1
 and p1.instant>='2016-07-01'
-and p2.instant<'2016-08-01';
+and p1.instant<'2016-07-22'
+and p1.instant<p2.instant;

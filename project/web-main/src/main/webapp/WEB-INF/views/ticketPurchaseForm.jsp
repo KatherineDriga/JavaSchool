@@ -4,6 +4,8 @@
 
 <section>
     <h2>Ticket Purchase Form</h2>
+
+
     <form role="form" class="buy_ticket">
         <div class="form-group">
         <!-- <div class="wrap"> -->

@@ -4,6 +4,8 @@
 
 <section>
     <h2>Add station</h2>
+
+
     <form role="form" class="addStation" method="post">
         <div class="form-group">
                 <p><label>Station</label>
@@ -16,6 +18,7 @@
                 <span id="errorMessage"></span>
             </div>
         </div>
+        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
     </form>
 
 
