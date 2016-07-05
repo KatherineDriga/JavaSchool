@@ -15,6 +15,7 @@ $(function () {
         var fname = $("#fname").val();
         var lname = $("#lname").val();
         var dateOfBirth = $("#dateOfBirth").val();
+        var accountLogin = $("#accountLogin").text();
 
         if ($("#fname").val() == 0) {
             errorMessageSpan.text("Enter first name");
@@ -35,7 +36,8 @@ $(function () {
                     trainId: trainId,
                     firstName: fname,
                     lastName: lname,
-                    dateOfBirth: dateOfBirth
+                    dateOfBirth: dateOfBirth,
+                    accountLogin: accountLogin
                 },
                 success: function (data) {
                     window.location.href = "/purchasedTicket?"

@@ -63,7 +63,7 @@ public class TicketServiceImpl implements TicketService {
     }
 
     @Override
-    public TicketInfo create(int trainId, int stationOfDepartureId, int stationOfArrivalId, String firstName, String lastName, LocalDate dateOfBirth, int accountId) {
+    public TicketInfo create(int trainId, int stationOfDepartureId, int stationOfArrivalId, String firstName, String lastName, LocalDate dateOfBirth, String accountLogin) {
         Train train = trainRepository.findOne(trainId);
 
         train.getTickets().forEach(ticket -> {
@@ -89,7 +89,7 @@ public class TicketServiceImpl implements TicketService {
         int minutesDeparture = presenceDeparture.getSpot().getMinutesSinceDeparture();
         int minutesArrival = presenceArrival.getSpot().getMinutesSinceDeparture();
 
-        Account account = accountRepository.findOne(accountId);
+        Account account = accountRepository.findByLogin(accountLogin);
 
         Ticket ticket = new Ticket();
         ticket.setTrain(train);

@@ -28,9 +28,13 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .antMatchers("/ticketPurchaseForm").hasAuthority("CLIENT")
                 .antMatchers("/addStationForm").hasAuthority("EMPLOYEE")
-                .and().formLogin().defaultSuccessUrl("/", false)
+                .and().formLogin().loginPage("/loginPage")
+                .loginProcessingUrl("/j_spring_security_check")
+                .usernameParameter("j_username")
+                .passwordParameter("j_password")
+                .defaultSuccessUrl("/", false)
                 .and().logout().logoutUrl("/j_spring_security_logout")
-                .logoutSuccessUrl("/");
+                .logoutSuccessUrl("/loginPage");
     }
 
 }

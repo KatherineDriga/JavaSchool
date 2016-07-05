@@ -42,6 +42,7 @@
         <span hidden="true" id="trainId">${trainId}</span>
         <span hidden="true" id="stationOfDepartureId">${stationOfDepartureId}</span>
         <span hidden="true" id="stationOfArrivalId">${stationOfArrivalId}</span>
+        <span hidden="true" id="accountLogin">${pageContext.request.userPrincipal.name}</span>
 
     </form>
     <div>

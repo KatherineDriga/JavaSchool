@@ -111,6 +111,24 @@ div.menu ul li a:active
     margin-top: 15px;
     margin-right: 5px;
 }
+.darkFormElement {
+    margin: 5px 5px;
+}
+.darkFormElement label{
+    float: left;
+    width: 150px;
+    color: #465c71;
+}
+.darkFormElement input[type="submit"] {
+    background: #465c71;
+    color: #bfcbd6;
+    border: 1px solid #4e667d;
+    padding: 5px 10px;
+    width: 175px;
+    float: right;
+    margin-top: 15px;
+    margin-right: 0px;
+}
 #logotype{
     width: 250px;
     height: auto;
@@ -141,20 +159,22 @@ div.menu ul li a:active
     float: right;
     width: 200px;
 }
-.link {
+.link, .link:visited, .link:active, .link:hover {
     color: #ffffff;
 }
-.link:visited {
-    color: #ffffff;
-}
-.link:active {
-    color: #ffffff;
-}
-.link:hover {
-    color: #ffffff;
+.darkLink, .darkLink:visited, .darkLink:active, .darkLink:hover {
+    color: #465c71;
+    font-weight: bold;
 }
 .linkTitle {
     color: #cfdbe6;
+}
+
+#registration {
+    text-decoration: none;
+    border-bottom: 1px dotted #ffffff;
+    float: right;
+    padding-right: 10px;
 }
 #errorMessage, #errorMessage1, #errorMessage2{
     color: red;

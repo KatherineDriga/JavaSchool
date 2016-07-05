@@ -5,6 +5,22 @@
         <li class="link"><a href="/stationTimetableSearch" class="link"><h5>Station Timetable</h5></a></li>
         </ul>
     <br />
+    <br />
+
+    <c:if test="${empty pageContext.request.userPrincipal}">
+        <div class="form-group">
+            <form role="form" class="login_form" action="<c:url value='/j_spring_security_check' />" method="post">
+                <p><div class="form_element"><label>Login</label><input name='j_username' type="text" required></div></p>
+                <p><div class="form_element"><label>Password</label><input name='j_password' type="password" required></div></p>
+                <div class="form_element" id="login_button"><input type="submit" value="Log in"></div>
+                <br />
+                <br />
+                <p><div class="form_element"><a href="/" class="link" id="registration"><h5>Sign up</h5></a></div></p>
+            </form>
+        </div>
+    </c:if>
+
+    <sec:authorize access="hasAuthority('EMPLOYEE')">
     <h4 class="linkTitle">Employees Information</h4>
     <ul>
         <li class="link"><a href="/addStationForm" class="link"><h5>Add Station</h5></a></li>
@@ -12,14 +28,7 @@
         <li class="link"><a href="/addTrainForm" class="link"><h5>Add Train</h5></a></li>
         <li class="link"><a href="/findTrainForm" class="link"><h5>Find Train & Registered Passengers</h5></a></li>
     </ul>
-    <br>
-    <br>
-    <div class="form-group">
-    <form role="form" class="login_form" method="post">
-        <p><div class="form_element"><label>Login</label><input type="text" required></div></p>
-        <p><div class="form_element"><label>Password</label><input type="password" required></div></p>
-        <div class="form_element" id="login_button"><input type="submit" value="Log in"></div>
-    </form>
-        </div>
+    </sec:authorize>
+
 </nav>
 
