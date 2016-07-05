@@ -1,4 +1,4 @@
-
+<%@page session="true"%>
 <%@include file="/WEB-INF/jspf/header.jspf" %>
 <%@include file="/WEB-INF/jspf/nav.jspf" %>
 

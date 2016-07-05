@@ -32,5 +32,4 @@ public class ApplicationWebConfiguration extends WebMvcConfigurerAdapter {
         return viewResolver;
     }
 
-
 }

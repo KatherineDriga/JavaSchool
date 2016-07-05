@@ -4,6 +4,7 @@ header {
     text-align:center;
     padding:3px;
     height: 150px;
+    position: relative;
 }
 nav {
     line-height:30px;
@@ -47,12 +48,16 @@ footer {
     text-align:center;
     padding:3px;
 }
-div.menu
-{
-    padding: 4px 0px 4px 8px;
+div.logout {
+    float: right;
+    padding-right: 10px;
+}
+div.menu {
+    padding: 4px 10px 4px 8px;
     display: inline;
-    float:right;
+    float: right;
     align: bottom;
+    bottom: 0;
 }
 div.menu ul
 {
@@ -62,7 +67,7 @@ div.menu ul
 
 }
 ul.menuclass li{
-    display:inline;
+    display: inline;
 }
 div.menu ul li a, div.menu ul li a:visited
 {

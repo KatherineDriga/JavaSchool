@@ -16,10 +16,11 @@
   <name>UberBahn Transports</name>
 
   <dependencies>
+
     <dependency>
-      <groupId>javax</groupId>
-      <artifactId>javaee-web-api</artifactId>
-      <version>7.0</version>
+      <groupId>org.springframework.security</groupId>
+      <artifactId>spring-security-core</artifactId>
+      <version>4.1.0.RELEASE</version>
     </dependency>
 
   </dependencies>

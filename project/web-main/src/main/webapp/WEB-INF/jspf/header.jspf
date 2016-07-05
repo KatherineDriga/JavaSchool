@@ -15,8 +15,18 @@
 <header>
     <p><a href="/"><img id = "logotype" src="static/images/train-large.png" alt="Image Not Found"></a></p>
     <h1>UberBahn</h1>
-    <br>
-    <br>
+
+    <div class="logout">
+        <c:if test="${pageContext.request.userPrincipal.name != null}">
+            <h5>
+                Welcome: ${pageContext.request.userPrincipal.name} |
+                <a href="<c:url value="/j_spring_security_logout" />" class="link">Logout  </a>
+            </h5>
+
+        </c:if>
+    </div>
+    <br />
+    <br />
     <div class="menu">
         <ul class="menuclass">
             <li><a href="/">Home</a></li>

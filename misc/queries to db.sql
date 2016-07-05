@@ -18,6 +18,7 @@ where routeId=4;
 
 select * from station;
 
+select * from account;
 
 
 select t.id, t.routeId, t.dateOfDeparture, t.numberOfSeats, t.priceCoefficient, t.archived 
