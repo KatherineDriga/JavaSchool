@@ -28,8 +28,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .antMatchers("/ticketPurchaseForm").hasAuthority("CLIENT")
                 .antMatchers("/purchasedTicket").hasAuthority("CLIENT")
-                .antMatchers("/stationTimetableSearch").hasAuthority("CLIENT")
-                .antMatchers("/stationTimetable").hasAuthority("CLIENT")
                 .antMatchers("/addStationForm").hasAuthority("EMPLOYEE")
                 .antMatchers("/addedStation").hasAuthority("EMPLOYEE")
                 .antMatchers("/addRouteForm").hasAuthority("EMPLOYEE")
@@ -47,7 +45,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .defaultSuccessUrl("/", false)
                 .and().logout().logoutUrl("/j_spring_security_logout")
                 .logoutSuccessUrl("/loginPage")
-                .invalidateHttpSession(true);
+                .invalidateHttpSession(true)
+                .and().exceptionHandling().accessDeniedPage("/accessDeniedPage");
     }
 
 }

@@ -4,14 +4,14 @@ select * from ticket;
 select * from train;
 
 select * from spot
-where routeId=4;
+where routeId=10;
 
 select * from route;
 
 select * from station;
 
 select * from presence
-where trainId=4;
+where trainId=11;
 
 select * from spot
 where routeId=4;
