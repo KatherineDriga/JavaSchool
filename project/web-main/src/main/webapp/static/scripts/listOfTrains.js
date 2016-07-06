@@ -8,7 +8,7 @@ $(function () {
         var stationA = $("#stationOfDepartureId").text();
         var stationB = $("#stationOfArrivalId").text();
 
-        var trainId = $("input[type='radio']:checked").val();
+        var trainId = $("input[type='radio']:checked").val();;
 
         if ($('input:radio:checked').length < 1) {
             errorMessageSpan.text("Choose train");

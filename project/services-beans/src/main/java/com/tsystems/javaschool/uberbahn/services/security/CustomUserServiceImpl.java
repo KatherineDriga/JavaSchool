@@ -3,7 +3,6 @@ package com.tsystems.javaschool.uberbahn.services.security;
 
 import com.tsystems.javaschool.uberbahn.entities.Account;
 import com.tsystems.javaschool.uberbahn.repositories.AccountRepository;
-import com.tsystems.javaschool.uberbahn.transports.security.CustomUserAuthority;
 import com.tsystems.javaschool.uberbahn.transports.security.CustomUserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

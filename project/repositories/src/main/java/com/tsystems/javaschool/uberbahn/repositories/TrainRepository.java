@@ -5,13 +5,14 @@ import com.tsystems.javaschool.uberbahn.entities.Train;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.Set;
 
-
+@Transactional
 public interface TrainRepository extends JpaRepository<Train, Integer> {
 
     @Query("SELECT t FROM Ticket AS t WHERE t.train.id = :trainId")

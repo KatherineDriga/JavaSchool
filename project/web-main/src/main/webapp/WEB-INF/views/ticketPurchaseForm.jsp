@@ -29,11 +29,11 @@
          <!--   <div class="right_col"> -->
                 <h3>Passenger information</h3>
                 <p><label for="fname">First Name</label>
-                    <input class="form-control" type="text" name="fname" id="fname" required></p>
+                    <input class="form-control" type="text" name="fname" id="fname" required value="${account.firstName}"></p>
                 <p><label for="lname">Last Name</label>
-                    <input class="form-control" type="text" name="lname" id="lname" required></p>
+                    <input class="form-control" type="text" name="lname" id="lname" required value="${account.lastName}"></p>
                 <p><label for="dateOfBirth">Date of Birth</label>
-                    <input class="form-control" type="date" name="dateOfBirth" id="dateOfBirth" required></p>
+                    <input class="form-control" type="date" name="dateOfBirth" id="dateOfBirth" required value="${account.dateOfBirth}"></p>
 
                 <input class="btn btn-success" id = "buyTicketButton" type="button" value="Buy Ticket">
             <!-- </div> -->

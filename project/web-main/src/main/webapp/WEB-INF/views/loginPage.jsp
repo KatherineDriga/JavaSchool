@@ -3,7 +3,7 @@
 
 <section>
 
-    <h2 align="right">LOG IN or &nbsp;<a href="/" class="darkLink" id="registration">SIGN UP</a> </h2>
+    <h2 align="right">LOG IN or &nbsp;<a href="/signUpForm" class="darkLink" id="registration">SIGN UP</a> </h2>
     <br />
     <br />
     <div class="form-group">

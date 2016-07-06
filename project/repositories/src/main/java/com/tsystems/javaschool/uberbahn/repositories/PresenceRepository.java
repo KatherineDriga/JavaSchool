@@ -5,10 +5,12 @@ import com.tsystems.javaschool.uberbahn.entities.Presence;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
 import java.util.Collection;
 
+@Transactional
 public interface PresenceRepository extends JpaRepository<Presence, Integer> {
 
     @Query("SELECT p FROM Presence AS p WHERE p.train.id = :trainId AND p.spot.id = :spotId")

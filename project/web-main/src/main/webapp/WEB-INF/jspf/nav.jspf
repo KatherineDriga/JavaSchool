@@ -15,7 +15,7 @@
                 <div class="form_element" id="login_button"><input type="submit" value="Log in"></div>
                 <br />
                 <br />
-                <p><div class="form_element"><a href="/" class="link" id="registration"><h5>Sign up</h5></a></div></p>
+                <p><div class="form_element"><a href="/signUpForm" class="link" id="registration"><h5>Sign up</h5></a></div></p>
             </form>
         </div>
     </c:if>

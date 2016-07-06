@@ -1,6 +1,10 @@
 package com.tsystems.javaschool.uberbahn.webmain.controllers;
 
 
+import com.tsystems.javaschool.uberbahn.services.AccountService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,6 +27,12 @@ public class TicketPurchaseFormControllerImpl {
         model.addAttribute("trainId", trainId);
         return "ticketPurchaseForm";
     }*/
+    private final AccountService accountService;
+
+    @Autowired
+    public TicketPurchaseFormControllerImpl (AccountService accountService) {
+        this.accountService = accountService;
+    }
 
     @RequestMapping(path = "/ticketPurchaseForm", method = RequestMethod.GET)
     public ModelAndView ticketPurchaseForm(@RequestParam(name = "stationOfDeparture") int stationOfDepartureId,
@@ -30,9 +40,12 @@ public class TicketPurchaseFormControllerImpl {
                                            @RequestParam(name = "trainId") int trainId) {
 
         ModelAndView model = new ModelAndView();
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String userName = auth.getName();
         model.addObject("stationOfDepartureId", stationOfDepartureId);
         model.addObject("stationOfArrivalId", stationOfArrivalId);
         model.addObject("trainId", trainId);
+        model.addObject("account", accountService.getByLogin(userName));
         model.setViewName("ticketPurchaseForm");
         return model;
     }
