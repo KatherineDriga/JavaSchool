@@ -2,6 +2,7 @@ package com.tsystems.javaschool.uberbahn.webmain.controllers;
 
 
 import com.tsystems.javaschool.uberbahn.services.AccountService;
+import com.tsystems.javaschool.uberbahn.transports.AccountDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -45,7 +46,10 @@ public class TicketPurchaseFormControllerImpl {
         model.addObject("stationOfDepartureId", stationOfDepartureId);
         model.addObject("stationOfArrivalId", stationOfArrivalId);
         model.addObject("trainId", trainId);
-        model.addObject("account", accountService.getByLogin(userName));
+        AccountDetails accountDetails = accountService.getByLogin(userName);
+        if (!accountDetails.isEmployee()){
+            model.addObject("account", accountService.getByLogin(userName));
+        }
         model.setViewName("ticketPurchaseForm");
         return model;
     }
