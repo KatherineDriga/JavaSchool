@@ -10,4 +10,6 @@ public interface AccountService {
     AccountDetails create (String login, String email, String password, String firstName, String lastName, LocalDate dateOfBirth, boolean employee);
 
     AccountDetails getByLogin (String login);
+
+    AccountDetails getById (int id);
 }

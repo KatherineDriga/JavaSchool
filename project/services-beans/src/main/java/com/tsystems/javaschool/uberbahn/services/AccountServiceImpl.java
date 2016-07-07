@@ -61,4 +61,19 @@ public class AccountServiceImpl implements AccountService {
         accountDetails.setEmployee(account.isEmployee());
         return accountDetails;
     }
+
+    @Override
+    public AccountDetails getById(int id) {
+        Account account = accountRepository.findOne(id);
+        AccountDetails accountDetails = new AccountDetails();
+        accountDetails.setId(account.getId());
+        accountDetails.setLogin(account.getLogin());
+        accountDetails.setEmail(account.getEmail());
+        accountDetails.setSecret(account.getSecret());
+        accountDetails.setFirstName(account.getFirstName());
+        accountDetails.setLastName(account.getLastName());
+        accountDetails.setDateOfBirth(account.getDateOfBirth());
+        accountDetails.setEmployee(account.isEmployee());
+        return accountDetails;
+    }
 }

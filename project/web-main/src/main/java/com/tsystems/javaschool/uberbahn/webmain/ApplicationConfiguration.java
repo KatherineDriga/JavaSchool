@@ -4,6 +4,7 @@ import com.tsystems.javaschool.uberbahn.entities.BaseEntity;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.jpa.JpaTransactionManager;
@@ -23,13 +24,20 @@ import javax.sql.DataSource;
 public class ApplicationConfiguration {
 
     @Bean
-    public DataSource dataSource() {
+    @Profile("production")
+    public DataSource dataSourceProd() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName("com.mysql.jdbc.Driver");
         dataSource.setUrl("jdbc:mysql://localhost/uberbahn");
         dataSource.setUsername("uberbahn_webapp");
         dataSource.setPassword("123");
         return dataSource;
+    }
+
+    @Bean
+    @Profile("development")
+    public DataSource dataSourceDev() {
+        throw new UnsupportedOperationException();
     }
 
     @Bean
