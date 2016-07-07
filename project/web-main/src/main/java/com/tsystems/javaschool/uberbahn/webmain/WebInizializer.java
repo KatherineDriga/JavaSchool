@@ -9,11 +9,11 @@ import javax.servlet.ServletException;
 public class WebInizializer extends
         AbstractAnnotationConfigDispatcherServletInitializer {
 
-    @Override
+    /*@Override
     public void onStartup(ServletContext servletContext) throws ServletException {
         super.onStartup(servletContext);
         servletContext.setInitParameter("spring.profiles.active", "production");
-    }
+    }*/
 
    @Override
     protected Class<?>[] getRootConfigClasses() {

@@ -7,6 +7,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabase;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.Database;
@@ -37,7 +40,13 @@ public class ApplicationConfiguration {
     @Bean
     @Profile("development")
     public DataSource dataSourceDev() {
-        throw new UnsupportedOperationException();
+        EmbeddedDatabaseBuilder builder = new EmbeddedDatabaseBuilder();
+        EmbeddedDatabase dataSource = builder
+                .setType(EmbeddedDatabaseType.DERBY)
+                .addScript("db/sql/create-db.sql")
+                .addScript("db/sql/insert-data.sql")
+                .build();
+        return dataSource;
     }
 
     @Bean
