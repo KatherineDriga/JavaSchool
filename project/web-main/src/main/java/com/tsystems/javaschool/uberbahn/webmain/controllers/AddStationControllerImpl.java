@@ -4,6 +4,7 @@ import com.tsystems.javaschool.uberbahn.entities.Station;
 import com.tsystems.javaschool.uberbahn.services.StationService;
 import com.tsystems.javaschool.uberbahn.transports.StationInfo;
 import com.tsystems.javaschool.uberbahn.webmain.exception.CustomGenericException;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,6 +18,8 @@ import javax.persistence.PersistenceException;
 public class AddStationControllerImpl {
 
     private final StationService stationService;
+    private final Logger logger = Logger.getLogger(TrainTimetableSearchControllerImpl.class);
+
 
     @Autowired
     public AddStationControllerImpl(StationService stationService) {
@@ -45,6 +48,7 @@ public class AddStationControllerImpl {
         } catch (PersistenceException ex) {
             throw new PersistenceException("Database writing error", ex);
         }
+        logger.info(String.format("Station %s is added", stationInfo.getId()));
         return stationInfo;
     }
 

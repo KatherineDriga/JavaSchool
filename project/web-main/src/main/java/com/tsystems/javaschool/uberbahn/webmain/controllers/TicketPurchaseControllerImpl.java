@@ -5,6 +5,7 @@ import com.tsystems.javaschool.uberbahn.services.AccountService;
 import com.tsystems.javaschool.uberbahn.services.TicketService;
 import com.tsystems.javaschool.uberbahn.transports.AccountDetails;
 import com.tsystems.javaschool.uberbahn.transports.TicketInfo;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.Authentication;
@@ -24,6 +25,8 @@ public class TicketPurchaseControllerImpl {
 
     private final TicketService ticketService;
     private final AccountService accountService;
+    private final Logger logger = Logger.getLogger(TrainTimetableSearchControllerImpl.class);
+
 
     @Autowired
     public TicketPurchaseControllerImpl(TicketService ticketService, AccountService accountService) {
@@ -60,6 +63,7 @@ public class TicketPurchaseControllerImpl {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String name = auth.getName();
         TicketInfo ticketInfo = ticketService.create(trainId, stationOfDepartureId, stationOfArrivalId, firstName, lastName, dateOfBirth, name);
+        logger.info(String.format("Ticket #%s purchased", ticketInfo.getId()));
         return ticketInfo;
     }
 

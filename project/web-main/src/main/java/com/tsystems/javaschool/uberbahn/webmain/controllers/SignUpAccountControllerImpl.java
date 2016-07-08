@@ -2,6 +2,7 @@ package com.tsystems.javaschool.uberbahn.webmain.controllers;
 
 import com.tsystems.javaschool.uberbahn.services.AccountService;
 import com.tsystems.javaschool.uberbahn.transports.AccountDetails;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
@@ -15,6 +16,8 @@ import java.time.LocalDate;
 public class SignUpAccountControllerImpl {
 
     private final AccountService accountService;
+    private final Logger logger = Logger.getLogger(TrainTimetableSearchControllerImpl.class);
+
 
     @Autowired
     public SignUpAccountControllerImpl (AccountService accountService) {
@@ -43,8 +46,10 @@ public class SignUpAccountControllerImpl {
             throw new PersistenceException(String.format("Email %s already exists", email));
         }
 
-        return accountService.create(login, email, password, firstName, lastName, dateOfBirth, employee);
+        AccountDetails accountDetails = accountService.create(login, email, password, firstName, lastName, dateOfBirth, employee);
 
+        logger.info(String.format("Account %s is added", accountDetails.getId()));
+        return accountDetails;
     }
 
     @RequestMapping(path = "/addedAccount", method = RequestMethod.GET)
