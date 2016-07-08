@@ -3,14 +3,14 @@ package com.tsystems.javaschool.uberbahn.webmain.controllers;
 
 
 import com.tsystems.javaschool.uberbahn.services.RouteService;
+import com.tsystems.javaschool.uberbahn.services.StationService;
 import com.tsystems.javaschool.uberbahn.transports.RouteInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.NumberFormat;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
 import java.time.LocalTime;
@@ -18,17 +18,43 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@RestController
-@RequestMapping("/")
+@Controller
 public class AddRouteControllerImpl {
 
     private final RouteService routeService;
+    private final StationService stationService;
 
     @Autowired
-    public AddRouteControllerImpl(RouteService routeService) {
+    public AddRouteControllerImpl(RouteService routeService, StationService stationService) {
         this.routeService = routeService;
+        this.stationService = stationService;
     }
 
+    @RequestMapping(path = "/addRouteForm", method = RequestMethod.GET)
+    public String addRouteForm() {
+        return "addRouteForm";
+    }
+
+    @RequestMapping(path = "/addStationsToRouteForm", method = RequestMethod.GET)
+    public String addStationsToRoute(Model model, @RequestParam(name = "routeTitle") String title,
+                                     @RequestParam(name = "numberOfStations") int numberOfStations,
+                                     @RequestParam(name = "timeOfDeparture") @DateTimeFormat(iso = DateTimeFormat.ISO.TIME) LocalTime timeOfDeparture,
+                                     @RequestParam(name = "pricePerMinute") @NumberFormat(pattern = "###.##") BigDecimal pricePerMinute) {
+
+        boolean existsRoute = routeService.existsRoute(title);
+        if (existsRoute == true) {
+            return "addRouteError";
+        } else {
+            model.addAttribute("stations", stationService.getAll());
+            model.addAttribute("routeTitle", title);
+            model.addAttribute("numberOfStations", numberOfStations);
+            model.addAttribute("timeOfDeparture", timeOfDeparture);
+            model.addAttribute("pricePerMinute", pricePerMinute);
+            return "addStationsToRouteForm";
+        }
+    }
+
+    @ResponseBody
     @RequestMapping(path = "/addRoute", method = RequestMethod.POST, produces = "application/json")
     public RouteInfo addRoute(@RequestParam(name = "title") String title,
                               @RequestParam(name = "timeOfDeparture") @DateTimeFormat(iso = DateTimeFormat.ISO.TIME) LocalTime timeOfDeparture,
@@ -48,6 +74,13 @@ public class AddRouteControllerImpl {
         RouteInfo routeInfo = routeService.create(title, timeOfDeparture,
                 ids, minutes, pricePerMinute);
         return routeInfo;
+    }
+
+    @RequestMapping(path = "/routeInfo", method = RequestMethod.GET)
+    public String showRouteInfo(Model model, @RequestParam(name = "routeId") int routeId) {
+
+        model.addAttribute("route", routeService.getById(routeId));
+        return "routeInfo";
     }
 
 }

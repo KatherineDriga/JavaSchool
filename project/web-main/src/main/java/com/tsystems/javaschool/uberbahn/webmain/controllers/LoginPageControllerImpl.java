@@ -7,11 +7,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
-@RequestMapping("/")
 public class LoginPageControllerImpl {
 
     @RequestMapping(path = "/loginPage", method = RequestMethod.GET)
-    public String loginPage(Model model, @RequestParam(value = "error", required = false) String error) {
+    public String showLoginPage(Model model, @RequestParam(value = "error", required = false) String error) {
 
         if (error != null) {
             model.addAttribute("error", "Invalid login or password");

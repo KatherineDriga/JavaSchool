@@ -9,16 +9,30 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Controller
-@RequestMapping("/")
 public class StationTimetableControllerImpl {
+
     private final StationService stationService;
 
     @Autowired
     public StationTimetableControllerImpl(StationService stationService) {
         this.stationService = stationService;
+    }
+
+    @RequestMapping(path = "/stationTimetableSearch", method = RequestMethod.GET)
+    public String showStationTimetableSearchForm (Model model) {
+
+        LocalDate sinceDate = LocalDate.now();
+        LocalDate untilDate = sinceDate.plusDays(7);
+
+        model.addAttribute("stations", stationService.getAll());
+        model.addAttribute("sinceDate", sinceDate);
+        model.addAttribute("untilDate", untilDate);
+
+        return "stationTimetableSearch";
     }
 
     @RequestMapping(path = "/stationTimetable", method = RequestMethod.GET)
@@ -27,7 +41,6 @@ public class StationTimetableControllerImpl {
                                        @RequestParam(name = "until") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime until) {
 
         model.addAttribute("timetable", stationService.getTimetable(stationId, since, until));
-
         return "stationTimetable";
     }
 

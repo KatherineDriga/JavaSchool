@@ -4,15 +4,13 @@ import com.tsystems.javaschool.uberbahn.services.AccountService;
 import com.tsystems.javaschool.uberbahn.transports.AccountDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 
-@RestController
-@RequestMapping("/")
+@Controller
 public class SignUpAccountControllerImpl {
 
     private final AccountService accountService;
@@ -22,6 +20,12 @@ public class SignUpAccountControllerImpl {
         this.accountService = accountService;
     }
 
+    @RequestMapping(path = "/signUpForm", method = RequestMethod.GET)
+    public String showSignUpForm() {
+        return "signUpForm";
+    }
+
+    @ResponseBody
     @RequestMapping(path = "/signUpAccount", method = RequestMethod.POST, produces = "application/json")
     public AccountDetails signUpAccount (@RequestParam(name = "login") String login,
                                        @RequestParam(name = "email") String email,
@@ -31,9 +35,13 @@ public class SignUpAccountControllerImpl {
                                        @RequestParam(name = "dateOfBirth") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dateOfBirth,
                                        @RequestParam(name = "employee") boolean employee) {
 
-         AccountDetails accountDetails = accountService.create(login, email, password, firstName, lastName, dateOfBirth, employee);
+        return accountService.create(login, email, password, firstName, lastName, dateOfBirth, employee);
+    }
 
-        return accountDetails;
+    @RequestMapping(path = "/addedAccount", method = RequestMethod.GET)
+    public String showAddedAccount(Model model, @RequestParam(name = "accountId") int id) {
+        model.addAttribute("account", accountService.getById(id));
+        return "addedAccount";
     }
 
 }
