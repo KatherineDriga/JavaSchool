@@ -1,15 +1,12 @@
 package com.tsystems.javaschool.uberbahn.webmain.controllers;
 
-import com.tsystems.javaschool.uberbahn.entities.Station;
 import com.tsystems.javaschool.uberbahn.services.StationService;
 import com.tsystems.javaschool.uberbahn.transports.StationInfo;
-import com.tsystems.javaschool.uberbahn.webmain.exception.CustomGenericException;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.persistence.PersistenceException;
 

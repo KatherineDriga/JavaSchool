@@ -18,7 +18,7 @@ import java.time.LocalDateTime;
 @Controller
 public class TrainTimetableSearchControllerImpl {
 
-    private static final Logger logger = Logger.getLogger(TrainTimetableSearchControllerImpl.class);
+    private final Logger logger = Logger.getLogger(TrainTimetableSearchControllerImpl.class);
     private final StationService stationService;
     private final TrainService trainService;
 

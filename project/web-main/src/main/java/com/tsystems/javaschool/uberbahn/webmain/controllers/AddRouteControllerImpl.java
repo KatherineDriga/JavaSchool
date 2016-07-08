@@ -17,7 +17,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.persistence.PersistenceException;
 import java.math.BigDecimal;
-import java.sql.SQLException;
 import java.time.LocalTime;
 import java.util.Arrays;
 import java.util.List;

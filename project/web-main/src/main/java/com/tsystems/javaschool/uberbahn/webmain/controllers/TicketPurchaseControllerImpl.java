@@ -27,7 +27,6 @@ public class TicketPurchaseControllerImpl {
     private final AccountService accountService;
     private final Logger logger = Logger.getLogger(TrainTimetableSearchControllerImpl.class);
 
-
     @Autowired
     public TicketPurchaseControllerImpl(TicketService ticketService, AccountService accountService) {
         this.ticketService = ticketService;
