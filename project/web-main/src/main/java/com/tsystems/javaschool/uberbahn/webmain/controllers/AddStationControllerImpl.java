@@ -1,14 +1,16 @@
 package com.tsystems.javaschool.uberbahn.webmain.controllers;
 
+import com.tsystems.javaschool.uberbahn.entities.Station;
 import com.tsystems.javaschool.uberbahn.services.StationService;
 import com.tsystems.javaschool.uberbahn.transports.StationInfo;
+import com.tsystems.javaschool.uberbahn.webmain.exception.CustomGenericException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
+
+import javax.persistence.PersistenceException;
 
 
 @Controller
@@ -30,9 +32,19 @@ public class AddStationControllerImpl {
     @ResponseBody
     @RequestMapping(path = "/addStation", method = RequestMethod.POST, produces = "application/json")
     public StationInfo addStation(@RequestParam(name = "stationTitle") String stationTitle,
-                                  @RequestParam(name = "timezone") int timezone) {
+                                  @RequestParam(name = "timezone") int timezone)
+            throws Exception{
 
-        StationInfo stationInfo = stationService.create(stationTitle, timezone);
+        boolean existsStation = stationService.existsStation(stationTitle);
+        if (existsStation == true) {
+            throw new PersistenceException(String.format("Station %s already exists", stationTitle));
+        }
+        StationInfo stationInfo = null;
+        try {
+            stationInfo = stationService.create(stationTitle, timezone);
+        } catch (PersistenceException ex) {
+            throw new PersistenceException("Database writing error", ex);
+        }
         return stationInfo;
     }
 
@@ -44,5 +56,6 @@ public class AddStationControllerImpl {
         model.addAttribute("title", title);
         return "addedStation";
     }
+
 
 }

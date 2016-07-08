@@ -76,4 +76,20 @@ public class AccountServiceImpl implements AccountService {
         accountDetails.setEmployee(account.isEmployee());
         return accountDetails;
     }
+
+    @Override
+    public boolean existsLogin(String login) {
+        if (accountRepository.findByLogin(login) != null) {
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public boolean existsEmail(String email) {
+        if (accountRepository.findByEmail(email) != null) {
+            return true;
+        }
+        return false;
+    }
 }

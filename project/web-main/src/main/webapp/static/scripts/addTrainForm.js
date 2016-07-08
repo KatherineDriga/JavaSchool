@@ -37,7 +37,7 @@ $(function () {
                         + "trainId=" + data.trainId;
                 },
                 error: function (error) {
-                    errorMessageSpan.text("Train already exists");
+                    errorMessageSpan.text(error.responseText);
                 }
             });
         }

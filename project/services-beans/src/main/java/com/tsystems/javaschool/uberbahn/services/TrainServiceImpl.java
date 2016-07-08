@@ -147,11 +147,6 @@ public class TrainServiceImpl implements TrainService {
     @Override
     public TrainInfo create(int routeId, LocalDate dateOfDeparture, int numberOfSeats, double priceCoefficient) {
 
-        Train findTrain = trainRepository.findByRouteIdAndDateOfDeparture(routeId, dateOfDeparture);
-        if (findTrain != null) {
-            throw new RuntimeException("Train already exists");
-        }
-
         Train train = new Train();
         Route route = routeRepository.findOne(routeId);
         train.setRoute(route);
@@ -217,6 +212,15 @@ public class TrainServiceImpl implements TrainService {
             passengerInfo.setStationOfArrival(ticket.getStationOfArrival().getTitle());
             return passengerInfo;
         }).collect(Collectors.toList());
+    }
+
+    @Override
+    public boolean existsTrain(int routeId, LocalDate dateOfDeparture) {
+        Train train = trainRepository.findByRouteIdAndDateOfDeparture(routeId, dateOfDeparture);
+        if (train != null) {
+            return true;
+        }
+        return false;
     }
 }
 

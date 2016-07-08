@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.PersistenceException;
 import java.time.LocalDate;
 
 @Controller
@@ -35,7 +36,15 @@ public class SignUpAccountControllerImpl {
                                        @RequestParam(name = "dateOfBirth") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dateOfBirth,
                                        @RequestParam(name = "employee") boolean employee) {
 
+        if (accountService.existsLogin(login)) {
+            throw new PersistenceException(String.format("Login %s already exists", login));
+        }
+        if (accountService.existsEmail(email)) {
+            throw new PersistenceException(String.format("Email %s already exists", email));
+        }
+
         return accountService.create(login, email, password, firstName, lastName, dateOfBirth, employee);
+
     }
 
     @RequestMapping(path = "/addedAccount", method = RequestMethod.GET)

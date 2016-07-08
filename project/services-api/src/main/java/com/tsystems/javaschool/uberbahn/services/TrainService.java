@@ -17,4 +17,6 @@ public interface TrainService {
     Collection<TrainInfo> getTrainInfos (int routeId);
 
     Collection<PassengerInfo> getPassengerInfo (int trainId);
+
+    boolean existsTrain (int routeId, LocalDate dateOfDeparture);
 }

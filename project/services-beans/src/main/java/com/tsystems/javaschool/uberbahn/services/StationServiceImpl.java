@@ -88,5 +88,14 @@ public class StationServiceImpl implements StationService {
         return timetable;
 
     }
+
+    @Override
+    public boolean existsStation(String title) {
+        Station station = stationRepository.findByTitle(title);
+        if (station != null) {
+            return true;
+        }
+        return false;
+    }
 }
 

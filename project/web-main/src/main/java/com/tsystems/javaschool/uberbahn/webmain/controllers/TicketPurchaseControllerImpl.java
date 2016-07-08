@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.persistence.PersistenceException;
 import java.time.LocalDate;
 
 @Controller
@@ -63,7 +64,8 @@ public class TicketPurchaseControllerImpl {
     }
 
     @RequestMapping(path = "/purchasedTicket", method = RequestMethod.GET)
-    public TicketInfo showTicketInfo(@RequestParam(name = "ticketId") int id) {
+    public TicketInfo showTicketInfo(@RequestParam(name = "ticketId") int id)
+            throws PersistenceException{
 
         TicketInfo ticketInfo = ticketService.getTicketInfo(id);
         return ticketInfo;

@@ -12,4 +12,8 @@ public interface AccountService {
     AccountDetails getByLogin (String login);
 
     AccountDetails getById (int id);
+
+    boolean existsLogin (String login);
+
+    boolean existsEmail (String email);
 }

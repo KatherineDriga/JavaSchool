@@ -53,7 +53,7 @@ $(function () {
                         + "accountId=" + data.id;
                 },
                 error: function (error) {
-                    errorMessageSpan.text("User is already registered (check login and email)");
+                    errorMessageSpan.text("Database writing error");
                 }
             });
         }

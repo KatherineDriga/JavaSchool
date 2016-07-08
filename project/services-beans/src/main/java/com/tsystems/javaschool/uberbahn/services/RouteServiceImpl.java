@@ -6,7 +6,6 @@ import com.tsystems.javaschool.uberbahn.entities.Spot;
 import com.tsystems.javaschool.uberbahn.repositories.RouteRepository;
 import com.tsystems.javaschool.uberbahn.repositories.SpotRepository;
 import com.tsystems.javaschool.uberbahn.repositories.StationRepository;
-import com.tsystems.javaschool.uberbahn.services.RouteService;
 import com.tsystems.javaschool.uberbahn.transports.RouteInfo;
 import com.tsystems.javaschool.uberbahn.transports.RouteSpotInfo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,15 +54,11 @@ public class  RouteServiceImpl implements RouteService {
 
     @Override
     public RouteInfo create(String title, LocalTime timeOfDeparture, List<Integer> stationIds, List<Integer> minutesSinceDepartures, BigDecimal pricePerMinute) {
-        Route findRoute = routeRepository.findByTitle(title);
-        if (findRoute != null) {
-            throw new RuntimeException("Route already exists");
-        }
-
         Route route = new Route();
         route.setTitle(title);
         route.setTimeOfDeparture(timeOfDeparture);
         route.setPricePerMinute(pricePerMinute);
+
         int routeId = routeRepository.save(route).getId();
 
         Collection<RouteSpotInfo> routeSpotInfos = new ArrayList<>();

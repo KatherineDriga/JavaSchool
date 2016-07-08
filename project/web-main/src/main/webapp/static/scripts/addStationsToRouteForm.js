@@ -29,8 +29,30 @@ $(function () {
             minutesSinceDepartures.push($(this).val());
         });
 
+
+        function checkArray(A)
+        {
+            var i=0, j=0, L=A.length;
+            do { j = i+1;
+                while (A[i]!=A[j] && j<L) j++;
+                i++;
+            } while (i<L-1 && j==L);
+            if (j<L) return false;
+            return true;
+        }
+
+        if (checkArray(stationIds) == false) {
+            errorMessageSpan.text("Stations reiterave");
+        }
+
+        if (checkArray(minutesSinceDepartures) == false) {
+            errorMessageSpan.text("Minutes reiterave");
+        }
+
         if (errorMessageSpan.text() != "Enter minutes since departure" &&
-            errorMessageSpan.text() != "Select stations") {
+            errorMessageSpan.text() != "Select stations" &&
+            errorMessageSpan.text() != "Stations reiterave" &&
+            errorMessageSpan.text() != "Minutes reiterave") {
             $.ajax({
                 type: "POST",
                 url: "/addRoute",
@@ -46,7 +68,7 @@ $(function () {
                         + "routeId=" + data.id;
                 },
                 error: function (error) {
-                    errorMessageSpan.text("Route already exists or stations reiterave");
+                    errorMessageSpan.text(error.responseText);
                 }
             });
         }

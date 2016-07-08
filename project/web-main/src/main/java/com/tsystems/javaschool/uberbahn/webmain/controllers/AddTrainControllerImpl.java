@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.PersistenceException;
 import java.time.LocalDate;
 
 @Controller
@@ -39,7 +40,16 @@ public class AddTrainControllerImpl {
                               @RequestParam(name = "numberOfSeats") int numberOfSeats,
                               @RequestParam(name = "priceCoefficient") double priceCoefficient) {
 
-        TrainInfo trainInfo = trainService.create(routeId, dateOfDeparture, numberOfSeats, priceCoefficient);
+        boolean existsTrain = trainService.existsTrain(routeId, dateOfDeparture);
+        if (existsTrain == true) {
+            throw new PersistenceException(String.format("Train %s already exists", dateOfDeparture));
+        }
+        TrainInfo trainInfo = null;
+        try {
+           trainInfo = trainService.create(routeId, dateOfDeparture, numberOfSeats, priceCoefficient);
+        } catch (PersistenceException ex) {
+            throw new PersistenceException("Database writing error", ex);
+        }
         return trainInfo;
     }
 

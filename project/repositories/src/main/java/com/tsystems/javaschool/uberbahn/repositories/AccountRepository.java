@@ -9,4 +9,6 @@ import org.springframework.transaction.annotation.Transactional;
 public interface AccountRepository extends JpaRepository<Account, Integer> {
 
     Account findByLogin (String login);
+
+    Account findByEmail (String email);
 }

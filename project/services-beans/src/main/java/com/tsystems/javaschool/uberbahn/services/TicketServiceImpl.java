@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.PersistenceException;
 import java.math.BigDecimal;
 import java.time.*;
 import java.time.temporal.ChronoUnit;
@@ -68,20 +69,20 @@ public class TicketServiceImpl implements TicketService {
 
         train.getTickets().forEach(ticket -> {
             if (ticket.getFirstName().equals(firstName) && ticket.getLastName().equals(lastName) && ticket.getDateOfBirth().isEqual(dateOfBirth)) {
-                throw new RuntimeException("Passenger is already registered");
+                throw new PersistenceException("Passenger is already registered");
             }
         });
 
         int ticketsAvailable = countTicketsAvailable(trainId, stationOfDepartureId, stationOfArrivalId);
         if (ticketsAvailable == 0){
-            throw new RuntimeException("No tickets available");
+            throw new PersistenceException("No tickets available");
         }
 
         Presence presenceDeparture = presenceRepository.findByTrainIdAndStationId(trainId, stationOfDepartureId);
         Presence presenceArrival = presenceRepository.findByTrainIdAndStationId(trainId, stationOfArrivalId);
         Instant datetimeOfPurchase = LocalDateTime.now().toInstant(ZoneOffset.ofHours(presenceDeparture.getSpot().getStation().getTimezone()));
         if (ChronoUnit.MINUTES.between(datetimeOfPurchase, presenceDeparture.getInstant()) < 10) {
-            throw new RuntimeException("Less than 10 minutes before departure");
+            throw new PersistenceException("Less than 10 minutes before departure");
         }
 
         OffsetDateTime datetimeDeparture = presenceDeparture.getInstant().atOffset(ZoneOffset.ofHours(presenceDeparture.getSpot().getStation().getTimezone()));

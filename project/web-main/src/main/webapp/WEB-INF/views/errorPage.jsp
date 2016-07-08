@@ -3,11 +3,7 @@
 <%@include file="/WEB-INF/jspf/nav.jspf" %>
 
 <section>
-
-    <h3>Station ${title} is added!</h3>
-
-
+    <h3>The page you requested was not found</h3>
 
 </section>
 <%@include file="/WEB-INF/jspf/footer.jspf" %>
-

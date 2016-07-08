@@ -5,14 +5,18 @@ package com.tsystems.javaschool.uberbahn.webmain.controllers;
 import com.tsystems.javaschool.uberbahn.services.RouteService;
 import com.tsystems.javaschool.uberbahn.services.StationService;
 import com.tsystems.javaschool.uberbahn.transports.RouteInfo;
+import com.tsystems.javaschool.uberbahn.webmain.exception.CustomGenericException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.NumberFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
+import javax.persistence.PersistenceException;
 import java.math.BigDecimal;
+import java.sql.SQLException;
 import java.time.LocalTime;
 import java.util.Arrays;
 import java.util.List;
@@ -35,23 +39,24 @@ public class AddRouteControllerImpl {
         return "addRouteForm";
     }
 
+
     @RequestMapping(path = "/addStationsToRouteForm", method = RequestMethod.GET)
     public String addStationsToRoute(Model model, @RequestParam(name = "routeTitle") String title,
                                      @RequestParam(name = "numberOfStations") int numberOfStations,
                                      @RequestParam(name = "timeOfDeparture") @DateTimeFormat(iso = DateTimeFormat.ISO.TIME) LocalTime timeOfDeparture,
-                                     @RequestParam(name = "pricePerMinute") @NumberFormat(pattern = "###.##") BigDecimal pricePerMinute) {
+                                     @RequestParam(name = "pricePerMinute") @NumberFormat(pattern = "###.##") BigDecimal pricePerMinute)
+            throws CustomGenericException {
 
         boolean existsRoute = routeService.existsRoute(title);
         if (existsRoute == true) {
-            return "addRouteError";
-        } else {
+            throw new CustomGenericException(String.format("Route %s already exists", title));
+        }
             model.addAttribute("stations", stationService.getAll());
             model.addAttribute("routeTitle", title);
             model.addAttribute("numberOfStations", numberOfStations);
             model.addAttribute("timeOfDeparture", timeOfDeparture);
             model.addAttribute("pricePerMinute", pricePerMinute);
             return "addStationsToRouteForm";
-        }
     }
 
     @ResponseBody
@@ -60,7 +65,8 @@ public class AddRouteControllerImpl {
                               @RequestParam(name = "timeOfDeparture") @DateTimeFormat(iso = DateTimeFormat.ISO.TIME) LocalTime timeOfDeparture,
                               @RequestParam(name = "stationIds") String stationIds,
                               @RequestParam(name = "minutesSinceDepartures") String minutesSinceDepartures,
-                              @RequestParam(name = "pricePerMinute") @NumberFormat(pattern = "###.##") BigDecimal pricePerMinute) {
+                              @RequestParam(name = "pricePerMinute") @NumberFormat(pattern = "###.##") BigDecimal pricePerMinute)
+    throws PersistenceException {
 
         List<Integer> ids = Arrays.asList(stationIds.split(";"))
                 .stream()
@@ -71,8 +77,14 @@ public class AddRouteControllerImpl {
                 .map(s -> Integer.parseInt(s))
                 .collect(Collectors.toList());
 
-        RouteInfo routeInfo = routeService.create(title, timeOfDeparture,
-                ids, minutes, pricePerMinute);
+
+        RouteInfo routeInfo = null;
+        try {
+            routeInfo = routeService.create(title, timeOfDeparture,
+                    ids, minutes, pricePerMinute);
+        } catch (PersistenceException ex) {
+            throw new PersistenceException("Database writing error", ex);
+        }
         return routeInfo;
     }
 
@@ -81,6 +93,13 @@ public class AddRouteControllerImpl {
 
         model.addAttribute("route", routeService.getById(routeId));
         return "routeInfo";
+    }
+
+    @ExceptionHandler(CustomGenericException.class)
+    public ModelAndView handleCustomException(CustomGenericException ex) {
+        ModelAndView model = new ModelAndView("addStationsToRouteForm");
+        model.addObject("exception", ex.getErrorMsg());
+        return model;
     }
 
 }

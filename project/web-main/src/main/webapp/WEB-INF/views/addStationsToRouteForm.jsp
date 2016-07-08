@@ -2,6 +2,11 @@
 <%@include file="/WEB-INF/jspf/nav.jspf" %>
 
 <section>
+<c:choose>
+    <c:when test="${not empty exception}">
+        <h3>${exception}</h3>
+    </c:when>
+    <c:otherwise>
     <h2>Add Stations To Route ${routeTitle}</h2>
     <form class="addStationsToRoute">
         <p><label>Station 1</label>
@@ -35,7 +40,8 @@
     <span hidden="true" id="timeOfDeparture">${timeOfDeparture}</span>
     <span hidden="true" id="routeTitle">${routeTitle}</span>
     <span hidden="true" id="pricePerMinute">${pricePerMinute}</span>
-
+    </c:otherwise>
+</c:choose>
 </section>
 <script src="static/scripts/addStationsToRouteForm.js"></script>
 

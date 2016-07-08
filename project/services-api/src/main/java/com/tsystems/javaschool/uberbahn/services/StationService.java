@@ -15,4 +15,6 @@ public interface StationService {
 
     Collection<StationInfo> getAll ();
 
+    boolean existsStation (String title);
+
 }
