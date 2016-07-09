@@ -14,6 +14,7 @@ import java.math.BigDecimal;
 import java.time.*;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 @Service
@@ -87,8 +88,13 @@ public class TrainServiceImpl implements TrainService {
                 }
             }
             trainInfo.setNumberOfSeatsAvailable(ticketsAvailable);
+            int duration = minutesArrival-minutesDeparture;
+            long days = TimeUnit.MINUTES.toDays(duration);
+            long hours = TimeUnit.MINUTES.toHours(duration) - days*24;
+            long minutes = duration - days*24 - hours*60;
+            trainInfo.setTravelTime(String.valueOf(days) + "d " + String.valueOf(hours) + "h "+String.valueOf(minutes) + "m");
 
-            trainInfo.setTicketPrice(((new BigDecimal(minutesArrival-minutesDeparture)).multiply(new BigDecimal(train.getPriceCoefficient())).multiply(train.getRoute().getPricePerMinute())).setScale(2, BigDecimal.ROUND_HALF_UP));
+            trainInfo.setTicketPrice(((new BigDecimal(duration)).multiply(new BigDecimal(train.getPriceCoefficient())).multiply(train.getRoute().getPricePerMinute())).setScale(2, BigDecimal.ROUND_HALF_UP));
 
 
             if (trainInfo.getTicketPrice().compareTo(BigDecimal.ZERO) > 0){

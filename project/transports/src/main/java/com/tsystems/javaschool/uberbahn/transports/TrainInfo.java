@@ -18,6 +18,7 @@ public class TrainInfo {
     private LocalDate dateOfArrival;
     private LocalTime timeOfArrival;
     private int numberOfSeatsAvailable;
+    private String travelTime;
     private BigDecimal ticketPrice;
     private int numberOfSeats;
     //private Collection<TicketsPurchasedPerStation> ticketsPurchasedPerStations;
@@ -110,6 +111,12 @@ public class TrainInfo {
         this.numberOfSeats = numberOfSeats;
     }
 
+    public String getTravelTime() {
+        return travelTime;
+    }
 
+    public void setTravelTime(String travelTime) {
+        this.travelTime = travelTime;
+    }
 }
 

@@ -15,6 +15,7 @@
             <th>Route Title</th>
             <th>Departure</th>
             <th>Arrival</th>
+            <th>Travel Time</th>
             <th>Number Of Seats <br />Available</th>
             <th>Price</th>
         </tr>
@@ -32,6 +33,7 @@
             <td id = "routeTitle">${train.routeTitle}</td>
             <td>${train.dateOfDeparture}<br />${train.timeOfDeparture}<br />${train.stationOfDeparture}</td>
             <td>${train.dateOfArrival}<br />${train.timeOfArrival}<br />${train.stationOfArrival}</td>
+            <td>${train.travelTime}</td>
             <td>${train.numberOfSeatsAvailable}</td>
             <td>${train.ticketPrice}</td>
         </tr>
