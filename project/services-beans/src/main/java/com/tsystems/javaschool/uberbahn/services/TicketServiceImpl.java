@@ -8,6 +8,7 @@ import com.tsystems.javaschool.uberbahn.entities.Train;
 import com.tsystems.javaschool.uberbahn.repositories.*;
 import com.tsystems.javaschool.uberbahn.services.TicketService;
 import com.tsystems.javaschool.uberbahn.transports.TicketInfo;
+import com.tsystems.javaschool.uberbahn.transports.TrainInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,8 +17,8 @@ import javax.persistence.PersistenceException;
 import java.math.BigDecimal;
 import java.time.*;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
-import java.util.Collection;
+import java.util.*;
+
 
 @Service
 @Transactional
@@ -62,6 +63,38 @@ public class TicketServiceImpl implements TicketService {
         }
         return ticketsAvailable;
     }
+
+    @Override
+    public List<TicketInfo> getTicketInfos(int accountId, LocalDateTime since, LocalDateTime until) {
+        Collection<Ticket> tickets = ticketRepository.getByAccountId(accountId);
+        List<TicketInfo> ticketInfos = new ArrayList<>();
+        tickets.forEach(ticket -> {
+            Presence presenceDeparture = presenceRepository.findByTrainIdAndStationId(ticket.getTrain().getId(), ticket.getStationOfDeparture().getId());
+            LocalDateTime datetimeDeparture = LocalDateTime.ofInstant(presenceDeparture.getInstant(), ZoneOffset.ofHours(presenceDeparture.getSpot().getStation().getTimezone()));
+            if (datetimeDeparture.isAfter(since) && datetimeDeparture.isBefore(until)) {
+                TicketInfo ticketInfo = new TicketInfo();
+                ticketInfo.setId(ticket.getId());
+                ticketInfo.setTrainId(ticket.getTrain().getId());
+                ticketInfo.setStationOfDeparture(ticket.getStationOfDeparture().getTitle());
+                ticketInfo.setDatetimeOfDeparture(datetimeDeparture);
+                ticketInfo.setStationOfArrival(ticket.getStationOfArrival().getTitle());
+                Presence presenceArrival = presenceRepository.findByTrainIdAndStationId(ticket.getTrain().getId(), ticket.getStationOfArrival().getId());
+                LocalDateTime datetimeArrival = LocalDateTime.ofInstant(presenceArrival.getInstant(), ZoneOffset.ofHours(presenceArrival.getSpot().getStation().getTimezone()));
+                ticketInfo.setDatetimeOfArrival(datetimeArrival);
+                ticketInfo.setFirstName(ticket.getFirstName());
+                ticketInfo.setLastName(ticket.getLastName());
+                ticketInfo.setDateOfBirth(ticket.getDateOfBirth());
+                ticketInfo.setDatetimeOfPurchase(ticket.getDatetimeOfPurchase());
+                ticketInfo.setPrice(ticket.getPrice());
+                ticketInfos.add(ticketInfo);
+            }
+        });
+
+        Collections.sort(ticketInfos, (TicketInfo t1, TicketInfo t2) ->
+                t2.getDatetimeOfDeparture().compareTo(t1.getDatetimeOfDeparture()));
+        return ticketInfos;
+    }
+
 
     @Override
     public TicketInfo create(int trainId, int stationOfDepartureId, int stationOfArrivalId, String firstName, String lastName, LocalDate dateOfBirth, String accountLogin) {

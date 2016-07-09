@@ -179,3 +179,8 @@ div.menu ul li a:active
 #errorMessage, #errorMessage1, #errorMessage2{
     color: red;
 }
+div.scroll-table {
+    overflow: auto;
+    height: 500px;
+    width: 900px;
+}

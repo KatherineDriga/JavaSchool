@@ -28,6 +28,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .antMatchers("/ticketPurchaseForm").hasAuthority("CLIENT")
                 .antMatchers("/purchasedTicket").hasAuthority("CLIENT")
+                .antMatchers("ticketsPurchased").hasAuthority("CLIENT")
                 .antMatchers("/addStationForm").hasAuthority("EMPLOYEE")
                 .antMatchers("/addedStation").hasAuthority("EMPLOYEE")
                 .antMatchers("/addRouteForm").hasAuthority("EMPLOYEE")

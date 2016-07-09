@@ -4,6 +4,9 @@ package com.tsystems.javaschool.uberbahn.services;
 import com.tsystems.javaschool.uberbahn.transports.TicketInfo;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Collection;
+import java.util.List;
 
 public interface TicketService {
 
@@ -12,5 +15,7 @@ public interface TicketService {
     TicketInfo getTicketInfo(int ticketId);
 
     int countTicketsAvailable(int trainId, int stationOfDepartureId, int stationOfArrivalId);
+
+    List<TicketInfo> getTicketInfos(int accountId, LocalDateTime since, LocalDateTime until);
 }
 

@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.persistence.PersistenceException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Controller
 public class TicketPurchaseControllerImpl {
@@ -72,6 +73,34 @@ public class TicketPurchaseControllerImpl {
 
         TicketInfo ticketInfo = ticketService.getTicketInfo(id);
         return ticketInfo;
+    }
+
+    @RequestMapping(path = "/ticketsPurchased", method = RequestMethod.GET)
+    public String showPurchasedTickets (Model model,
+                                        @RequestParam(name = "sinceDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate since,
+                                        @RequestParam(name = "untilDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate until) {
+
+        LocalDateTime datetimeSince = null;
+        LocalDateTime datetimeUntil = null;
+        if (until == null) {
+            datetimeUntil = LocalDateTime.now();
+        } else {
+            datetimeUntil = until.atStartOfDay();
+        }
+        if (since == null) {
+            datetimeSince = datetimeUntil.minusYears(1);
+        } else {
+            datetimeSince = since.atStartOfDay();
+        }
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String name = auth.getName();
+
+        model.addAttribute("tickets", ticketService.getTicketInfos(accountService.getByLogin(name).getId(), datetimeSince, datetimeUntil));
+        model.addAttribute("sinceDate", datetimeSince.toLocalDate());
+        model.addAttribute("untilDate", datetimeUntil.toLocalDate());
+
+        return "ticketsPurchased";
     }
 
 }

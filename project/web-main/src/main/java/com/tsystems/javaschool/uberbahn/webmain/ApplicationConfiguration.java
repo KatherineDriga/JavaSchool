@@ -43,7 +43,7 @@ public class ApplicationConfiguration {
         EmbeddedDatabaseBuilder builder = new EmbeddedDatabaseBuilder();
         EmbeddedDatabase dataSource = builder
                 .setType(EmbeddedDatabaseType.DERBY)
-                .addScript("uberbahn_scheme_rollout.sql")
+                //.addScript("uberbahn_scheme_rollout.sql")
                 .build();
         return dataSource;
     }
