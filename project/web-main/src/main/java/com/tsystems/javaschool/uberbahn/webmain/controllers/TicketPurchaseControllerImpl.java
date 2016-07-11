@@ -5,11 +5,15 @@ import com.tsystems.javaschool.uberbahn.services.AccountService;
 import com.tsystems.javaschool.uberbahn.services.TicketService;
 import com.tsystems.javaschool.uberbahn.transports.AccountDetails;
 import com.tsystems.javaschool.uberbahn.transports.TicketInfo;
+import com.tsystems.javaschool.uberbahn.webmain.errors.BusinessLogicException;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,18 +24,21 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.persistence.PersistenceException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Collection;
 
 @Controller
 public class TicketPurchaseControllerImpl {
 
     private final TicketService ticketService;
     private final AccountService accountService;
+    private final UserDetailsService userDetailsService;
     private final Logger logger = Logger.getLogger(TrainTimetableSearchControllerImpl.class);
 
     @Autowired
-    public TicketPurchaseControllerImpl(TicketService ticketService, AccountService accountService) {
+    public TicketPurchaseControllerImpl(TicketService ticketService, AccountService accountService, UserDetailsService userDetailsService) {
         this.ticketService = ticketService;
         this.accountService = accountService;
+        this.userDetailsService = userDetailsService;
     }
 
     @RequestMapping(path = "/ticketPurchaseForm", method = RequestMethod.GET)
@@ -76,7 +83,7 @@ public class TicketPurchaseControllerImpl {
     }
 
     @RequestMapping(path = "/ticketsPurchased", method = RequestMethod.GET)
-    public String showPurchasedTickets (Model model,
+    public String showPurchasedTicketsForUser (Model model,
                                         @RequestParam(name = "sinceDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate since,
                                         @RequestParam(name = "untilDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate until) {
 
@@ -101,6 +108,31 @@ public class TicketPurchaseControllerImpl {
         model.addAttribute("untilDate", datetimeUntil.toLocalDate());
 
         return "ticketsPurchased";
+    }
+
+    @RequestMapping(path = "/ticketsPurchasedReport", method = RequestMethod.GET, produces = "application/json")
+    public Collection<TicketInfo> showTicketsPurchasedReport(@RequestParam(name = "login") String login,
+                                                 @RequestParam(name = "password") String password,
+                                                 @RequestParam(name = "since") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate since,
+                                                 @RequestParam(name = "until") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate until) {
+
+
+        UserDetails userDetails = null;
+        try {
+            userDetails = userDetailsService.loadUserByUsername(login);
+        } catch (UsernameNotFoundException ex) {
+            throw new BusinessLogicException("Invalid login or password");
+        }
+        if (!userDetails.getPassword().equals(password)) {
+            throw new BusinessLogicException("Invalid login or password");
+        }
+        boolean isNotEmployee = userDetails.getAuthorities().stream().filter(authority -> {
+            return authority.getAuthority().equals("EMPLOYEE");
+        }).count() == 0;
+        if (isNotEmployee) {
+            throw new BusinessLogicException("Not authorized");
+        }
+        return null;
     }
 
 }

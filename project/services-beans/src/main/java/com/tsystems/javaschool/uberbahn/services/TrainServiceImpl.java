@@ -96,7 +96,6 @@ public class TrainServiceImpl implements TrainService {
 
             trainInfo.setTicketPrice(((new BigDecimal(duration)).multiply(new BigDecimal(train.getPriceCoefficient())).multiply(train.getRoute().getPricePerMinute())).setScale(2, BigDecimal.ROUND_HALF_UP));
 
-
             if (trainInfo.getTicketPrice().compareTo(BigDecimal.ZERO) > 0){
                 trainInfos.add(trainInfo);
             }
