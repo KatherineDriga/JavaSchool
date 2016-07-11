@@ -5,11 +5,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
-public class ErrorPageControllerImpl {
+public class NotExistingPageControllerImpl {
 
-    @RequestMapping(path = "/errorPage", method = RequestMethod.GET)
+    @RequestMapping(path = "/*", method = RequestMethod.GET)
     public String showErrorPage () {
-        return "errorPage";
+        return "notExistingPage";
     }
 
 }
