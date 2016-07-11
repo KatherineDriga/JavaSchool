@@ -5,7 +5,7 @@ package com.tsystems.javaschool.uberbahn.webmain.controllers;
 import com.tsystems.javaschool.uberbahn.services.RouteService;
 import com.tsystems.javaschool.uberbahn.services.StationService;
 import com.tsystems.javaschool.uberbahn.transports.RouteInfo;
-import com.tsystems.javaschool.uberbahn.webmain.exception.CustomGenericException;
+import com.tsystems.javaschool.uberbahn.webmain.errors.BusinessLogicException;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -50,7 +50,7 @@ public class AddRouteControllerImpl {
 
         boolean existsRoute = routeService.existsRoute(title);
         if (existsRoute == true) {
-            throw new CustomGenericException(String.format("Route %s already exists", title));
+            throw new BusinessLogicException(String.format("Route %s already exists", title));
         }
             model.addAttribute("stations", stationService.getAll());
             model.addAttribute("routeTitle", title);
@@ -79,13 +79,9 @@ public class AddRouteControllerImpl {
                 .collect(Collectors.toList());
 
 
-        RouteInfo routeInfo = null;
-        try {
-            routeInfo = routeService.create(title, timeOfDeparture,
+        RouteInfo routeInfo = routeService.create(title, timeOfDeparture,
                     ids, minutes, pricePerMinute);
-        } catch (PersistenceException ex) {
-            throw new PersistenceException("Database writing error", ex);
-        }
+
         logger.info(String.format("Route %s is added", routeInfo.getId()));
         return routeInfo;
     }
@@ -97,11 +93,11 @@ public class AddRouteControllerImpl {
         return "routeInfo";
     }
 
-    @ExceptionHandler(CustomGenericException.class)
-    public ModelAndView handleCustomException(CustomGenericException ex) {
+    @ExceptionHandler(BusinessLogicException.class)
+    public ModelAndView handleCustomException(BusinessLogicException ex) {
         logger.warn("WARN", ex);
         ModelAndView model = new ModelAndView("addStationsToRouteForm");
-        model.addObject("exception", ex.getErrorMsg());
+        model.addObject("errors", ex.getMessage());
         return model;
     }
 

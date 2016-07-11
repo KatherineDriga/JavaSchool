@@ -14,7 +14,6 @@ import java.util.Properties;
 @Configuration
 @ComponentScan({ "com.tsystems.javaschool.uberbahn.webmain" })
 @Import({ SecurityConfiguration.class })
-@Profile("production")
 public class ApplicationWebConfiguration extends WebMvcConfigurerAdapter {
 
     @Override
@@ -36,11 +35,11 @@ public class ApplicationWebConfiguration extends WebMvcConfigurerAdapter {
     public SimpleMappingExceptionResolver exceptionResolver() {
         SimpleMappingExceptionResolver exceptionResolver = new SimpleMappingExceptionResolver();
         //Properties exceptionMappings = new Properties();
-        //exceptionMappings.put("CustomGenericException", "addStationsToRouteForm");
+        //exceptionMappings.put("BusinessLogicException", "addStationsToRouteForm");
         //exceptionMappings.put("java.lang.RuntimeException", "errorPage");
         //exceptionResolver.setExceptionMappings(exceptionMappings);
         exceptionResolver.setDefaultErrorView("errorPage");
-        exceptionResolver.setExceptionAttribute("exception");
+        exceptionResolver.setExceptionAttribute("errors");
         //exceptionResolver.setWarnLogCategory("example.MvcLogger");
         return exceptionResolver;
     }*/

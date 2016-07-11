@@ -136,7 +136,7 @@ public class TicketServiceImpl implements TicketService {
         ticket.setAccount(account);
 
         BigDecimal price = (train.getRoute().getPricePerMinute()
-                .multiply(new BigDecimal(train.getPriceCoefficient()))
+                .multiply((BigDecimal.valueOf(train.getPriceCoefficient())))
                 .multiply(new BigDecimal(minutesArrival-minutesDeparture))).setScale(2, BigDecimal.ROUND_HALF_UP);
         ticket.setPrice(price);
 

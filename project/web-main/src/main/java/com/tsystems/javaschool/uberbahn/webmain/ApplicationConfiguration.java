@@ -43,17 +43,32 @@ public class ApplicationConfiguration {
         EmbeddedDatabaseBuilder builder = new EmbeddedDatabaseBuilder();
         EmbeddedDatabase dataSource = builder
                 .setType(EmbeddedDatabaseType.DERBY)
-                //.addScript("uberbahn_scheme_rollout.sql")
                 .build();
         return dataSource;
     }
 
     @Bean
-    public EntityManagerFactory entityManagerFactory(DataSource dataSource) {
-
+    @Profile("production")
+    public HibernateJpaVendorAdapter vendorAdapterProd() {
         HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
         vendorAdapter.setDatabase(Database.MYSQL);
         vendorAdapter.setShowSql(true);
+        vendorAdapter.setGenerateDdl(false);
+        return vendorAdapter;
+    }
+
+    @Bean
+    @Profile("development")
+    public HibernateJpaVendorAdapter vendorAdapterDev() {
+        HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
+        vendorAdapter.setDatabase(Database.DERBY);
+        vendorAdapter.setShowSql(true);
+        vendorAdapter.setGenerateDdl(true);
+        return vendorAdapter;
+    }
+
+    @Bean
+    public EntityManagerFactory entityManagerFactory(DataSource dataSource, HibernateJpaVendorAdapter vendorAdapter) {
 
         LocalContainerEntityManagerFactoryBean factory = new LocalContainerEntityManagerFactoryBean();
         factory.setJpaVendorAdapter(vendorAdapter);

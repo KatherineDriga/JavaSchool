@@ -2,6 +2,7 @@ package com.tsystems.javaschool.uberbahn.webmain.controllers;
 
 import com.tsystems.javaschool.uberbahn.services.StationService;
 import com.tsystems.javaschool.uberbahn.transports.StationInfo;
+import com.tsystems.javaschool.uberbahn.webmain.errors.BusinessLogicException;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -37,7 +38,7 @@ public class AddStationControllerImpl {
 
         boolean existsStation = stationService.existsStation(stationTitle);
         if (existsStation == true) {
-            throw new PersistenceException(String.format("Station %s already exists", stationTitle));
+            throw new BusinessLogicException(String.format("Station %s already exists", stationTitle));
         }
         StationInfo stationInfo = null;
         try {
