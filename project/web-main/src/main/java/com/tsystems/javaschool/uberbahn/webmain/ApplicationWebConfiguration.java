@@ -4,16 +4,14 @@ import org.springframework.context.annotation.*;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
-import org.springframework.web.servlet.handler.SimpleMappingExceptionResolver;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
 
-import java.util.Properties;
 
 @EnableWebMvc
 @Configuration
-@ComponentScan({ "com.tsystems.javaschool.uberbahn.webmain" })
-@Import({ SecurityConfiguration.class })
+@ComponentScan({"com.tsystems.javaschool.uberbahn.webmain"})
+@Import({SecurityConfiguration.class})
 public class ApplicationWebConfiguration extends WebMvcConfigurerAdapter {
 
     @Override

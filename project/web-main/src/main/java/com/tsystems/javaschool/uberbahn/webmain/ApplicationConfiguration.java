@@ -23,7 +23,7 @@ import javax.sql.DataSource;
 @Configuration
 @EnableTransactionManagement
 @EnableJpaRepositories("com.tsystems.javaschool.uberbahn.repositories")
-@ComponentScan({ "com.tsystems.javaschool.uberbahn" })
+@ComponentScan({"com.tsystems.javaschool.uberbahn"})
 public class ApplicationConfiguration {
 
     @Bean

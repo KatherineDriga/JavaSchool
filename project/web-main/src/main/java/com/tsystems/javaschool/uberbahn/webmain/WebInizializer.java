@@ -15,18 +15,18 @@ public class WebInizializer extends
         servletContext.setInitParameter("spring.profiles.active", "production");
     }
 
-   @Override
+    @Override
     protected Class<?>[] getRootConfigClasses() {
-        return new Class<?>[] {ApplicationConfiguration.class};
+        return new Class<?>[]{ApplicationConfiguration.class};
     }
 
     @Override
     protected Class<?>[] getServletConfigClasses() {
-        return new Class<?>[] {ApplicationWebConfiguration.class};
+        return new Class<?>[]{ApplicationWebConfiguration.class};
     }
 
     @Override
     protected String[] getServletMappings() {
-        return new String[] { "/" };
+        return new String[]{"/"};
     }
 }

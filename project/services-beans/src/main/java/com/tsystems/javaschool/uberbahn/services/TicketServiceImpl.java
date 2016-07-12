@@ -18,6 +18,7 @@ import java.math.BigDecimal;
 import java.time.*;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -58,7 +59,7 @@ public class TicketServiceImpl implements TicketService {
                 isArrivalNotPassed = false;
             }
             if (isDeparturePassed && isArrivalNotPassed) {
-                ticketsAvailable = Math.min((train.getNumberOfSeats()-presence.getNumberOfTicketsPurchased()), ticketsAvailable);
+                ticketsAvailable = Math.min((train.getNumberOfSeats() - presence.getNumberOfTicketsPurchased()), ticketsAvailable);
             }
         }
         return ticketsAvailable;
@@ -95,6 +96,31 @@ public class TicketServiceImpl implements TicketService {
         return ticketInfos;
     }
 
+    @Override
+    public List<TicketInfo> getTicketInfos(LocalDateTime since, LocalDateTime until) {
+        return ticketRepository.getBySinceAndUntil(since, until).stream().map(ticket -> {
+            TicketInfo ticketInfo = new TicketInfo();
+            ticketInfo.setId(ticket.getId());
+            ticketInfo.setTrainId(ticket.getTrain().getId());
+            ticketInfo.setStationOfDeparture(ticket.getStationOfDeparture().getTitle());
+            Presence presenceDeparture = presenceRepository.findByTrainIdAndStationId(ticket.getTrain().getId(), ticket.getStationOfDeparture().getId());
+            LocalDateTime datetimeDeparture = LocalDateTime.ofInstant(presenceDeparture.getInstant(), ZoneOffset.ofHours(presenceDeparture.getSpot().getStation().getTimezone()));
+            ticketInfo.setDatetimeOfDeparture(datetimeDeparture);
+            ticketInfo.setStationOfArrival(ticket.getStationOfArrival().getTitle());
+            Presence presenceArrival = presenceRepository.findByTrainIdAndStationId(ticket.getTrain().getId(), ticket.getStationOfArrival().getId());
+            LocalDateTime datetimeArrival = LocalDateTime.ofInstant(presenceArrival.getInstant(), ZoneOffset.ofHours(presenceArrival.getSpot().getStation().getTimezone()));
+            ticketInfo.setDatetimeOfArrival(datetimeArrival);
+            ticketInfo.setFirstName(ticket.getFirstName());
+            ticketInfo.setLastName(ticket.getLastName());
+            ticketInfo.setDateOfBirth(ticket.getDateOfBirth());
+            ticketInfo.setDatetimeOfPurchase(ticket.getDatetimeOfPurchase());
+            ticketInfo.setPrice(ticket.getPrice());
+            ticketInfo.setLogin(ticket.getAccount().getLogin());
+            return ticketInfo;
+        }).collect(Collectors.toList());
+
+    }
+
 
     @Override
     public TicketInfo create(int trainId, int stationOfDepartureId, int stationOfArrivalId, String firstName, String lastName, LocalDate dateOfBirth, String accountLogin) {
@@ -107,7 +133,7 @@ public class TicketServiceImpl implements TicketService {
         });
 
         int ticketsAvailable = countTicketsAvailable(trainId, stationOfDepartureId, stationOfArrivalId);
-        if (ticketsAvailable == 0){
+        if (ticketsAvailable == 0) {
             throw new PersistenceException("No tickets available");
         }
 
@@ -137,7 +163,7 @@ public class TicketServiceImpl implements TicketService {
 
         BigDecimal price = (train.getRoute().getPricePerMinute()
                 .multiply((BigDecimal.valueOf(train.getPriceCoefficient())))
-                .multiply(new BigDecimal(minutesArrival-minutesDeparture))).setScale(2, BigDecimal.ROUND_HALF_UP);
+                .multiply(new BigDecimal(minutesArrival - minutesDeparture))).setScale(2, BigDecimal.ROUND_HALF_UP);
         ticket.setPrice(price);
 
         int ticketId;

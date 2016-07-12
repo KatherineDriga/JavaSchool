@@ -47,8 +47,8 @@ public class TicketControllerImpl {
 
     @RequestMapping(path = "/ticketPurchaseForm", method = RequestMethod.GET)
     public String showTicketPurchaseForm(Model model, @RequestParam(name = "stationOfDeparture") int stationOfDepartureId,
-                                     @RequestParam(name = "stationOfArrival") int stationOfArrivalId,
-                                     @RequestParam(name = "trainId") int trainId) {
+                                         @RequestParam(name = "stationOfArrival") int stationOfArrivalId,
+                                         @RequestParam(name = "trainId") int trainId) {
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String userName = auth.getName();
@@ -58,7 +58,7 @@ public class TicketControllerImpl {
         model.addAttribute("trainId", trainId);
         model.addAttribute("trainInfo", trainInfo);
         AccountDetails accountDetails = accountService.getByLogin(userName);
-        if (!accountDetails.isEmployee()){
+        if (!accountDetails.isEmployee()) {
             model.addAttribute("account", accountService.getByLogin(userName));
         }
         return "ticketPurchaseForm";
@@ -67,11 +67,11 @@ public class TicketControllerImpl {
     @ResponseBody
     @RequestMapping(path = "/ticketPurchase", method = RequestMethod.POST, produces = "application/json")
     public TicketInfo addTicket(@RequestParam(name = "stationOfDepartureId") int stationOfDepartureId,
-                            @RequestParam(name = "stationOfArrivalId") int stationOfArrivalId,
-                            @RequestParam(name = "trainId") int trainId,
-                            @RequestParam(name = "firstName") String firstName,
-                            @RequestParam(name = "lastName") String lastName,
-                            @RequestParam(name = "dateOfBirth") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dateOfBirth) {
+                                @RequestParam(name = "stationOfArrivalId") int stationOfArrivalId,
+                                @RequestParam(name = "trainId") int trainId,
+                                @RequestParam(name = "firstName") String firstName,
+                                @RequestParam(name = "lastName") String lastName,
+                                @RequestParam(name = "dateOfBirth") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dateOfBirth) {
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String name = auth.getName();
@@ -88,9 +88,9 @@ public class TicketControllerImpl {
     }
 
     @RequestMapping(path = "/ticketsPurchased", method = RequestMethod.GET)
-    public String showPurchasedTicketsForUser (Model model,
-                                        @RequestParam(name = "sinceDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate since,
-                                        @RequestParam(name = "untilDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate until) {
+    public String showPurchasedTicketsForUser(Model model,
+                                              @RequestParam(name = "sinceDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate since,
+                                              @RequestParam(name = "untilDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate until) {
 
         LocalDateTime datetimeSince = null;
         LocalDateTime datetimeUntil = null;
@@ -115,12 +115,11 @@ public class TicketControllerImpl {
         return "ticketsPurchased";
     }
 
-    @RequestMapping(path = "/ticketsPurchasedReport", method = RequestMethod.GET, produces = "application/json")
-    public Collection<TicketInfo> showTicketsPurchasedReport(@RequestParam(name = "login") String login,
-                                                 @RequestParam(name = "password") String password,
-                                                 @RequestParam(name = "since") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate since,
-                                                 @RequestParam(name = "until") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate until) {
-
+    @RequestMapping(path = "/ticketsPurchasedReport", method = RequestMethod.GET/*, produces = "application/json"*/)
+    public String showTicketsPurchasedReport(Model model, @RequestParam(name = "login", required = false, defaultValue = "empl3") String login,
+                                             @RequestParam(name = "password", required = false, defaultValue = "123") String password,
+                                             @RequestParam(name = "since", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate since,
+                                             @RequestParam(name = "until", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate until) {
 
         UserDetails userDetails = null;
         try {
@@ -137,7 +136,26 @@ public class TicketControllerImpl {
         if (isNotEmployee) {
             throw new BusinessLogicException("Not authorized");
         }
-        return null;
+
+        LocalDateTime datetimeSince = null;
+        LocalDateTime datetimeUntil = null;
+        if (until == null) {
+            datetimeUntil = LocalDateTime.now();
+        } else {
+            datetimeUntil = until.atStartOfDay();
+        }
+        if (since == null) {
+            datetimeSince = datetimeUntil.minusDays(1);
+        } else {
+            datetimeSince = since.atStartOfDay();
+        }
+
+        model.addAttribute("tickets", ticketService.getTicketInfos(datetimeSince, datetimeUntil));
+        model.addAttribute("sinceDate", datetimeSince.toLocalDate());
+        model.addAttribute("untilDate", datetimeUntil.toLocalDate());
+        return "ticketsPurchasedReport";
+
+        //return ticketService.getTicketInfos(datetimeSince, datetimeUntil);
     }
 
 }

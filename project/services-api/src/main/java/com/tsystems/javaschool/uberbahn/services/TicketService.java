@@ -17,5 +17,7 @@ public interface TicketService {
     int countTicketsAvailable(int trainId, int stationOfDepartureId, int stationOfArrivalId);
 
     List<TicketInfo> getTicketInfos(int accountId, LocalDateTime since, LocalDateTime until);
+
+    List<TicketInfo> getTicketInfos(LocalDateTime since, LocalDateTime until);
 }
 

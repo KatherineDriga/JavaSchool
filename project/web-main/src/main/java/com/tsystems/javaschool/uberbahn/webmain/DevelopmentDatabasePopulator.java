@@ -1,6 +1,5 @@
 package com.tsystems.javaschool.uberbahn.webmain;
 
-import com.tsystems.javaschool.uberbahn.entities.Account;
 import com.tsystems.javaschool.uberbahn.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
@@ -10,7 +9,6 @@ import org.springframework.stereotype.Component;
 import javax.annotation.PostConstruct;
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,7 +33,7 @@ public class DevelopmentDatabasePopulator {
     }
 
     @PostConstruct
-    private void onCreated(){
+    private void onCreated() {
 
         createAccounts();
         createStations();
@@ -80,7 +78,7 @@ public class DevelopmentDatabasePopulator {
     }
 
     private void createTickets() {
-        ticketService.create(1, 2, 6, "Olga", "Petrova", LocalDate.of(1995, 3,4), "empl");
+        ticketService.create(1, 2, 6, "Olga", "Petrova", LocalDate.of(1995, 3, 4), "empl");
         ticketService.create(2, 3, 4, "Oleg", "Ivanov", LocalDate.of(1988, 12, 3), "user");
     }
 }
