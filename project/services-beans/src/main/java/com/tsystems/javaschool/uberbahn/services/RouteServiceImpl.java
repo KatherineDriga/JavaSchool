@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.PersistenceException;
 import java.math.BigDecimal;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -59,7 +60,12 @@ public class  RouteServiceImpl implements RouteService {
         route.setTimeOfDeparture(timeOfDeparture);
         route.setPricePerMinute(pricePerMinute);
 
-        int routeId = routeRepository.save(route).getId();
+        int routeId;
+        try {
+            routeId = routeRepository.save(route).getId();
+        } catch (PersistenceException ex) {
+            throw new PersistenceException("Database writing error");
+        }
 
         Collection<RouteSpotInfo> routeSpotInfos = new ArrayList<>();
 
@@ -68,7 +74,11 @@ public class  RouteServiceImpl implements RouteService {
             spot.setRoute(route);
             spot.setMinutesSinceDeparture(minutesSinceDepartures.get(i));
             spot.setStation(stationRepository.findOne(stationIds.get(i)));
-            spotRepository.save(spot);
+            try {
+                spotRepository.save(spot);
+            } catch (PersistenceException ex) {
+                throw new PersistenceException("Database writing error");
+            }
             RouteSpotInfo spotInfo = new RouteSpotInfo();
             spotInfo.setStationTitle(spot.getStation().getTitle());
             spotInfo.setMinutesSinceDeparture(spot.getMinutesSinceDeparture());

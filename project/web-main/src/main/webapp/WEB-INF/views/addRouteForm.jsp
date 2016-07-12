@@ -4,6 +4,7 @@
 
 <section>
     <h2>Add route</h2>
+    <div style="width: 250px">
     <form role="form" class="addRoute">
         <div class="form-group">
         <p><label>Route Title</label>
@@ -21,6 +22,7 @@
             </div>
         </div>
     </form>
+    </div>
 
 
 </section>

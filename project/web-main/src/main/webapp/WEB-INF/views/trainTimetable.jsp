@@ -10,7 +10,7 @@
     </c:when>
     <c:otherwise>
     <div class="scroll-table">
-        <table>
+        <table class="table table-striped">
             <tr>
                 <th>Train</th>
                 <th>Route Title</th>

@@ -21,7 +21,6 @@ public class TrainInfo {
     private String travelTime;
     private BigDecimal ticketPrice;
     private int numberOfSeats;
-    //private Collection<TicketsPurchasedPerStation> ticketsPurchasedPerStations;
 
     public int getTrainId() {
         return trainId;

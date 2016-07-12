@@ -10,8 +10,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import javax.persistence.PersistenceException;
-
 
 @Controller
 public class StationControllerImpl {
@@ -38,15 +36,10 @@ public class StationControllerImpl {
             throws Exception{
 
         boolean existsStation = stationService.existsStation(stationTitle);
-        if (existsStation == true) {
+        if (existsStation) {
             throw new BusinessLogicException(String.format("Station %s already exists", stationTitle));
         }
-        StationInfo stationInfo = null;
-        try {
-            stationInfo = stationService.create(stationTitle, timezone);
-        } catch (PersistenceException ex) {
-            throw new PersistenceException("Database writing error", ex);
-        }
+        StationInfo stationInfo = stationService.create(stationTitle, timezone);
         logger.info(String.format("Station %s is added", stationInfo.getId()));
         return stationInfo;
     }

@@ -2,6 +2,7 @@ package com.tsystems.javaschool.uberbahn.webmain.controllers;
 
 import com.tsystems.javaschool.uberbahn.services.AccountService;
 import com.tsystems.javaschool.uberbahn.transports.AccountDetails;
+import com.tsystems.javaschool.uberbahn.webmain.errors.BusinessLogicException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +11,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import javax.persistence.PersistenceException;
 import java.time.LocalDate;
 
 @Controller
@@ -41,10 +41,10 @@ public class AccountControllerImpl {
                                        @RequestParam(name = "employee") boolean employee) {
 
         if (accountService.existsLogin(login)) {
-            throw new PersistenceException(String.format("Login %s already exists", login));
+            throw new BusinessLogicException(String.format("Login %s already exists", login));
         }
         if (accountService.existsEmail(email)) {
-            throw new PersistenceException(String.format("Email %s already exists", email));
+            throw new BusinessLogicException(String.format("Email %s already exists", email));
         }
 
         AccountDetails accountDetails = accountService.create(login, email, password, firstName, lastName, dateOfBirth, employee);

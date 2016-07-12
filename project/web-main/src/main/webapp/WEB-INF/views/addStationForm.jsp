@@ -5,7 +5,7 @@
 <section>
     <h2>Add station</h2>
 
-
+    <div style="width: 250px">
     <form role="form" class="addStation" method="post">
         <div class="form-group">
                 <p><label>Station</label>
@@ -20,6 +20,7 @@
         </div>
         <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
     </form>
+    </div>
 
 
 

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.PersistenceException;
 import java.time.LocalDate;
 
 @Service
@@ -31,7 +32,12 @@ public class AccountServiceImpl implements AccountService {
         account.setDateOfBirth(dateOfBirth);
         account.setEmployee(employee);
 
-        int accountId = accountRepository.save(account).getId();
+        int accountId;
+        try {
+            accountId = accountRepository.save(account).getId();
+        } catch (PersistenceException ex) {
+            throw new PersistenceException("Database writing error");
+        }
 
         AccountDetails accountDetails = new AccountDetails();
         accountDetails.setId(accountId);

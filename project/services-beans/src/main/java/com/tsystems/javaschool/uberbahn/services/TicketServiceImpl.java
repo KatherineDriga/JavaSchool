@@ -140,7 +140,12 @@ public class TicketServiceImpl implements TicketService {
                 .multiply(new BigDecimal(minutesArrival-minutesDeparture))).setScale(2, BigDecimal.ROUND_HALF_UP);
         ticket.setPrice(price);
 
-        int ticketId = ticketRepository.save(ticket).getId();
+        int ticketId;
+        try {
+            ticketId = ticketRepository.save(ticket).getId();
+        } catch (PersistenceException ex) {
+            throw new PersistenceException("Database writing error");
+        }
 
         Collection<Presence> presencesPassed = new ArrayList<>();
         boolean isDeparturePassed = false;
@@ -163,7 +168,11 @@ public class TicketServiceImpl implements TicketService {
             presence.setNumberOfTicketsPurchased(ticketsPurchased);
         });
 
-        presenceRepository.save(presencesPassed);
+        try {
+            presenceRepository.save(presencesPassed);
+        } catch (PersistenceException ex) {
+            throw new PersistenceException("Database writing error");
+        }
 
         TicketInfo ticketInfo = new TicketInfo();
         ticketInfo.setId(ticketId);

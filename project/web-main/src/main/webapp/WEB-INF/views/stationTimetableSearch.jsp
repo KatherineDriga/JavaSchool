@@ -5,6 +5,7 @@
 
 <section>
     <h2>Station Timetable</h2>
+    <div style="width: 250px">
     <form role="form" class="stationTimetableSearchForm">
         <div class="form-group">
         <p><label>Station </label>
@@ -22,6 +23,7 @@
             </div>
         </div>
     </form>
+    </div>
 </section>
 <script src="static/scripts/stationTimetableSearch.js"></script>
 

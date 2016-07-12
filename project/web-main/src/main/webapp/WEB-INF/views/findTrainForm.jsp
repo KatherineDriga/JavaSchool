@@ -4,6 +4,7 @@
 
 <section>
     <h2>Find trains</h2>
+    <div style="width: 250px">
     <form role="form" class="findTrains">
         <div class="form-group">
         <p><label>Route</label>
@@ -22,6 +23,7 @@
             </div>
         </div>
     </form>
+    </div>
 
 
 </section>

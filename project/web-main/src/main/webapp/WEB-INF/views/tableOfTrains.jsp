@@ -9,7 +9,7 @@
     <c:otherwise>
     <h2>Choose train:</h2>
     <div class="scroll-table">
-    <table>
+    <table class="table table-striped">
         <tr>
             <th></th>
             <th>Train</th>

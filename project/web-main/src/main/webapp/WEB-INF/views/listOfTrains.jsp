@@ -30,8 +30,8 @@
                 <td></td>
             </c:otherwise>
         </c:choose>
-            <td id = "trainId">${train.trainId}</td>
-            <td id = "routeTitle">${train.routeTitle}</td>
+            <td>${train.trainId}</td>
+            <td>${train.routeTitle}</td>
             <td>${train.dateOfDeparture}<br />${train.timeOfDeparture}<br />${train.stationOfDeparture}</td>
             <td>${train.dateOfArrival}<br />${train.timeOfArrival}<br />${train.stationOfArrival}</td>
             <td>${train.travelTime}</td>

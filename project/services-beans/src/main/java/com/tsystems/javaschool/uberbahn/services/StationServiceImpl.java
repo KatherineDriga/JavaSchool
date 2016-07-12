@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.PersistenceException;
 import java.time.*;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -25,24 +26,25 @@ import java.util.stream.Collectors;
 @Transactional
 public class StationServiceImpl implements StationService {
 
-    private final RouteRepository routeRepository;
     private final StationRepository stationRepository;
     private final PresenceRepository presenceRepository;
-    private final TrainRepository trainRepository;
 
     @Autowired
-    public StationServiceImpl(RouteRepository routeRepository, StationRepository stationRepository, PresenceRepository presenceRepository, TrainRepository trainRepository) {
-        this.routeRepository = routeRepository;
+    public StationServiceImpl(StationRepository stationRepository, PresenceRepository presenceRepository) {
         this.stationRepository = stationRepository;
         this.presenceRepository = presenceRepository;
-        this.trainRepository = trainRepository;
     }
     @Override
     public StationInfo create(String stationTitle, int timezone) {
         Station station = new Station();
         station.setTitle(stationTitle);
         station.setTimezone(timezone);
-        int stationId = stationRepository.save(station).getId();
+        int stationId;
+        try {
+            stationId = stationRepository.save(station).getId();
+        } catch (PersistenceException ex) {
+            throw new PersistenceException("Database writing error");
+        }
         StationInfo stationInfo = new StationInfo();
         stationInfo.setId(stationId);
         stationInfo.setTitle(stationTitle);

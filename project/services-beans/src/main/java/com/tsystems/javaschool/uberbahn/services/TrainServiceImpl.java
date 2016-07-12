@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.PersistenceException;
 import java.math.BigDecimal;
 import java.time.*;
 import java.time.temporal.ChronoUnit;
@@ -89,10 +90,8 @@ public class TrainServiceImpl implements TrainService {
             }
             trainInfo.setNumberOfSeatsAvailable(ticketsAvailable);
             int duration = minutesArrival-minutesDeparture;
-            long days = TimeUnit.MINUTES.toDays(duration);
-            long hours = TimeUnit.MINUTES.toHours(duration) - days*24;
-            long minutes = duration - days*24*60 - hours*60;
-            trainInfo.setTravelTime(String.valueOf(days) + "d " + String.valueOf(hours) + "h "+String.valueOf(minutes) + "m");
+
+            trainInfo.setTravelTime(countTravelTime(duration));
 
             trainInfo.setTicketPrice(((new BigDecimal(duration)).multiply(new BigDecimal(train.getPriceCoefficient())).multiply(train.getRoute().getPricePerMinute())).setScale(2, BigDecimal.ROUND_HALF_UP));
 
@@ -173,7 +172,12 @@ public class TrainServiceImpl implements TrainService {
         train.setPriceCoefficient(priceCoefficient);
         train.setArchived(false);
 
-        int trainId = trainRepository.save(train).getId();
+        int trainId;
+        try {
+            trainId = trainRepository.save(train).getId();
+        } catch (PersistenceException ex) {
+            throw new PersistenceException("Database writing error");
+        }
 
         Train addedTrain = trainRepository.findOne(trainId);
         Collection<Spot> spots = spotRepository.findByRouteId(routeId);
@@ -188,7 +192,11 @@ public class TrainServiceImpl implements TrainService {
                     .plus(spot.getMinutesSinceDeparture(), ChronoUnit.MINUTES);
             presence.setInstant(instant);
             presence.setNumberOfTicketsPurchased(0);
-            presenceRepository.save(presence);
+            try {
+                presenceRepository.save(presence);
+            } catch (PersistenceException ex) {
+                throw new PersistenceException("Database writing error");
+            }
         });
 
         TrainInfo trainInfo = new TrainInfo();
@@ -240,5 +248,33 @@ public class TrainServiceImpl implements TrainService {
         }
         return false;
     }
+
+    @Override
+    public TrainInfo getByDepartureArrivalAndTrainId(int stationOfDepartureId, int stationOfArrivalId, int trainId) {
+        TrainInfo trainInfo = new TrainInfo();
+        Train train = trainRepository.findOne(trainId);
+        Presence presenceDeparture = presenceRepository.findByTrainIdAndStationId(trainId, stationOfDepartureId);
+        Presence presenceArrival = presenceRepository.findByTrainIdAndStationId(trainId, stationOfArrivalId);
+        trainInfo.setRouteTitle(train.getRoute().getTitle());
+        OffsetDateTime datetimeDeparture = presenceDeparture.getInstant().atOffset(ZoneOffset.ofHours(stationRepository.findOne(stationOfDepartureId).getTimezone()));
+        OffsetDateTime datetimeArrival = presenceArrival.getInstant().atOffset(ZoneOffset.ofHours(stationRepository.findOne(stationOfArrivalId).getTimezone()));
+        trainInfo.setDateOfDeparture(datetimeDeparture.toLocalDate());
+        trainInfo.setTimeOfDeparture(datetimeDeparture.toLocalTime());
+        trainInfo.setStationOfDeparture(stationRepository.findOne(stationOfDepartureId).getTitle());
+        trainInfo.setDateOfArrival(datetimeArrival.toLocalDate());
+        trainInfo.setTimeOfArrival(datetimeArrival.toLocalTime());
+        trainInfo.setStationOfArrival(stationRepository.findOne(stationOfArrivalId).getTitle());
+
+        return trainInfo;
+    }
+
+    public String countTravelTime (int duration){
+        long days = TimeUnit.MINUTES.toDays(duration);
+        long hours = TimeUnit.MINUTES.toHours(duration) - days*24;
+        long minutes = duration - days*24*60 - hours*60;
+        return (String.valueOf(days) + "d " + String.valueOf(hours) + "h "+String.valueOf(minutes) + "m");
+    }
+
+
 }
 

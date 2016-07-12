@@ -9,8 +9,7 @@
     </c:when>
     <c:otherwise>
     <div class="scroll-table">
-        <table>
-            <thread>
+        <table class="table table-striped">
             <tr>
                 <th>Date</th>
                 <th>Time On Station</th>
@@ -19,7 +18,6 @@
                 <th>Arrives at</th>
                 <th>Train</th>
             </tr>
-            </thread>
             <tbody>
             <c:forEach var="event" items="${timetable.scheduleEvents}">
                 <tr>

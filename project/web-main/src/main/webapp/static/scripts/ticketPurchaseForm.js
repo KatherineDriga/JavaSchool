@@ -18,14 +18,11 @@ $(function () {
 
         if ($("#fname").val() == 0) {
             errorMessageSpan.text("Enter first name");
-        }
-        else if ($("#lname").val() == 0) {
+        } else if ($("#lname").val() == 0) {
             errorMessageSpan.text("Enter last name");
-        }
-        else if ($("#dateOfBirth").val() == 0) {
+        } else if ($("#dateOfBirth").val() == 0) {
             errorMessageSpan.text("Enter date of birth");
-        }
-        else {
+        } else {
             $.ajax({
                 type: "POST",
                 url: "/ticketPurchase",
@@ -42,10 +39,7 @@ $(function () {
                         + "ticketId=" + data.id;
                 },
                 error: function (error) {
-                    //errorMessageSpan.text("Passenger is already registered");
-                    //errorMessageSpan1.text("Or No seats available");
-                    //errorMessageSpan2.text("Or Less than 10 minutes before departure");
-
+                    
                     errorMessageSpan.text(error.responseText);
 
                 }

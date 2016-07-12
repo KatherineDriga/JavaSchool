@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.persistence.PersistenceException;
+
 @ControllerAdvice
 public class ExceptionAdvice {
     private final Logger logger = LogManager.getLogger(TrainTimetableControllerImpl.class);
@@ -26,5 +28,13 @@ public class ExceptionAdvice {
         logger.warn("WARN", ex);
         return ex.getMessage();
     }
+
+    @ExceptionHandler(PersistenceException.class)
+    @ResponseBody
+    public String handlePersistenceException(Throwable ex) {
+        logger.error("ERROR", ex);
+        return ex.getMessage();
+    }
+
 
 }

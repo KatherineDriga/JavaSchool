@@ -136,16 +136,16 @@ div.menu ul li a:active
     margin-top: 5px;
 }
 .wrap {
-    width: 800px;
+    width: 550px;
     margin: 0 auto;
 }
 .left_col {
     float: left;
-    width: 400px;
+    width: 250px;
 }
 .right_col {
     float: right;
-    width: 400px;
+    width: 250px;
 }
 .columns {
     width: 500px;

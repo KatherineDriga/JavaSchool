@@ -3,8 +3,10 @@ package com.tsystems.javaschool.uberbahn.webmain.controllers;
 
 import com.tsystems.javaschool.uberbahn.services.AccountService;
 import com.tsystems.javaschool.uberbahn.services.TicketService;
+import com.tsystems.javaschool.uberbahn.services.TrainService;
 import com.tsystems.javaschool.uberbahn.transports.AccountDetails;
 import com.tsystems.javaschool.uberbahn.transports.TicketInfo;
+import com.tsystems.javaschool.uberbahn.transports.TrainInfo;
 import com.tsystems.javaschool.uberbahn.webmain.errors.BusinessLogicException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -22,7 +24,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.persistence.PersistenceException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Collection;
@@ -33,13 +34,15 @@ public class TicketControllerImpl {
     private final TicketService ticketService;
     private final AccountService accountService;
     private final UserDetailsService userDetailsService;
+    private final TrainService trainService;
     private final Logger logger = LogManager.getLogger(TrainTimetableControllerImpl.class);
 
     @Autowired
-    public TicketControllerImpl(TicketService ticketService, AccountService accountService, UserDetailsService userDetailsService) {
+    public TicketControllerImpl(TicketService ticketService, AccountService accountService, UserDetailsService userDetailsService, TrainService trainService) {
         this.ticketService = ticketService;
         this.accountService = accountService;
         this.userDetailsService = userDetailsService;
+        this.trainService = trainService;
     }
 
     @RequestMapping(path = "/ticketPurchaseForm", method = RequestMethod.GET)
@@ -49,9 +52,11 @@ public class TicketControllerImpl {
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String userName = auth.getName();
+        TrainInfo trainInfo = trainService.getByDepartureArrivalAndTrainId(stationOfDepartureId, stationOfArrivalId, trainId);
         model.addAttribute("stationOfDepartureId", stationOfDepartureId);
         model.addAttribute("stationOfArrivalId", stationOfArrivalId);
         model.addAttribute("trainId", trainId);
+        model.addAttribute("trainInfo", trainInfo);
         AccountDetails accountDetails = accountService.getByLogin(userName);
         if (!accountDetails.isEmployee()){
             model.addAttribute("account", accountService.getByLogin(userName));
@@ -76,8 +81,7 @@ public class TicketControllerImpl {
     }
 
     @RequestMapping(path = "/purchasedTicket", method = RequestMethod.GET)
-    public TicketInfo showTicketInfo(@RequestParam(name = "ticketId") int id)
-            throws PersistenceException{
+    public TicketInfo showTicketInfo(@RequestParam(name = "ticketId") int id) {
 
         TicketInfo ticketInfo = ticketService.getTicketInfo(id);
         return ticketInfo;

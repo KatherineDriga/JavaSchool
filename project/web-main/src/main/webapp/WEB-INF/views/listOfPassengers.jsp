@@ -10,7 +10,7 @@
     <h2>Passengers</h2>
     <h2>Train ${trainId}</h2>
     <div class="scroll-table">
-    <table>
+    <table class="table table-striped">
         <tr>
             <th>First Name</th>
             <th>Last Name</th>

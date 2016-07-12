@@ -4,6 +4,7 @@ package com.tsystems.javaschool.uberbahn.webmain.controllers;
 import com.tsystems.javaschool.uberbahn.services.RouteService;
 import com.tsystems.javaschool.uberbahn.services.TrainService;
 import com.tsystems.javaschool.uberbahn.transports.TrainInfo;
+import com.tsystems.javaschool.uberbahn.webmain.errors.BusinessLogicException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +13,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import javax.persistence.PersistenceException;
 import java.time.LocalDate;
 
 @Controller
@@ -45,15 +45,10 @@ public class TrainControllerImpl {
                               @RequestParam(name = "priceCoefficient") double priceCoefficient) {
 
         boolean existsTrain = trainService.existsTrain(routeId, dateOfDeparture);
-        if (existsTrain == true) {
-            throw new PersistenceException(String.format("Train %s already exists", dateOfDeparture));
+        if (existsTrain) {
+            throw new BusinessLogicException(String.format("Train %s already exists", dateOfDeparture));
         }
-        TrainInfo trainInfo = null;
-        try {
-           trainInfo = trainService.create(routeId, dateOfDeparture, numberOfSeats, priceCoefficient);
-        } catch (PersistenceException ex) {
-            throw new PersistenceException("Database writing error", ex);
-        }
+        TrainInfo trainInfo = trainService.create(routeId, dateOfDeparture, numberOfSeats, priceCoefficient);
 
         logger.info(String.format("Train %s is added", trainInfo.getTrainId()));
         return trainInfo;

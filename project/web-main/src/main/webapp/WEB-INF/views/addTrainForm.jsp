@@ -4,6 +4,7 @@
 
 <section>
     <h2>Add train</h2>
+    <div style="width: 250px">
     <form role="form" class="addTrain" method="post">
         <div class="form-group">
 
@@ -32,6 +33,7 @@
             </div>
         </div>
     </form>
+    </div>
 
 
 </section>
