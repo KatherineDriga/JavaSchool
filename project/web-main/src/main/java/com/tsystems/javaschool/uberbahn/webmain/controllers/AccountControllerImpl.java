@@ -14,14 +14,14 @@ import javax.persistence.PersistenceException;
 import java.time.LocalDate;
 
 @Controller
-public class SignUpAccountControllerImpl {
+public class AccountControllerImpl {
 
     private final AccountService accountService;
-    private final Logger logger = LogManager.getLogger(TrainTimetableSearchControllerImpl.class);
+    private final Logger logger = LogManager.getLogger(TrainTimetableControllerImpl.class);
 
 
     @Autowired
-    public SignUpAccountControllerImpl (AccountService accountService) {
+    public AccountControllerImpl(AccountService accountService) {
         this.accountService = accountService;
     }
 

@@ -1,7 +1,6 @@
 package com.tsystems.javaschool.uberbahn.webmain.controllers;
 
 
-
 import com.tsystems.javaschool.uberbahn.services.RouteService;
 import com.tsystems.javaschool.uberbahn.services.StationService;
 import com.tsystems.javaschool.uberbahn.transports.RouteInfo;
@@ -14,9 +13,7 @@ import org.springframework.format.annotation.NumberFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 
-import javax.persistence.PersistenceException;
 import java.math.BigDecimal;
 import java.time.LocalTime;
 import java.util.Arrays;
@@ -24,14 +21,14 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Controller
-public class AddRouteControllerImpl {
+public class RouteControllerImpl {
 
     private final RouteService routeService;
     private final StationService stationService;
-    private final Logger logger = LogManager.getLogger(TrainTimetableSearchControllerImpl.class);
+    private final Logger logger = LogManager.getLogger(TrainTimetableControllerImpl.class);
 
     @Autowired
-    public AddRouteControllerImpl(RouteService routeService, StationService stationService) {
+    public RouteControllerImpl(RouteService routeService, StationService stationService) {
         this.routeService = routeService;
         this.stationService = stationService;
     }

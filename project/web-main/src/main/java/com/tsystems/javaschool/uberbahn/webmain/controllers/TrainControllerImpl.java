@@ -16,15 +16,15 @@ import javax.persistence.PersistenceException;
 import java.time.LocalDate;
 
 @Controller
-public class AddTrainControllerImpl {
+public class TrainControllerImpl {
 
     private final TrainService trainService;
     private final RouteService routeService;
-    private final Logger logger = LogManager.getLogger(TrainTimetableSearchControllerImpl.class);
+    private final Logger logger = LogManager.getLogger(TrainTimetableControllerImpl.class);
 
 
     @Autowired
-    public AddTrainControllerImpl(TrainService trainService, RouteService routeService) {
+    public TrainControllerImpl(TrainService trainService, RouteService routeService) {
         this.trainService = trainService;
         this.routeService = routeService;
     }

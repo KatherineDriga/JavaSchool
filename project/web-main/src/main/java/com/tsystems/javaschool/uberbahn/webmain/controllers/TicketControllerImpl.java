@@ -28,15 +28,15 @@ import java.time.LocalDateTime;
 import java.util.Collection;
 
 @Controller
-public class TicketPurchaseControllerImpl {
+public class TicketControllerImpl {
 
     private final TicketService ticketService;
     private final AccountService accountService;
     private final UserDetailsService userDetailsService;
-    private final Logger logger = LogManager.getLogger(TrainTimetableSearchControllerImpl.class);
+    private final Logger logger = LogManager.getLogger(TrainTimetableControllerImpl.class);
 
     @Autowired
-    public TicketPurchaseControllerImpl(TicketService ticketService, AccountService accountService, UserDetailsService userDetailsService) {
+    public TicketControllerImpl(TicketService ticketService, AccountService accountService, UserDetailsService userDetailsService) {
         this.ticketService = ticketService;
         this.accountService = accountService;
         this.userDetailsService = userDetailsService;

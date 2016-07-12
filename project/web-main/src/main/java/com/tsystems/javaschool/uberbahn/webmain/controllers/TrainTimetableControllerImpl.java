@@ -17,14 +17,14 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Controller
-public class TrainTimetableSearchControllerImpl {
+public class TrainTimetableControllerImpl {
 
-    private final Logger logger = LogManager.getLogger(TrainTimetableSearchControllerImpl.class);
+    private final Logger logger = LogManager.getLogger(TrainTimetableControllerImpl.class);
     private final StationService stationService;
     private final TrainService trainService;
 
     @Autowired
-    public TrainTimetableSearchControllerImpl(StationService stationService, TrainService trainService) {
+    public TrainTimetableControllerImpl(StationService stationService, TrainService trainService) {
         this.stationService = stationService;
         this.trainService = trainService;
     }

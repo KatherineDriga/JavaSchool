@@ -14,14 +14,14 @@ import javax.persistence.PersistenceException;
 
 
 @Controller
-public class AddStationControllerImpl {
+public class StationControllerImpl {
 
     private final StationService stationService;
-    private final Logger logger = LogManager.getLogger(TrainTimetableSearchControllerImpl.class);
+    private final Logger logger = LogManager.getLogger(TrainTimetableControllerImpl.class);
 
 
     @Autowired
-    public AddStationControllerImpl(StationService stationService) {
+    public StationControllerImpl(StationService stationService) {
         this.stationService = stationService;
     }
 
