@@ -2,7 +2,8 @@ package com.tsystems.javaschool.uberbahn.webmain.errors;
 
 
 import com.tsystems.javaschool.uberbahn.webmain.controllers.TrainTimetableSearchControllerImpl;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -11,7 +12,7 @@ import javax.persistence.PersistenceException;
 
 @ControllerAdvice
 public class ExceptionAdvice {
-    private final Logger logger = Logger.getLogger(TrainTimetableSearchControllerImpl.class);
+    private final Logger logger = LogManager.getLogger(TrainTimetableSearchControllerImpl.class);
 
 
     @ExceptionHandler(Exception.class)

@@ -6,7 +6,8 @@ import com.tsystems.javaschool.uberbahn.services.TicketService;
 import com.tsystems.javaschool.uberbahn.transports.AccountDetails;
 import com.tsystems.javaschool.uberbahn.transports.TicketInfo;
 import com.tsystems.javaschool.uberbahn.webmain.errors.BusinessLogicException;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.Authentication;
@@ -32,7 +33,7 @@ public class TicketPurchaseControllerImpl {
     private final TicketService ticketService;
     private final AccountService accountService;
     private final UserDetailsService userDetailsService;
-    private final Logger logger = Logger.getLogger(TrainTimetableSearchControllerImpl.class);
+    private final Logger logger = LogManager.getLogger(TrainTimetableSearchControllerImpl.class);
 
     @Autowired
     public TicketPurchaseControllerImpl(TicketService ticketService, AccountService accountService, UserDetailsService userDetailsService) {
