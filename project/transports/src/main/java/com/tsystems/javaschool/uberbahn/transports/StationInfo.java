@@ -4,7 +4,6 @@ public class StationInfo {
     private int id;
     private String title;
     private int timezone;
-    //private String message;
 
     public int getId() {
         return id;
@@ -29,11 +28,5 @@ public class StationInfo {
     public void setTimezone(int timezone) {
         this.timezone = timezone;
     }
-    /*public String getMessage() {
-        return message;
-    }
 
-    public void setMessage(String message) {
-        this.message = message;
-    }*/
 }

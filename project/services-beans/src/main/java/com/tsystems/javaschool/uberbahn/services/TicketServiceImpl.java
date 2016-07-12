@@ -6,9 +6,7 @@ import com.tsystems.javaschool.uberbahn.entities.Presence;
 import com.tsystems.javaschool.uberbahn.entities.Ticket;
 import com.tsystems.javaschool.uberbahn.entities.Train;
 import com.tsystems.javaschool.uberbahn.repositories.*;
-import com.tsystems.javaschool.uberbahn.services.TicketService;
 import com.tsystems.javaschool.uberbahn.transports.TicketInfo;
-import com.tsystems.javaschool.uberbahn.transports.TrainInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,20 +24,16 @@ import java.util.stream.Collectors;
 public class TicketServiceImpl implements TicketService {
 
     private final TrainRepository trainRepository;
-    private final StationRepository stationRepository;
     private final AccountRepository accountRepository;
     private final TicketRepository ticketRepository;
-    private final RouteRepository routeRepository;
     private final SpotRepository spotRepository;
     private final PresenceRepository presenceRepository;
 
     @Autowired
-    public TicketServiceImpl(TrainRepository trainRepository, StationRepository stationRepository, AccountRepository accountRepository, TicketRepository ticketRepository, RouteRepository routeRepository, SpotRepository spotRepository, PresenceRepository presenceRepository) {
+    public TicketServiceImpl(TrainRepository trainRepository, AccountRepository accountRepository, TicketRepository ticketRepository, SpotRepository spotRepository, PresenceRepository presenceRepository) {
         this.trainRepository = trainRepository;
-        this.stationRepository = stationRepository;
         this.accountRepository = accountRepository;
         this.ticketRepository = ticketRepository;
-        this.routeRepository = routeRepository;
         this.spotRepository = spotRepository;
         this.presenceRepository = presenceRepository;
     }
@@ -59,7 +53,7 @@ public class TicketServiceImpl implements TicketService {
                 isArrivalNotPassed = false;
             }
             if (isDeparturePassed && isArrivalNotPassed) {
-                ticketsAvailable = Math.min((train.getNumberOfSeats() - presence.getNumberOfTicketsPurchased()), ticketsAvailable);
+                ticketsAvailable = Math.min(train.getNumberOfSeats() - presence.getNumberOfTicketsPurchased(), ticketsAvailable);
             }
         }
         return ticketsAvailable;
@@ -162,7 +156,7 @@ public class TicketServiceImpl implements TicketService {
         ticket.setAccount(account);
 
         BigDecimal price = (train.getRoute().getPricePerMinute()
-                .multiply((BigDecimal.valueOf(train.getPriceCoefficient())))
+                .multiply(BigDecimal.valueOf(train.getPriceCoefficient()))
                 .multiply(new BigDecimal(minutesArrival - minutesDeparture))).setScale(2, BigDecimal.ROUND_HALF_UP);
         ticket.setPrice(price);
 

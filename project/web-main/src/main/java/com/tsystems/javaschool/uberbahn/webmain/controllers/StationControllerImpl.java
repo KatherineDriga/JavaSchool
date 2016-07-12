@@ -32,8 +32,7 @@ public class StationControllerImpl {
     @ResponseBody
     @RequestMapping(path = "/addStation", method = RequestMethod.POST, produces = "application/json")
     public StationInfo addStation(@RequestParam(name = "stationTitle") String stationTitle,
-                                  @RequestParam(name = "timezone") int timezone)
-            throws Exception{
+                                  @RequestParam(name = "timezone") int timezone) {
 
         boolean existsStation = stationService.existsStation(stationTitle);
         if (existsStation) {

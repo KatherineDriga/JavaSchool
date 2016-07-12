@@ -5,7 +5,6 @@ import com.tsystems.javaschool.uberbahn.transports.TicketInfo;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Collection;
 import java.util.List;
 
 public interface TicketService {

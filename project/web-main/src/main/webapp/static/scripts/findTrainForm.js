@@ -6,7 +6,7 @@ $(function () {
         errorMessageSpan.text("");
         var routeId = $("#route").val();
 
-        if ($("#route").val() == "null") {
+        if ($("#route").val() === "null") {
             errorMessageSpan.text("Choose route");
         }
         else {

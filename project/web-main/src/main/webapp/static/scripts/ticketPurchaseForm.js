@@ -16,11 +16,11 @@ $(function () {
         var lname = $("#lname").val();
         var dateOfBirth = $("#dateOfBirth").val();
 
-        if ($("#fname").val() == 0) {
+        if ($("#fname").val() === 0) {
             errorMessageSpan.text("Enter first name");
-        } else if ($("#lname").val() == 0) {
+        } else if ($("#lname").val() === 0) {
             errorMessageSpan.text("Enter last name");
-        } else if ($("#dateOfBirth").val() == 0) {
+        } else if ($("#dateOfBirth").val() === 0) {
             errorMessageSpan.text("Enter date of birth");
         } else {
             $.ajax({

@@ -11,13 +11,13 @@ $(function () {
         var pricePerMinute = $("#pricePerMinute").val();
 
 
-        if ($("#routeTitle").val().length == 0) {
+        if ($("#routeTitle").val().length === 0) {
             errorMessageSpan.text("Enter route title");
         }
-        else if ($("#numberOfStations").val() < 2){
+        else if ($("#numberOfStations").val() < 2) {
             errorMessageSpan.text("Enter number of stations");
         }
-        else if ($("#pricePerMinute").val() <= 0){
+        else if ($("#pricePerMinute").val() <= 0) {
             errorMessageSpan.text("Enter price per minute");
         }
         else {

@@ -25,16 +25,14 @@ public class TrainServiceImpl implements TrainService {
     private final RouteRepository routeRepository;
     private final StationRepository stationRepository;
     private final SpotRepository spotRepository;
-    private final TicketRepository ticketRepository;
     private final TrainRepository trainRepository;
     private final PresenceRepository presenceRepository;
 
     @Autowired
-    public TrainServiceImpl(RouteRepository routeRepository, StationRepository stationRepository, SpotRepository spotRepository, TicketRepository ticketRepository, TrainRepository trainRepository, PresenceRepository presenceRepositary) {
+    public TrainServiceImpl(RouteRepository routeRepository, StationRepository stationRepository, SpotRepository spotRepository, TrainRepository trainRepository, PresenceRepository presenceRepositary) {
         this.routeRepository = routeRepository;
         this.stationRepository = stationRepository;
         this.spotRepository = spotRepository;
-        this.ticketRepository = ticketRepository;
         this.trainRepository = trainRepository;
         this.presenceRepository = presenceRepositary;
     }
@@ -85,7 +83,7 @@ public class TrainServiceImpl implements TrainService {
 
                 }
                 if (isDeparturePassed && isArrivalNotPassed) {
-                    ticketsAvailable = Math.min((train.getNumberOfSeats()-presence.getNumberOfTicketsPurchased()), ticketsAvailable);
+                    ticketsAvailable = Math.min(train.getNumberOfSeats()-presence.getNumberOfTicketsPurchased(), ticketsAvailable);
                 }
             }
             trainInfo.setNumberOfSeatsAvailable(ticketsAvailable);
@@ -272,7 +270,7 @@ public class TrainServiceImpl implements TrainService {
         long days = TimeUnit.MINUTES.toDays(duration);
         long hours = TimeUnit.MINUTES.toHours(duration) - days*24;
         long minutes = duration - days*24*60 - hours*60;
-        return (String.valueOf(days) + "d " + String.valueOf(hours) + "h "+String.valueOf(minutes) + "m");
+        return days + "d " + hours + "h "+ minutes + "m";
     }
 
 

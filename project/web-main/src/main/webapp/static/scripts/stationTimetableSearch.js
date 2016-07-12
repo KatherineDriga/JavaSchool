@@ -14,15 +14,15 @@ $(function () {
         var since = sinceDate+'T'+sinceTime;
         var until = untilDate+'T'+untilTime;
 
-        if ($("#station").val() == "null") {
+        if ($("#station").val() === "null") {
             errorMessageSpan.text("Station is not selected");
-        } else if ($("#sinceDate").val().length == 0) {
+        } else if ($("#sinceDate").val().length === 0) {
             errorMessageSpan.text("Enter since date");
-        }  else if ($("#sinceTime").val().length == 0) {
+        }  else if ($("#sinceTime").val().length === 0) {
             errorMessageSpan.text("Enter since time");
-        }  else if ($("#untilDate").val().length == 0) {
+        }  else if ($("#untilDate").val().length === 0) {
             errorMessageSpan.text("Enter until date");
-        }  else if ($("#untilTime").val().length == 0) {
+        }  else if ($("#untilTime").val().length === 0) {
             errorMessageSpan.text("Enter until time");
         }
         else {

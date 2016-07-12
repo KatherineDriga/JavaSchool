@@ -26,7 +26,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Collection;
 
 @Controller
 public class TicketControllerImpl {
@@ -83,8 +82,7 @@ public class TicketControllerImpl {
     @RequestMapping(path = "/purchasedTicket", method = RequestMethod.GET)
     public TicketInfo showTicketInfo(@RequestParam(name = "ticketId") int id) {
 
-        TicketInfo ticketInfo = ticketService.getTicketInfo(id);
-        return ticketInfo;
+        return ticketService.getTicketInfo(id);
     }
 
     @RequestMapping(path = "/ticketsPurchased", method = RequestMethod.GET)

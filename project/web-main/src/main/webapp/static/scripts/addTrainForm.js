@@ -10,16 +10,16 @@ $(function () {
         var numberOfSeats = $("#numberOfSeats").val();
         var priceCoefficient = $("#priceCoefficient").val();
 
-        if ($("#route").val() == "null") {
+        if ($("#route").val() === "null") {
             errorMessageSpan.text("Choose route");
         }
-        else if ($("#dateOfDeparture").val().length == 0){
+        else if ($("#dateOfDeparture").val().length === 0){
             errorMessageSpan.text("Enter date of departure");
         }
-        else if ($("#numberOfSeats").val().length == 0 || $("#numberOfSeats").val() < 1){
+        else if ($("#numberOfSeats").val().length === 0 || $("#numberOfSeats").val() < 1){
             errorMessageSpan.text("Enter number of seats");
         }
-        else if ($("#priceCoefficient").val().length == 0 || $("#priceCoefficient").val() < 0){
+        else if ($("#priceCoefficient").val().length === 0 || $("#priceCoefficient").val() < 0){
             errorMessageSpan.text("Enter price coefficient");
         }
         else {

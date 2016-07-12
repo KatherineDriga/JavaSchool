@@ -2,10 +2,8 @@ package com.tsystems.javaschool.uberbahn.transports;
 
 
 import java.math.BigDecimal;
-import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.Collection;
 
 public class TrainInfo {
 

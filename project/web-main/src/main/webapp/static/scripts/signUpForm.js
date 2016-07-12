@@ -12,27 +12,25 @@ $(function () {
         var firstName = $("#firstName").val();
         var lastName = $("#lastName").val();
         var dateOfBirth = $("#dateOfBirth").val();
-        var employee;
+        var employee = false;
         
         if ($("#employeeCheck").prop('checked')){
             employee = true;
-        } else {
-            employee = false;
-        }
+        } 
 
-        if ($("#login").val().length == 0) {
+        if ($("#login").val().length === 0) {
             errorMessageSpan.text("Enter login");
-        } else if ($("#email").val().length == 0) {
+        } else if ($("#email").val().length === 0) {
             errorMessageSpan.text("Enter email");
-        } else if ($("#password").val().length == 0) {
+        } else if ($("#password").val().length === 0) {
             errorMessageSpan.text("Enter password");
-        } else if ($("#password").val() != $("#confPassword").val()){
+        } else if ($("#password").val() !== $("#confPassword").val()){
             errorMessageSpan.text("Confirmation does not match password");
-        } else if ($("#firstName").val().length == 0) {
+        } else if ($("#firstName").val().length === 0) {
             errorMessageSpan.text("Enter first name");
-        }  else if ($("#lastName").val().length == 0) {
+        }  else if ($("#lastName").val().length === 0) {
             errorMessageSpan.text("Enter last name");
-        }  else if ($("#dateOfBirth").val().length == 0) {
+        }  else if ($("#dateOfBirth").val().length === 0) {
             errorMessageSpan.text("Enter date of birth");
         }  
         else  {
@@ -53,7 +51,7 @@ $(function () {
                         + "accountId=" + data.id;
                 },
                 error: function (error) {
-                    errorMessageSpan.text("Database writing error");
+                    errorMessageSpan.text(error.responseText);
                 }
             });
         }

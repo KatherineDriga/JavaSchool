@@ -69,7 +69,7 @@ public class DevelopmentDatabasePopulator {
         minutesSinceDepaertures.add(700);
         minutesSinceDepaertures.add(1360);
         minutesSinceDepaertures.add(2760);
-        routeService.create("St.-Petersburg - Sochi", java.time.LocalTime.of(6, 50), stationIds, minutesSinceDepaertures, new BigDecimal(1.5));
+        routeService.create("St.-Petersburg - Sochi", java.time.LocalTime.of(6, 50), stationIds, minutesSinceDepaertures, BigDecimal.valueOf(1.5));
     }
 
     private void createTrains() {
