@@ -31,17 +31,4 @@ public class ApplicationWebConfiguration extends WebMvcConfigurerAdapter {
         return viewResolver;
     }
 
-    /*@Bean
-    public SimpleMappingExceptionResolver exceptionResolver() {
-        SimpleMappingExceptionResolver exceptionResolver = new SimpleMappingExceptionResolver();
-        //Properties exceptionMappings = new Properties();
-        //exceptionMappings.put("BusinessLogicException", "addStationsToRouteForm");
-        //exceptionMappings.put("java.lang.RuntimeException", "errorPage");
-        //exceptionResolver.setExceptionMappings(exceptionMappings);
-        exceptionResolver.setDefaultErrorView("errorPage");
-        exceptionResolver.setExceptionAttribute("errors");
-        //exceptionResolver.setWarnLogCategory("example.MvcLogger");
-        return exceptionResolver;
-    }*/
-
 }
