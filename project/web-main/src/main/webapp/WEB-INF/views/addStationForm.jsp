@@ -11,14 +11,14 @@
                 <p><label>Station</label>
                     <input class="form-control" type="text" id="stationTitle" required></p>
             <p><label>Timezone</label>
-                <input class="form-control" type="number" id="timezone" required></p>
+                <input class="form-control" type="number" min="-12" max="14" id="timezone" required></p>
 
                 <input class="btn btn-success" id = "addStationButton" type="button" value="Add Station">
             <div>
                 <span id="errorMessage"></span>
             </div>
         </div>
-        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+
     </form>
     </div>
 

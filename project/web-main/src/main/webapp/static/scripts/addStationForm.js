@@ -12,6 +12,8 @@ $(function () {
         }
         else if ($("#timezone").val().length == 0) {
             errorMessageSpan.text("Enter timezone");
+        } else if ($("#timezone").val() < -12 || ($("#timezone").val() > 14)) {
+            errorMessageSpan.text("Invalid timezone");
         }
         else {
             $.ajax({
