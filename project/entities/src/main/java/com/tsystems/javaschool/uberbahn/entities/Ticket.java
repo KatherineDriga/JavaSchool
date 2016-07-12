@@ -6,39 +6,38 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "ticket")
+@Table(name = "ticket", uniqueConstraints = @UniqueConstraint(columnNames = {"trainId", "firstName", "lastName", "dateOfBirth"}))
 public class Ticket extends BaseEntity {
 
-
     @ManyToOne
-    @JoinColumn(name = "trainId")
+    @JoinColumn(name = "trainId", nullable = false)
     private Train train;
 
-    @Column(name = "firstName")
+    @Column(name = "firstName", nullable = false)
     private String firstName;
 
-    @Column(name = "lastName")
+    @Column(name = "lastName", nullable = false)
     private String lastName;
 
-    @Column(name = "dateOfBirth")
+    @Column(name = "dateOfBirth", nullable = false)
     private LocalDate dateOfBirth;
 
     @ManyToOne
-    @JoinColumn(name = "stationOfDepartureId")
+    @JoinColumn(name = "stationOfDepartureId", nullable = false)
     private Station stationOfDeparture;
 
     @ManyToOne
-    @JoinColumn(name = "stationOfArrivalId")
+    @JoinColumn(name = "stationOfArrivalId", nullable = false)
     private Station stationOfArrival;
 
-    @Column(name = "datetimeOfPurchase")
+    @Column(name = "datetimeOfPurchase", nullable = false)
     private LocalDateTime datetimeOfPurchase;
 
     @ManyToOne
-    @JoinColumn(name = "accountId")
+    @JoinColumn(name = "accountId", nullable = false)
     private Account account;
 
-    @Column(name = "price")
+    @Column(name = "price", nullable = false)
     private BigDecimal price;
 
     public Train getTrain() {

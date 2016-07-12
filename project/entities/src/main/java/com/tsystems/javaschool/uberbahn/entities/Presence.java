@@ -5,21 +5,21 @@ import javax.persistence.*;
 import java.time.Instant;
 
 @Entity
-@Table(name = "presence")
+@Table(name = "presence", uniqueConstraints = @UniqueConstraint(columnNames = {"trainId", "spotId"}))
 public class Presence extends BaseEntity {
 
     @ManyToOne
-    @JoinColumn(name = "trainId")
+    @JoinColumn(name = "trainId", nullable = false)
     private Train train;
 
     @ManyToOne
-    @JoinColumn(name = "spotId")
+    @JoinColumn(name = "spotId", nullable = false)
     private Spot spot;
 
-    @Column (name = "instant")
+    @Column (name = "instant", nullable = false)
     private Instant instant;
 
-    @Column (name = "numberOfTicketsPurchased")
+    @Column (name = "numberOfTicketsPurchased", nullable = false)
     private int numberOfTicketsPurchased;
 
     public Train getTrain() {

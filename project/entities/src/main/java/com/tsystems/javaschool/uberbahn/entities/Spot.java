@@ -4,19 +4,21 @@ import javax.persistence.*;
 import java.util.Collection;
 
 @Entity
-@Table(name = "spot")
+@Table(name = "spot", uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"routeId", "minutesSinceDeparture"}),
+        @UniqueConstraint(columnNames = {"stationId", "routeId"})})
 public class Spot extends BaseEntity {
 
     @ManyToOne
-    @JoinColumn(name = "routeId")
+    @JoinColumn(name = "routeId", nullable = false)
     private Route route;
 
     @ManyToOne
-    @JoinColumn(name = "stationId")
+    @JoinColumn(name = "stationId", nullable = false)
     private Station station;
 
 
-    @Column(name = "minutesSinceDeparture")
+    @Column(name = "minutesSinceDeparture", nullable = false)
     private Integer minutesSinceDeparture;
 
     @OneToMany (cascade = CascadeType.ALL, mappedBy = "spot", fetch = FetchType.EAGER)

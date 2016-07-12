@@ -19,13 +19,13 @@ public class Route extends BaseEntity {
     @OrderBy("minutesSinceDeparture ASC")
     private List<Spot> spots;
 
-    @Column(name = "title")
+    @Column(name = "title", unique = true, nullable = false)
     private String title;
 
-    @Column(name = "timeOfDeparture")
+    @Column(name = "timeOfDeparture", nullable = false)
     private LocalTime timeOfDeparture;
 
-    @Column(name = "pricePerMinute")
+    @Column(name = "pricePerMinute", nullable = false)
     private BigDecimal pricePerMinute;
 
     public Collection<Train> getTrains() {

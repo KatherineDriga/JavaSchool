@@ -5,31 +5,30 @@ import java.time.LocalDate;
 import java.util.Collection;
 
 @Entity
-@Table(name = "train")
+@Table(name = "train", uniqueConstraints = @UniqueConstraint(columnNames = {"routeId", "dateOfDeparture"}))
 public class Train extends BaseEntity {
-
 
     @OneToMany (cascade = CascadeType.ALL, mappedBy = "train", fetch = FetchType.EAGER)
     private Collection<Ticket> tickets;
 
     @ManyToOne
-    @JoinColumn(name = "routeId")
+    @JoinColumn(name = "routeId", nullable = false)
     private Route route;
 
-    @Column(name = "dateOfDeparture")
+    @Column(name = "dateOfDeparture", nullable = false)
     private LocalDate dateOfDeparture;
 
-    @Column(name = "numberOfSeats")
+    @Column(name = "numberOfSeats", nullable = false)
     private int numberOfSeats;
 
-    @Column(name = "priceCoefficient")
+    @Column(name = "priceCoefficient", nullable = false)
     private double priceCoefficient;
 
     @OneToMany (cascade = CascadeType.ALL, mappedBy = "train", fetch = FetchType.EAGER)
     @OrderBy("instant ASC")
     private Collection<Presence> presences;
 
-    @Column(name = "archived")
+    @Column(name = "archived", nullable = false)
     private boolean archived;
 
     public Collection<Ticket> getTickets() {

@@ -21,7 +21,7 @@ public class Station extends BaseEntity {
     @OrderBy("title ASC")
     private String title;
 
-    @Column(name = "timezone")
+    @Column(name = "timezone", nullable = false)
     private int timezone;
 
     public Collection<Spot> getSpots() {

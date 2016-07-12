@@ -11,25 +11,25 @@ public class Account extends BaseEntity {
     @OneToMany (cascade = CascadeType.ALL, mappedBy = "account")
     private Collection<Ticket> tickets;
 
-    @Column(name = "login")
+    @Column(name = "login", unique = true, nullable = false)
     private String login;
 
-    @Column(name = "email")
+    @Column(name = "email", unique = true, nullable = false)
     private String email;
 
-    @Column(name = "secret")
+    @Column(name = "secret", nullable = false)
     private String secret;
 
-    @Column(name = "firstName")
+    @Column(name = "firstName", nullable = false)
     private String firstName;
 
-    @Column(name = "lastName")
+    @Column(name = "lastName", nullable = false)
     private String lastName;
 
-    @Column(name = "dateOfBirth")
+    @Column(name = "dateOfBirth", nullable = false)
     private LocalDate dateOfBirth;
 
-    @Column(name = "employee")
+    @Column(name = "employee", nullable = false)
     private boolean employee;
 
     public Collection<Ticket> getTickets() {
