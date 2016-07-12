@@ -1,5 +1,6 @@
 package com.tsystems.javaschool.uberbahn.repositories;
 
+import com.tsystems.javaschool.uberbahn.entities.Presence;
 import com.tsystems.javaschool.uberbahn.entities.Ticket;
 import com.tsystems.javaschool.uberbahn.entities.Train;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -44,6 +45,20 @@ public interface TrainRepository extends JpaRepository<Train, Integer> {
             @Param("stationOfArrivalId") int stationOfArrivalId,
             @Param("since") Instant since,
             @Param("until") Instant until);
+
+    @Query("SELECT p1 FROM Presence AS p1, Presence AS p2 " +
+            "WHERE p1.instant >= :since " +
+            "AND p1.instant < :until " +
+            "AND p1.instant < p2.instant " +
+            "AND p1.spot.station.id = :stationOfDepartureId " +
+            "AND p2.spot.station.id = :stationOfArrivalId " +
+            "AND p1.train.id = p2.train.id")
+    Collection<Presence> findByDepartureArrivalStationAndTime(
+            @Param("stationOfDepartureId") int stationOfDepartureId,
+            @Param("stationOfArrivalId") int stationOfArrivalId,
+            @Param("since") Instant since,
+            @Param("until") Instant until);
+
 
     @Query(value = "SELECT t.id " +
             "FROM train AS t " +

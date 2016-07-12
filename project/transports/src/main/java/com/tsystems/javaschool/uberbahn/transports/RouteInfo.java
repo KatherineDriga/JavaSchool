@@ -11,7 +11,9 @@ public class RouteInfo {
     private String title;
     private LocalTime timeOfDeparture;
     private Collection<RouteSpotInfo> spots;
-    BigDecimal pricePerMinute;
+    private BigDecimal pricePerMinute;
+    private int numberOfStations;
+
 
     public int getId() {
         return id;
@@ -51,5 +53,13 @@ public class RouteInfo {
 
     public void setPricePerMinute(BigDecimal pricePerMinute) {
         this.pricePerMinute = pricePerMinute;
+    }
+
+    public int getNumberOfStations() {
+        return numberOfStations;
+    }
+
+    public void setNumberOfStations(int numberOfStations) {
+        this.numberOfStations = numberOfStations;
     }
 }

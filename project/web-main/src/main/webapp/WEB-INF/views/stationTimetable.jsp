@@ -8,6 +8,7 @@
         <h3>No trains found</h3>
     </c:when>
     <c:otherwise>
+    <div class="scroll-table">
         <table>
             <thread>
             <tr>
@@ -33,6 +34,7 @@
             </tbody>
 
         </table>
+        </div>
     </c:otherwise>
 </c:choose>
 

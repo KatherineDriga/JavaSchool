@@ -7,6 +7,7 @@
         <h3>${exception}</h3>
     </c:when>
     <c:otherwise>
+    <div class="scroll-table">
     <h2>Route Information</h2>
     <p>Id: ${route.id}</p>
     <p>Title: ${route.title}</p>
@@ -18,7 +19,7 @@
     </c:forEach>
     </ul>
     <p>Price per Minute: ${route.pricePerMinute}</p>
-
+    </div>
     </c:otherwise>
 </c:choose>
 </section>

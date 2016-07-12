@@ -91,7 +91,7 @@ public class TrainServiceImpl implements TrainService {
             int duration = minutesArrival-minutesDeparture;
             long days = TimeUnit.MINUTES.toDays(duration);
             long hours = TimeUnit.MINUTES.toHours(duration) - days*24;
-            long minutes = duration - days*24 - hours*60;
+            long minutes = duration - days*24*60 - hours*60;
             trainInfo.setTravelTime(String.valueOf(days) + "d " + String.valueOf(hours) + "h "+String.valueOf(minutes) + "m");
 
             trainInfo.setTicketPrice(((new BigDecimal(duration)).multiply(new BigDecimal(train.getPriceCoefficient())).multiply(train.getRoute().getPricePerMinute())).setScale(2, BigDecimal.ROUND_HALF_UP));
@@ -101,15 +101,25 @@ public class TrainServiceImpl implements TrainService {
             }
         });
         return trainInfos;
-        /*return trains.stream().map(train -> {
 
+        /*Station stationOfDeparture = stationRepository.findOne(stationOfDepartureId);
+        Station stationOfArrival = stationRepository.findOne(stationOfArrivalId);
+        Instant sinceDateTime = since.toInstant(ZoneOffset.ofHours(stationOfDeparture.getTimezone()));
+        Instant untilDateTime = until.toInstant(ZoneOffset.ofHours(stationOfDeparture.getTimezone()));
+
+        Collection<Presence> presences = trainRepository.findByDepartureArrivalStationAndTime(stationOfDepartureId, stationOfDepartureId, sinceDateTime, untilDateTime);
+        Collection<Train> trains = presences.stream().map(presence -> {
+            return presence.getTrain();
+        }).collect(Collectors.toList());
+
+        return trains.stream().map(train -> {
             TrainInfo trainInfo = new TrainInfo();
             trainInfo.setTrainId(train.getId());
             trainInfo.setRouteTitle(train.getRoute().getTitle());
-            trainInfo.setStationOfDeparture(stationRepository.findOne(stationOfDepartureId).getTitle());
-            trainInfo.setStationOfArrival(stationRepository.findOne(stationOfArrivalId).getTitle());
+            trainInfo.setStationOfDeparture(stationOfDeparture.getTitle());
+            trainInfo.setStationOfArrival(stationOfArrival.getTitle());
 
-            Collection<Presence> presences = train.getPresences();
+            Collection<Presence> presencesPassed = presenceRepository.findByTrainId(train.getId());
             boolean isDeparturePassed = false;
             boolean isArrivalNotPassed = true;
             int minutesDeparture = 0;
@@ -117,33 +127,36 @@ public class TrainServiceImpl implements TrainService {
 
             int ticketsAvailable = train.getNumberOfSeats();
 
-            for (Presence presence : presences) {
+            for (Presence presence : presencesPassed) {
                 if (presence.getSpot().getStation().getId() == stationOfDepartureId) {
                     isDeparturePassed = true;
-                    LocalDateTime datetimeDeparture = train.getDateOfDeparture()
-                            .atTime(train.getRoute().getTimeOfDeparture())
-                            .plus(presence.getSpot().getMinutesSinceDeparture(), ChronoUnit.MINUTES);
+
+                    OffsetDateTime datetimeDeparture = presence.getInstant().atOffset(ZoneOffset.ofHours(stationOfDeparture.getTimezone()));
                     trainInfo.setDateOfDeparture(datetimeDeparture.toLocalDate());
                     trainInfo.setTimeOfDeparture(datetimeDeparture.toLocalTime());
                     minutesDeparture = presence.getSpot().getMinutesSinceDeparture();
                 }
                 if (presence.getSpot().getStation().getId() == stationOfArrivalId) {
                     isArrivalNotPassed = false;
-                    LocalDateTime datetimeArrival = train.getDateOfDeparture()
-                            .atTime(train.getRoute().getTimeOfDeparture())
-                            .plus(presence.getSpot().getMinutesSinceDeparture(), ChronoUnit.MINUTES);
+                    OffsetDateTime datetimeArrival = presence.getInstant().atOffset(ZoneOffset.ofHours(stationOfArrival.getTimezone()));
+
                     trainInfo.setDateOfArrival(datetimeArrival.toLocalDate());
                     trainInfo.setTimeOfArrival(datetimeArrival.toLocalTime());
                     minutesArrival = presence.getSpot().getMinutesSinceDeparture();
 
                 }
                 if (isDeparturePassed && isArrivalNotPassed) {
-                    ticketsAvailable = Math.min(presence.getNumberOfTicketsPurchased(), ticketsAvailable);
+                    ticketsAvailable = Math.min((train.getNumberOfSeats()-presence.getNumberOfTicketsPurchased()), ticketsAvailable);
                 }
             }
             trainInfo.setNumberOfSeatsAvailable(ticketsAvailable);
+            int duration = minutesArrival-minutesDeparture;
+            long days = TimeUnit.MINUTES.toDays(duration);
+            long hours = TimeUnit.MINUTES.toHours(duration) - days*24;
+            long minutes = duration - days*24 - hours*60;
+            trainInfo.setTravelTime(String.valueOf(days) + "d " + String.valueOf(hours) + "h "+String.valueOf(minutes) + "m");
 
-            trainInfo.setTicketPrice((new BigDecimal(minutesArrival-minutesDeparture)).multiply(new BigDecimal(train.getPriceCoefficient())).multiply(train.getRoute().getPricePerMinute()));
+            trainInfo.setTicketPrice(((new BigDecimal(duration)).multiply(new BigDecimal(train.getPriceCoefficient())).multiply(train.getRoute().getPricePerMinute())).setScale(2, BigDecimal.ROUND_HALF_UP));
 
             return trainInfo;
         }).collect(Collectors.toList());*/

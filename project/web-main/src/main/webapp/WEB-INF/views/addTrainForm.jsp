@@ -7,26 +7,26 @@
     <form role="form" class="addTrain" method="post">
         <div class="form-group">
 
-        <p><label>Route</label>
-            <select class="form-control" id="route">
-                <option value="null">Select</option>
-                <c:forEach var="route" items="${routes}">
-                    <option value="${route.id}">${route.title}</option>
-                </c:forEach>
-            </select>
-        </p>
-        <p><label>Date of Departure</label>
-            <input class="form-control" type="date" id = "dateOfDeparture" />
-        </p>
-        <p><label>Number of Seats</label>
-            <input class="form-control" type="number" id = "numberOfSeats" />
-        </p>
-        <p><label>Price Coefficient</label>
-            <input class="form-control" type="number" step="0.01" id = "priceCoefficient" />
-        </p>
+            <p><label>Route</label>
+                <select class="form-control" id="route">
+                    <option value="null">Select</option>
+                    <c:forEach var="route" items="${routes}">
+                        <option value="${route.id}">${route.title}</option>
+                    </c:forEach>
+                </select>
+            </p>
+            <p><label>Date of Departure</label>
+                <input class="form-control" type="date" id = "dateOfDeparture" />
+            </p>
+            <p><label>Number of Seats</label>
+                <input class="form-control" type="number" id = "numberOfSeats" />
+            </p>
+            <p><label>Price Coefficient</label>
+                <input class="form-control" type="number" step="0.01" id = "priceCoefficient" />
+            </p>
 
 
-        <input class="btn btn-success" id = "addTrainButton" type="button" value="Add Train">
+            <input class="btn btn-success" id = "addTrainButton" type="button" value="Add Train">
             <div>
                 <span id="errorMessage"></span>
             </div>

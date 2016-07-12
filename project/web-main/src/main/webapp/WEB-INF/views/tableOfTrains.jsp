@@ -8,6 +8,7 @@
     </c:when>
     <c:otherwise>
     <h2>Choose train:</h2>
+    <div class="scroll-table">
     <table>
         <tr>
             <th></th>
@@ -24,6 +25,7 @@
             </tr>
         </c:forEach>
     </table>
+        </div>
     <br>
     <p><input class="btn btn-success" id = "chooseTrainButton" type="button" value="Show passengers"></p>
         <div>

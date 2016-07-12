@@ -17,7 +17,7 @@ public class Station extends BaseEntity {
     @OneToMany (cascade = CascadeType.ALL, mappedBy = "stationOfArrival", fetch = FetchType.EAGER)
     private Collection<Ticket> arrivals;
 
-    @Column(name = "title")
+    @Column(name = "title", unique = true, nullable = false)
     @OrderBy("title ASC")
     private String title;
 

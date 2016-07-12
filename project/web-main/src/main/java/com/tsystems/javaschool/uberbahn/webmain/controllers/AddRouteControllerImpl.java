@@ -40,18 +40,24 @@ public class AddRouteControllerImpl {
         return "addRouteForm";
     }
 
+    @ResponseBody
+    @RequestMapping(path = "/checkRouteTitle", method = RequestMethod.POST, produces = "application/json")
+    public boolean checkRouteTitle (@RequestParam(name = "routeTitle") String title) {
+        boolean existsRoute = routeService.existsRoute(title);
+        if (existsRoute) {
+            throw new BusinessLogicException(String.format("Route %s already exists", title));
+        }
+        return false;
+    }
+
 
     @RequestMapping(path = "/addStationsToRouteForm", method = RequestMethod.GET)
     public String addStationsToRoute(Model model, @RequestParam(name = "routeTitle") String title,
                                      @RequestParam(name = "numberOfStations") int numberOfStations,
                                      @RequestParam(name = "timeOfDeparture") @DateTimeFormat(iso = DateTimeFormat.ISO.TIME) LocalTime timeOfDeparture,
-                                     @RequestParam(name = "pricePerMinute") @NumberFormat(pattern = "###.##") BigDecimal pricePerMinute)
-            throws Exception {
+                                     @RequestParam(name = "pricePerMinute") @NumberFormat(pattern = "###.##") BigDecimal pricePerMinute) {
 
-        boolean existsRoute = routeService.existsRoute(title);
-        if (existsRoute == true) {
-            throw new BusinessLogicException(String.format("Route %s already exists", title));
-        }
+
             model.addAttribute("stations", stationService.getAll());
             model.addAttribute("routeTitle", title);
             model.addAttribute("numberOfStations", numberOfStations);
@@ -66,8 +72,7 @@ public class AddRouteControllerImpl {
                               @RequestParam(name = "timeOfDeparture") @DateTimeFormat(iso = DateTimeFormat.ISO.TIME) LocalTime timeOfDeparture,
                               @RequestParam(name = "stationIds") String stationIds,
                               @RequestParam(name = "minutesSinceDepartures") String minutesSinceDepartures,
-                              @RequestParam(name = "pricePerMinute") @NumberFormat(pattern = "###.##") BigDecimal pricePerMinute)
-    throws PersistenceException {
+                              @RequestParam(name = "pricePerMinute") @NumberFormat(pattern = "###.##") BigDecimal pricePerMinute) {
 
         List<Integer> ids = Arrays.asList(stationIds.split(";"))
                 .stream()
@@ -93,12 +98,5 @@ public class AddRouteControllerImpl {
         return "routeInfo";
     }
 
-    @ExceptionHandler(BusinessLogicException.class)
-    public ModelAndView handleCustomException(BusinessLogicException ex) {
-        logger.warn("WARN", ex);
-        ModelAndView model = new ModelAndView("addStationsToRouteForm");
-        model.addObject("errors", ex.getMessage());
-        return model;
-    }
 
 }

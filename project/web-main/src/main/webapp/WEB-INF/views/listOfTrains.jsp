@@ -8,6 +8,7 @@
     </c:when>
     <c:otherwise>
     <h2>Choose train:</h2>
+    <div class="scroll-table">
     <table class="table table-striped">
         <tr>
             <th></th>
@@ -39,6 +40,7 @@
         </tr>
         </c:forEach>
     </table>
+    </div>
     <span hidden="true" id="stationOfDepartureId">${stationOfDepartureId}</span>
     <span hidden="true" id="stationOfArrivalId">${stationOfArrivalId}</span>
 

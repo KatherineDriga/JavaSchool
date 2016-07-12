@@ -19,5 +19,4 @@ public interface RouteService {
 
     Collection<RouteInfo> getAll ();
 
-
 }

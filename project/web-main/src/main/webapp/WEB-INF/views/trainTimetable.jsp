@@ -9,6 +9,7 @@
         <h3>No trains found</h3>
     </c:when>
     <c:otherwise>
+    <div class="scroll-table">
         <table>
             <tr>
                 <th>Train</th>
@@ -34,6 +35,7 @@
             </c:forEach>
 
         </table>
+        </div>
     </c:otherwise>
 </c:choose>
 

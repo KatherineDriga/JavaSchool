@@ -21,11 +21,24 @@ $(function () {
             errorMessageSpan.text("Enter price per minute");
         }
         else {
-            window.location.href = "/addStationsToRouteForm?"
-                + "routeTitle=" + routeTitle + "&"
-                + "numberOfStations=" + numberOfStations + "&"
-                + "timeOfDeparture=" + timeOfDeparture + "&"
-                + "pricePerMinute=" + pricePerMinute;
+            $.ajax({
+                type: "POST",
+                url: "/checkRouteTitle",
+                data: {
+                    routeTitle: routeTitle
+                },
+                success: function (data) {
+                    window.location.href = "/addStationsToRouteForm?"
+                        + "routeTitle=" + routeTitle + "&"
+                        + "numberOfStations=" + numberOfStations + "&"
+                        + "timeOfDeparture=" + timeOfDeparture + "&"
+                        + "pricePerMinute=" + pricePerMinute;
+                },
+                error: function (error) {
+                    errorMessageSpan.text(error.responseText);
+                }
+            });
         }
+
     });
 });

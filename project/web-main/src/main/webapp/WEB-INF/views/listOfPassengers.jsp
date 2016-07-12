@@ -9,6 +9,7 @@
     <c:otherwise>
     <h2>Passengers</h2>
     <h2>Train ${trainId}</h2>
+    <div class="scroll-table">
     <table>
         <tr>
             <th>First Name</th>
@@ -27,6 +28,7 @@
             </tr>
         </c:forEach>
     </table>
+    </div>
 </c:otherwise>
     </c:choose>
 </section>
