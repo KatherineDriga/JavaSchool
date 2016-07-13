@@ -4,6 +4,7 @@ package com.tsystems.javaschool.uberbahn.services;
 import com.tsystems.javaschool.uberbahn.entities.*;
 import com.tsystems.javaschool.uberbahn.repositories.*;
 import com.tsystems.javaschool.uberbahn.services.TrainService;
+import com.tsystems.javaschool.uberbahn.services.errors.BusinessLogicException;
 import com.tsystems.javaschool.uberbahn.transports.PassengerInfo;
 import com.tsystems.javaschool.uberbahn.transports.TrainInfo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,12 +30,12 @@ public class TrainServiceImpl implements TrainService {
     private final PresenceRepository presenceRepository;
 
     @Autowired
-    public TrainServiceImpl(RouteRepository routeRepository, StationRepository stationRepository, SpotRepository spotRepository, TrainRepository trainRepository, PresenceRepository presenceRepositary) {
+    public TrainServiceImpl(RouteRepository routeRepository, StationRepository stationRepository, SpotRepository spotRepository, TrainRepository trainRepository, PresenceRepository presenceRepository) {
         this.routeRepository = routeRepository;
         this.stationRepository = stationRepository;
         this.spotRepository = spotRepository;
         this.trainRepository = trainRepository;
-        this.presenceRepository = presenceRepositary;
+        this.presenceRepository = presenceRepository;
     }
 
 
@@ -161,7 +162,9 @@ public class TrainServiceImpl implements TrainService {
 
     @Override
     public TrainInfo create(int routeId, LocalDate dateOfDeparture, int numberOfSeats, double priceCoefficient) {
-
+        if (existsTrain(routeId, dateOfDeparture)) {
+            throw new BusinessLogicException(String.format("Train %s already exists", dateOfDeparture));
+        }
         Train train = new Train();
         Route route = routeRepository.findOne(routeId);
         train.setRoute(route);
@@ -173,8 +176,8 @@ public class TrainServiceImpl implements TrainService {
         int trainId;
         try {
             trainId = trainRepository.save(train).getId();
-        } catch (PersistenceException ex) {
-            throw new PersistenceException("Database writing error");
+        } catch (PersistenceException | NullPointerException ex) {
+            throw new PersistenceException("Database writing error", ex);
         }
 
         Train addedTrain = trainRepository.findOne(trainId);
@@ -192,8 +195,8 @@ public class TrainServiceImpl implements TrainService {
             presence.setNumberOfTicketsPurchased(0);
             try {
                 presenceRepository.save(presence);
-            } catch (PersistenceException ex) {
-                throw new PersistenceException("Database writing error");
+            } catch (PersistenceException | NullPointerException ex) {
+                throw new PersistenceException("Database writing error", ex);
             }
         });
 

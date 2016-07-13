@@ -2,6 +2,7 @@ package com.tsystems.javaschool.uberbahn.services;
 
 import com.tsystems.javaschool.uberbahn.entities.Account;
 import com.tsystems.javaschool.uberbahn.repositories.AccountRepository;
+import com.tsystems.javaschool.uberbahn.services.errors.BusinessLogicException;
 import com.tsystems.javaschool.uberbahn.transports.AccountDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,6 +24,13 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public AccountDetails create(String login, String email, String password, String firstName, String lastName, LocalDate dateOfBirth, boolean employee) {
+        if (existsLogin(login)) {
+            throw new BusinessLogicException(String.format("Login %s already exists", login));
+        }
+        if (existsEmail(email)) {
+            throw new BusinessLogicException(String.format("Email %s already exists", email));
+        }
+
         Account account = new Account();
         account.setLogin(login);
         account.setEmail(email);
@@ -35,8 +43,8 @@ public class AccountServiceImpl implements AccountService {
         int accountId;
         try {
             accountId = accountRepository.save(account).getId();
-        } catch (PersistenceException ex) {
-            throw new PersistenceException("Database writing error");
+        } catch (PersistenceException | NullPointerException ex) {
+            throw new PersistenceException("Database writing error", ex);
         }
 
         AccountDetails accountDetails = new AccountDetails();

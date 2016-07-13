@@ -1,6 +1,7 @@
 package com.tsystems.javaschool.uberbahn.webmain.errors;
 
 
+import com.tsystems.javaschool.uberbahn.services.errors.BusinessLogicException;
 import com.tsystems.javaschool.uberbahn.webmain.controllers.TrainTimetableControllerImpl;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

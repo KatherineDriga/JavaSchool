@@ -2,7 +2,6 @@ package com.tsystems.javaschool.uberbahn.webmain.controllers;
 
 import com.tsystems.javaschool.uberbahn.services.StationService;
 import com.tsystems.javaschool.uberbahn.transports.StationInfo;
-import com.tsystems.javaschool.uberbahn.webmain.errors.BusinessLogicException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,10 +33,7 @@ public class StationControllerImpl {
     public StationInfo addStation(@RequestParam(name = "stationTitle") String stationTitle,
                                   @RequestParam(name = "timezone") int timezone) {
 
-        boolean existsStation = stationService.existsStation(stationTitle);
-        if (existsStation) {
-            throw new BusinessLogicException(String.format("Station %s already exists", stationTitle));
-        }
+
         StationInfo stationInfo = stationService.create(stationTitle, timezone);
         logger.info(String.format("Station %s is added", stationInfo.getId()));
         return stationInfo;

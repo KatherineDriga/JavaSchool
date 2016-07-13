@@ -3,8 +3,8 @@ package com.tsystems.javaschool.uberbahn.webmain.controllers;
 
 import com.tsystems.javaschool.uberbahn.services.RouteService;
 import com.tsystems.javaschool.uberbahn.services.StationService;
+import com.tsystems.javaschool.uberbahn.services.errors.BusinessLogicException;
 import com.tsystems.javaschool.uberbahn.transports.RouteInfo;
-import com.tsystems.javaschool.uberbahn.webmain.errors.BusinessLogicException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,8 +41,7 @@ public class RouteControllerImpl {
     @ResponseBody
     @RequestMapping(path = "/checkRouteTitle", method = RequestMethod.POST, produces = "application/json")
     public boolean checkRouteTitle (@RequestParam(name = "routeTitle") String title) {
-        boolean existsRoute = routeService.existsRoute(title);
-        if (existsRoute) {
+        if (routeService.existsRoute(title)) {
             throw new BusinessLogicException(String.format("Route %s already exists", title));
         }
         return false;

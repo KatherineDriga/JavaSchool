@@ -6,6 +6,7 @@ import com.tsystems.javaschool.uberbahn.entities.Presence;
 import com.tsystems.javaschool.uberbahn.entities.Ticket;
 import com.tsystems.javaschool.uberbahn.entities.Train;
 import com.tsystems.javaschool.uberbahn.repositories.*;
+import com.tsystems.javaschool.uberbahn.services.errors.BusinessLogicException;
 import com.tsystems.javaschool.uberbahn.transports.TicketInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -122,20 +123,20 @@ public class TicketServiceImpl implements TicketService {
 
         train.getTickets().forEach(ticket -> {
             if (ticket.getFirstName().equals(firstName) && ticket.getLastName().equals(lastName) && ticket.getDateOfBirth().isEqual(dateOfBirth)) {
-                throw new PersistenceException("Passenger is already registered");
+                throw new BusinessLogicException("Passenger is already registered");
             }
         });
 
         int ticketsAvailable = countTicketsAvailable(trainId, stationOfDepartureId, stationOfArrivalId);
         if (ticketsAvailable == 0) {
-            throw new PersistenceException("No tickets available");
+            throw new BusinessLogicException("No tickets available");
         }
 
         Presence presenceDeparture = presenceRepository.findByTrainIdAndStationId(trainId, stationOfDepartureId);
         Presence presenceArrival = presenceRepository.findByTrainIdAndStationId(trainId, stationOfArrivalId);
         Instant datetimeOfPurchase = LocalDateTime.now().toInstant(ZoneOffset.ofHours(presenceDeparture.getSpot().getStation().getTimezone()));
         if (ChronoUnit.MINUTES.between(datetimeOfPurchase, presenceDeparture.getInstant()) < 10) {
-            throw new PersistenceException("Less than 10 minutes before departure");
+            throw new BusinessLogicException("Less than 10 minutes before departure");
         }
 
         OffsetDateTime datetimeDeparture = presenceDeparture.getInstant().atOffset(ZoneOffset.ofHours(presenceDeparture.getSpot().getStation().getTimezone()));
@@ -163,8 +164,8 @@ public class TicketServiceImpl implements TicketService {
         int ticketId;
         try {
             ticketId = ticketRepository.save(ticket).getId();
-        } catch (PersistenceException ex) {
-            throw new PersistenceException("Database writing error");
+        } catch (PersistenceException | NullPointerException ex) {
+            throw new PersistenceException("Database writing error", ex);
         }
 
         Collection<Presence> presencesPassed = new ArrayList<>();
@@ -190,8 +191,8 @@ public class TicketServiceImpl implements TicketService {
 
         try {
             presenceRepository.save(presencesPassed);
-        } catch (PersistenceException ex) {
-            throw new PersistenceException("Database writing error");
+        } catch (PersistenceException | NullPointerException ex) {
+            throw new PersistenceException("Database writing error", ex);
         }
 
         TicketInfo ticketInfo = new TicketInfo();

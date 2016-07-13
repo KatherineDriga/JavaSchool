@@ -4,7 +4,6 @@ package com.tsystems.javaschool.uberbahn.webmain.controllers;
 import com.tsystems.javaschool.uberbahn.services.RouteService;
 import com.tsystems.javaschool.uberbahn.services.TrainService;
 import com.tsystems.javaschool.uberbahn.transports.TrainInfo;
-import com.tsystems.javaschool.uberbahn.webmain.errors.BusinessLogicException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,10 +43,6 @@ public class TrainControllerImpl {
                               @RequestParam(name = "numberOfSeats") int numberOfSeats,
                               @RequestParam(name = "priceCoefficient") double priceCoefficient) {
 
-        boolean existsTrain = trainService.existsTrain(routeId, dateOfDeparture);
-        if (existsTrain) {
-            throw new BusinessLogicException(String.format("Train %s already exists", dateOfDeparture));
-        }
         TrainInfo trainInfo = trainService.create(routeId, dateOfDeparture, numberOfSeats, priceCoefficient);
 
         logger.info(String.format("Train %s is added", trainInfo.getTrainId()));

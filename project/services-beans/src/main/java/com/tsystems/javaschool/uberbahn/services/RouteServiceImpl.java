@@ -6,6 +6,7 @@ import com.tsystems.javaschool.uberbahn.entities.Spot;
 import com.tsystems.javaschool.uberbahn.repositories.RouteRepository;
 import com.tsystems.javaschool.uberbahn.repositories.SpotRepository;
 import com.tsystems.javaschool.uberbahn.repositories.StationRepository;
+import com.tsystems.javaschool.uberbahn.services.errors.BusinessLogicException;
 import com.tsystems.javaschool.uberbahn.transports.RouteInfo;
 import com.tsystems.javaschool.uberbahn.transports.RouteSpotInfo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,6 +56,9 @@ public class  RouteServiceImpl implements RouteService {
 
     @Override
     public RouteInfo create(String title, LocalTime timeOfDeparture, List<Integer> stationIds, List<Integer> minutesSinceDepartures, BigDecimal pricePerMinute) {
+        if (existsRoute(title)){
+            throw new BusinessLogicException(String.format("Route %s already exists", title));
+        }
         Route route = new Route();
         route.setTitle(title);
         route.setTimeOfDeparture(timeOfDeparture);
@@ -63,8 +67,8 @@ public class  RouteServiceImpl implements RouteService {
         int routeId;
         try {
             routeId = routeRepository.save(route).getId();
-        } catch (PersistenceException ex) {
-            throw new PersistenceException("Database writing error");
+        } catch (PersistenceException | NullPointerException ex) {
+            throw new PersistenceException("Database writing error", ex);
         }
 
         Collection<RouteSpotInfo> routeSpotInfos = new ArrayList<>();
@@ -76,8 +80,8 @@ public class  RouteServiceImpl implements RouteService {
             spot.setStation(stationRepository.findOne(stationIds.get(i)));
             try {
                 spotRepository.save(spot);
-            } catch (PersistenceException ex) {
-                throw new PersistenceException("Database writing error");
+            } catch (PersistenceException | NullPointerException ex) {
+                throw new PersistenceException("Database writing error", ex);
             }
             RouteSpotInfo spotInfo = new RouteSpotInfo();
             spotInfo.setStationTitle(spot.getStation().getTitle());

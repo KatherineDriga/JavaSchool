@@ -1,4 +1,4 @@
-package com.tsystems.javaschool.uberbahn.webmain.errors;
+package com.tsystems.javaschool.uberbahn.services.errors;
 
 
 public class BusinessLogicException extends RuntimeException {
