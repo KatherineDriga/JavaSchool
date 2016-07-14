@@ -1,4 +1,4 @@
-package com.tsystems.javaschool.uberbahn.webmain.tests;
+package com.tsystems.javaschool.uberbahn.services.tests;
 
 import com.tsystems.javaschool.uberbahn.entities.Station;
 import com.tsystems.javaschool.uberbahn.repositories.PresenceRepository;
@@ -6,6 +6,7 @@ import com.tsystems.javaschool.uberbahn.repositories.StationRepository;
 import com.tsystems.javaschool.uberbahn.services.StationService;
 import com.tsystems.javaschool.uberbahn.services.StationServiceImpl;
 import com.tsystems.javaschool.uberbahn.services.errors.BusinessLogicException;
+import com.tsystems.javaschool.uberbahn.services.errors.DatabaseException;
 import com.tsystems.javaschool.uberbahn.webmain.WebInizializer;
 import org.junit.Before;
 import org.junit.Test;
@@ -20,7 +21,7 @@ import static org.mockito.Mockito.when;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {WebInizializer.class})
-public class JUnitTestStationService {
+public class StationServiceJUnitTest {
 
     private StationRepository stationRepository;
     private PresenceRepository presenceRepository;
@@ -44,11 +45,11 @@ public class JUnitTestStationService {
         stationService.create(enteredTitle, 0);
     }
 
-    @Test(expected = PersistenceException.class)
+    @Test(expected = DatabaseException.class)
     public void databaseWritingError() {
-        System.out.println("Stubbing to throw PersistenceException");
+        System.out.println("Stubbing to throw DatabaseException");
         when(stationRepository.save(station)).thenReturn(null);
-        System.out.println("stationService.create should throw PersistenceException");
+        System.out.println("stationService.create should throw DatabaseException");
         stationService.create("title", 0);
     }
 

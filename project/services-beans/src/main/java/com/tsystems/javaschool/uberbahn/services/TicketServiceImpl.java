@@ -7,6 +7,7 @@ import com.tsystems.javaschool.uberbahn.entities.Ticket;
 import com.tsystems.javaschool.uberbahn.entities.Train;
 import com.tsystems.javaschool.uberbahn.repositories.*;
 import com.tsystems.javaschool.uberbahn.services.errors.BusinessLogicException;
+import com.tsystems.javaschool.uberbahn.services.errors.DatabaseException;
 import com.tsystems.javaschool.uberbahn.transports.TicketInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -62,29 +63,25 @@ public class TicketServiceImpl implements TicketService {
 
     @Override
     public List<TicketInfo> getTicketInfos(int accountId, LocalDateTime since, LocalDateTime until) {
-        Collection<Ticket> tickets = ticketRepository.getByAccountId(accountId);
-        List<TicketInfo> ticketInfos = new ArrayList<>();
-        tickets.forEach(ticket -> {
+        List<TicketInfo> ticketInfos = ticketRepository.getByAccountIdSinceAndUntil(accountId, since, until).stream().map(ticket -> {
+            TicketInfo ticketInfo = new TicketInfo();
+            ticketInfo.setId(ticket.getId());
+            ticketInfo.setTrainId(ticket.getTrain().getId());
+            ticketInfo.setStationOfDeparture(ticket.getStationOfDeparture().getTitle());
             Presence presenceDeparture = presenceRepository.findByTrainIdAndStationId(ticket.getTrain().getId(), ticket.getStationOfDeparture().getId());
             LocalDateTime datetimeDeparture = LocalDateTime.ofInstant(presenceDeparture.getInstant(), ZoneOffset.ofHours(presenceDeparture.getSpot().getStation().getTimezone()));
-            if (datetimeDeparture.isAfter(since) && datetimeDeparture.isBefore(until)) {
-                TicketInfo ticketInfo = new TicketInfo();
-                ticketInfo.setId(ticket.getId());
-                ticketInfo.setTrainId(ticket.getTrain().getId());
-                ticketInfo.setStationOfDeparture(ticket.getStationOfDeparture().getTitle());
-                ticketInfo.setDatetimeOfDeparture(datetimeDeparture);
-                ticketInfo.setStationOfArrival(ticket.getStationOfArrival().getTitle());
-                Presence presenceArrival = presenceRepository.findByTrainIdAndStationId(ticket.getTrain().getId(), ticket.getStationOfArrival().getId());
-                LocalDateTime datetimeArrival = LocalDateTime.ofInstant(presenceArrival.getInstant(), ZoneOffset.ofHours(presenceArrival.getSpot().getStation().getTimezone()));
-                ticketInfo.setDatetimeOfArrival(datetimeArrival);
-                ticketInfo.setFirstName(ticket.getFirstName());
-                ticketInfo.setLastName(ticket.getLastName());
-                ticketInfo.setDateOfBirth(ticket.getDateOfBirth());
-                ticketInfo.setDatetimeOfPurchase(ticket.getDatetimeOfPurchase());
-                ticketInfo.setPrice(ticket.getPrice());
-                ticketInfos.add(ticketInfo);
-            }
-        });
+            ticketInfo.setDatetimeOfDeparture(datetimeDeparture);
+            ticketInfo.setStationOfArrival(ticket.getStationOfArrival().getTitle());
+            Presence presenceArrival = presenceRepository.findByTrainIdAndStationId(ticket.getTrain().getId(), ticket.getStationOfArrival().getId());
+            LocalDateTime datetimeArrival = LocalDateTime.ofInstant(presenceArrival.getInstant(), ZoneOffset.ofHours(presenceArrival.getSpot().getStation().getTimezone()));
+            ticketInfo.setDatetimeOfArrival(datetimeArrival);
+            ticketInfo.setFirstName(ticket.getFirstName());
+            ticketInfo.setLastName(ticket.getLastName());
+            ticketInfo.setDateOfBirth(ticket.getDateOfBirth());
+            ticketInfo.setDatetimeOfPurchase(ticket.getDatetimeOfPurchase());
+            ticketInfo.setPrice(ticket.getPrice());
+            return ticketInfo;
+        }).collect(Collectors.toList());
 
         Collections.sort(ticketInfos, (TicketInfo t1, TicketInfo t2) ->
                 t2.getDatetimeOfDeparture().compareTo(t1.getDatetimeOfDeparture()));
@@ -165,7 +162,7 @@ public class TicketServiceImpl implements TicketService {
         try {
             ticketId = ticketRepository.save(ticket).getId();
         } catch (PersistenceException | NullPointerException ex) {
-            throw new PersistenceException("Database writing error", ex);
+            throw new DatabaseException("Database writing error", ex);
         }
 
         Collection<Presence> presencesPassed = new ArrayList<>();
@@ -192,7 +189,7 @@ public class TicketServiceImpl implements TicketService {
         try {
             presenceRepository.save(presencesPassed);
         } catch (PersistenceException | NullPointerException ex) {
-            throw new PersistenceException("Database writing error", ex);
+            throw new DatabaseException("Database writing error", ex);
         }
 
         TicketInfo ticketInfo = new TicketInfo();

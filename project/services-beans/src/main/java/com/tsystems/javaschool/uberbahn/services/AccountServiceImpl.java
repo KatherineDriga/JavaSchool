@@ -3,6 +3,7 @@ package com.tsystems.javaschool.uberbahn.services;
 import com.tsystems.javaschool.uberbahn.entities.Account;
 import com.tsystems.javaschool.uberbahn.repositories.AccountRepository;
 import com.tsystems.javaschool.uberbahn.services.errors.BusinessLogicException;
+import com.tsystems.javaschool.uberbahn.services.errors.DatabaseException;
 import com.tsystems.javaschool.uberbahn.transports.AccountDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.PersistenceException;
 import java.time.LocalDate;
+import java.util.regex.Pattern;
 
 @Service
 @Transactional
@@ -24,11 +26,10 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public AccountDetails create(String login, String email, String password, String firstName, String lastName, LocalDate dateOfBirth, boolean employee) {
-        if (existsLogin(login)) {
-            throw new BusinessLogicException(String.format("Login %s already exists", login));
-        }
-        if (existsEmail(email)) {
-            throw new BusinessLogicException(String.format("Email %s already exists", email));
+
+        String message = checkFields(login, email, password, firstName, lastName, dateOfBirth);
+        if (message != "checked") {
+            throw new BusinessLogicException(message);
         }
 
         Account account = new Account();
@@ -40,55 +41,25 @@ public class AccountServiceImpl implements AccountService {
         account.setDateOfBirth(dateOfBirth);
         account.setEmployee(employee);
 
-        int accountId;
         try {
-            accountId = accountRepository.save(account).getId();
+            accountRepository.save(account);
         } catch (PersistenceException | NullPointerException ex) {
-            throw new PersistenceException("Database writing error", ex);
+            throw new DatabaseException("Error occurred", ex);
         }
-
-        AccountDetails accountDetails = new AccountDetails();
-        accountDetails.setId(accountId);
-        accountDetails.setLogin(login);
-        accountDetails.setEmail(email);
-        accountDetails.setSecret(password);
-        accountDetails.setFirstName(firstName);
-        accountDetails.setLastName(lastName);
-        accountDetails.setDateOfBirth(dateOfBirth);
-        accountDetails.setEmployee(employee);
-
-        return accountDetails;
+        return getAccountDetails(account);
     }
 
 
     @Override
     public AccountDetails getByLogin(String login) {
         Account account = accountRepository.findByLogin(login);
-        AccountDetails accountDetails = new AccountDetails();
-        accountDetails.setId(account.getId());
-        accountDetails.setLogin(account.getLogin());
-        accountDetails.setEmail(account.getEmail());
-        accountDetails.setSecret(account.getSecret());
-        accountDetails.setFirstName(account.getFirstName());
-        accountDetails.setLastName(account.getLastName());
-        accountDetails.setDateOfBirth(account.getDateOfBirth());
-        accountDetails.setEmployee(account.isEmployee());
-        return accountDetails;
+        return getAccountDetails(account);
     }
 
     @Override
     public AccountDetails getById(int id) {
         Account account = accountRepository.findOne(id);
-        AccountDetails accountDetails = new AccountDetails();
-        accountDetails.setId(account.getId());
-        accountDetails.setLogin(account.getLogin());
-        accountDetails.setEmail(account.getEmail());
-        accountDetails.setSecret(account.getSecret());
-        accountDetails.setFirstName(account.getFirstName());
-        accountDetails.setLastName(account.getLastName());
-        accountDetails.setDateOfBirth(account.getDateOfBirth());
-        accountDetails.setEmployee(account.isEmployee());
-        return accountDetails;
+        return getAccountDetails(account);
     }
 
     @Override
@@ -105,5 +76,53 @@ public class AccountServiceImpl implements AccountService {
             return true;
         }
         return false;
+    }
+
+    private AccountDetails getAccountDetails(Account account) {
+        AccountDetails accountDetails = new AccountDetails();
+        accountDetails.setId(account.getId());
+        accountDetails.setLogin(account.getLogin());
+        accountDetails.setEmail(account.getEmail());
+        accountDetails.setSecret(account.getSecret());
+        accountDetails.setFirstName(account.getFirstName());
+        accountDetails.setLastName(account.getLastName());
+        accountDetails.setDateOfBirth(account.getDateOfBirth());
+        accountDetails.setEmployee(account.isEmployee());
+        return accountDetails;
+    }
+
+    private boolean allLetters (String string) {
+        return string.chars().allMatch(x -> Character.isLetter(x));
+    }
+
+    private String checkFields (String login, String email, String password, String firstName, String lastName, LocalDate dateOfBirth) {
+        if (login == null || email == null || password == null || firstName == null || lastName == null || dateOfBirth == null) {
+            return "All fields are required";
+        }
+        if (!allLetters(firstName)) {
+            return "Invalid first name";
+        }
+        if (!allLetters(lastName)) {
+            return "Invalid last name";
+        }
+        if (LocalDate.now().isBefore(dateOfBirth)) {
+            return "Invalid Date of Birth";
+        }
+        if (!emailCheck(email)) {
+            return "Invalid email";
+        }
+        if (existsLogin(login)) {
+            return String.format("Login %s already exists", login);
+        }
+        if (existsEmail(email)) {
+            return String.format("Email %s already exists", email);
+        }
+        return "checked";
+    }
+
+    private boolean emailCheck (String email) {
+        return Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE)
+                .matcher(email)
+                .find();
     }
 }

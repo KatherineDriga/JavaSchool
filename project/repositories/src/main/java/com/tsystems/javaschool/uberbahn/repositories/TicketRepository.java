@@ -16,8 +16,13 @@ public interface TicketRepository extends JpaRepository<Ticket, Integer> {
     @Query("SELECT t FROM Ticket AS t WHERE t.train.id = :trainId AND t.stationOfDeparture.id = :stationOfDepartureId")
     Collection<Ticket> getByTrainIdAndStationOfDeparture(@Param("trainId") int trainId, @Param("stationOfDepartureId") int stationOfDepartureId);
 
-    @Query("SELECT t FROM Ticket AS t WHERE t.account.id = :accountId")
-    Collection<Ticket> getByAccountId(@Param("accountId") int id);
+    @Query("SELECT t FROM Ticket AS t " +
+            "WHERE t.account.id = :accountId " +
+            "AND t.datetimeOfPurchase >= :since " +
+            "AND t.datetimeOfPurchase < :until")
+    Collection<Ticket> getByAccountIdSinceAndUntil(@Param("accountId") int id,
+                                                   @Param("since") LocalDateTime since,
+                                                   @Param("until") LocalDateTime until);
 
     @Query("SELECT t FROM Ticket AS t " +
             "WHERE t.datetimeOfPurchase >= :since " +

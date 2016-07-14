@@ -7,6 +7,7 @@ import com.tsystems.javaschool.uberbahn.repositories.RouteRepository;
 import com.tsystems.javaschool.uberbahn.repositories.SpotRepository;
 import com.tsystems.javaschool.uberbahn.repositories.StationRepository;
 import com.tsystems.javaschool.uberbahn.services.errors.BusinessLogicException;
+import com.tsystems.javaschool.uberbahn.services.errors.DatabaseException;
 import com.tsystems.javaschool.uberbahn.transports.RouteInfo;
 import com.tsystems.javaschool.uberbahn.transports.RouteSpotInfo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,7 +69,7 @@ public class  RouteServiceImpl implements RouteService {
         try {
             routeId = routeRepository.save(route).getId();
         } catch (PersistenceException | NullPointerException ex) {
-            throw new PersistenceException("Database writing error", ex);
+            throw new DatabaseException("Database writing error", ex);
         }
 
         Collection<RouteSpotInfo> routeSpotInfos = new ArrayList<>();
@@ -81,7 +82,7 @@ public class  RouteServiceImpl implements RouteService {
             try {
                 spotRepository.save(spot);
             } catch (PersistenceException | NullPointerException ex) {
-                throw new PersistenceException("Database writing error", ex);
+                throw new DatabaseException("Database writing error", ex);
             }
             RouteSpotInfo spotInfo = new RouteSpotInfo();
             spotInfo.setStationTitle(spot.getStation().getTitle());

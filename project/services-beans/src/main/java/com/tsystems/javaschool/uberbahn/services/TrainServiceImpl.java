@@ -5,6 +5,7 @@ import com.tsystems.javaschool.uberbahn.entities.*;
 import com.tsystems.javaschool.uberbahn.repositories.*;
 import com.tsystems.javaschool.uberbahn.services.TrainService;
 import com.tsystems.javaschool.uberbahn.services.errors.BusinessLogicException;
+import com.tsystems.javaschool.uberbahn.services.errors.DatabaseException;
 import com.tsystems.javaschool.uberbahn.transports.PassengerInfo;
 import com.tsystems.javaschool.uberbahn.transports.TrainInfo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,10 +43,12 @@ public class TrainServiceImpl implements TrainService {
     @Override
     public Collection<TrainInfo> getAll(int stationOfDepartureId, int stationOfArrivalId, LocalDateTime since, LocalDateTime until) {
 
-        Station stationOfDeparture = stationRepository.findOne(stationOfDepartureId);
+        /*Station stationOfDeparture = stationRepository.findOne(stationOfDepartureId);
         Station stationOfArrival = stationRepository.findOne(stationOfArrivalId);
         Instant sinceDateTime = since.toInstant(ZoneOffset.ofHours(stationOfDeparture.getTimezone()));
         Instant untilDateTime = until.toInstant(ZoneOffset.ofHours(stationOfDeparture.getTimezone()));
+
+        Collection<Presence> presences2 = trainRepository.findByDepartureArrivalStationAndTime(stationOfDepartureId, stationOfArrivalId, sinceDateTime, untilDateTime);
 
         Collection<Train> trains = trainRepository.findByDepartureArrivalAndTime(
                 stationOfDepartureId, stationOfDepartureId, sinceDateTime, untilDateTime);
@@ -98,14 +101,14 @@ public class TrainServiceImpl implements TrainService {
                 trainInfos.add(trainInfo);
             }
         });
-        return trainInfos;
+        return trainInfos;*/
 
-        /*Station stationOfDeparture = stationRepository.findOne(stationOfDepartureId);
+        Station stationOfDeparture = stationRepository.findOne(stationOfDepartureId);
         Station stationOfArrival = stationRepository.findOne(stationOfArrivalId);
         Instant sinceDateTime = since.toInstant(ZoneOffset.ofHours(stationOfDeparture.getTimezone()));
         Instant untilDateTime = until.toInstant(ZoneOffset.ofHours(stationOfDeparture.getTimezone()));
 
-        Collection<Presence> presences = trainRepository.findByDepartureArrivalStationAndTime(stationOfDepartureId, stationOfDepartureId, sinceDateTime, untilDateTime);
+        Collection<Presence> presences = presenceRepository.findByDepartureArrivalStationAndTime(stationOfDepartureId, stationOfArrivalId, sinceDateTime, untilDateTime);
         Collection<Train> trains = presences.stream().map(presence -> {
             return presence.getTrain();
         }).collect(Collectors.toList());
@@ -149,15 +152,10 @@ public class TrainServiceImpl implements TrainService {
             }
             trainInfo.setNumberOfSeatsAvailable(ticketsAvailable);
             int duration = minutesArrival-minutesDeparture;
-            long days = TimeUnit.MINUTES.toDays(duration);
-            long hours = TimeUnit.MINUTES.toHours(duration) - days*24;
-            long minutes = duration - days*24 - hours*60;
-            trainInfo.setTravelTime(String.valueOf(days) + "d " + String.valueOf(hours) + "h "+String.valueOf(minutes) + "m");
-
+            trainInfo.setTravelTime(countTravelTime(duration));
             trainInfo.setTicketPrice(((new BigDecimal(duration)).multiply(new BigDecimal(train.getPriceCoefficient())).multiply(train.getRoute().getPricePerMinute())).setScale(2, BigDecimal.ROUND_HALF_UP));
-
             return trainInfo;
-        }).collect(Collectors.toList());*/
+        }).collect(Collectors.toList());
     }
 
     @Override
@@ -177,7 +175,7 @@ public class TrainServiceImpl implements TrainService {
         try {
             trainId = trainRepository.save(train).getId();
         } catch (PersistenceException | NullPointerException ex) {
-            throw new PersistenceException("Database writing error", ex);
+            throw new DatabaseException("Database writing error", ex);
         }
 
         Train addedTrain = trainRepository.findOne(trainId);
@@ -196,7 +194,7 @@ public class TrainServiceImpl implements TrainService {
             try {
                 presenceRepository.save(presence);
             } catch (PersistenceException | NullPointerException ex) {
-                throw new PersistenceException("Database writing error", ex);
+                throw new DatabaseException("Database writing error", ex);
             }
         });
 
@@ -269,7 +267,7 @@ public class TrainServiceImpl implements TrainService {
         return trainInfo;
     }
 
-    public String countTravelTime (int duration){
+    private String countTravelTime (int duration){
         long days = TimeUnit.MINUTES.toDays(duration);
         long hours = TimeUnit.MINUTES.toHours(duration) - days*24;
         long minutes = duration - days*24*60 - hours*60;

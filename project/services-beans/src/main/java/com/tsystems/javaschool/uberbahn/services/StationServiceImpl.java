@@ -6,6 +6,7 @@ import com.tsystems.javaschool.uberbahn.entities.Station;
 import com.tsystems.javaschool.uberbahn.repositories.PresenceRepository;
 import com.tsystems.javaschool.uberbahn.repositories.StationRepository;
 import com.tsystems.javaschool.uberbahn.services.errors.BusinessLogicException;
+import com.tsystems.javaschool.uberbahn.services.errors.DatabaseException;
 import com.tsystems.javaschool.uberbahn.transports.StationInfo;
 import com.tsystems.javaschool.uberbahn.transports.StationScheduleEvent;
 import com.tsystems.javaschool.uberbahn.transports.StationTimetable;
@@ -44,7 +45,7 @@ public class StationServiceImpl implements StationService {
         try {
             stationId = stationRepository.save(station).getId();
         } catch (PersistenceException | NullPointerException ex) {
-            throw new PersistenceException("Database writing error", ex);
+            throw new DatabaseException("Database writing error", ex);
         }
         StationInfo stationInfo = new StationInfo();
         stationInfo.setId(stationId);

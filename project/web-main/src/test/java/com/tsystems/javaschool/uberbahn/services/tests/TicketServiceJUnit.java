@@ -1,4 +1,4 @@
-package com.tsystems.javaschool.uberbahn.webmain.tests;
+package com.tsystems.javaschool.uberbahn.services.tests;
 
 import com.tsystems.javaschool.uberbahn.entities.*;
 import com.tsystems.javaschool.uberbahn.repositories.*;
@@ -19,7 +19,7 @@ import static org.mockito.Mockito.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {WebInizializer.class})
-public class JUnitTicketService {
+public class TicketServiceJUnit {
 
     private TrainRepository trainRepository;
     private AccountRepository accountRepository;

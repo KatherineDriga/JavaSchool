@@ -2,6 +2,7 @@ package com.tsystems.javaschool.uberbahn.webmain.errors;
 
 
 import com.tsystems.javaschool.uberbahn.services.errors.BusinessLogicException;
+import com.tsystems.javaschool.uberbahn.services.errors.DatabaseException;
 import com.tsystems.javaschool.uberbahn.webmain.controllers.TrainTimetableControllerImpl;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -30,9 +31,9 @@ public class ExceptionAdvice {
         return ex.getMessage();
     }
 
-    @ExceptionHandler(PersistenceException.class)
+    @ExceptionHandler(DatabaseException.class)
     @ResponseBody
-    public String handlePersistenceException(Throwable ex) {
+    public String handleDatabaseException(Throwable ex) {
         logger.error("ERROR", ex);
         return ex.getMessage();
     }
