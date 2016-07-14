@@ -42,11 +42,11 @@ $(function () {
         }
 
         if (checkArray(stationIds) === false) {
-            errorMessageSpan.text("Stations reiterave");
+            errorMessageSpan.text("Stations reiterate");
         }
 
         if (checkArray(minutesSinceDepartures) === false) {
-            errorMessageSpan.text("Minutes reiterave");
+            errorMessageSpan.text("Minutes reiterate");
         }
 
         if (errorMessageSpan.text() !== "Enter minutes since departure" &&

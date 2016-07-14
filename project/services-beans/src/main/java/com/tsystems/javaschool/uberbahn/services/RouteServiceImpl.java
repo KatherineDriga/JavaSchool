@@ -17,9 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.PersistenceException;
 import java.math.BigDecimal;
 import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -57,8 +55,10 @@ public class  RouteServiceImpl implements RouteService {
 
     @Override
     public RouteInfo create(String title, LocalTime timeOfDeparture, List<Integer> stationIds, List<Integer> minutesSinceDepartures, BigDecimal pricePerMinute) {
-        if (existsRoute(title)){
-            throw new BusinessLogicException(String.format("Route %s already exists", title));
+
+        String message = checkFields(title, timeOfDeparture, stationIds, minutesSinceDepartures, pricePerMinute);
+        if (message != "checked") {
+            throw new BusinessLogicException(message);
         }
         Route route = new Route();
         route.setTitle(title);
@@ -69,26 +69,11 @@ public class  RouteServiceImpl implements RouteService {
         try {
             routeId = routeRepository.save(route).getId();
         } catch (PersistenceException | NullPointerException ex) {
-            throw new DatabaseException("Database writing error", ex);
+            throw new DatabaseException("Error occurred", ex);
         }
 
-        Collection<RouteSpotInfo> routeSpotInfos = new ArrayList<>();
+        Collection<RouteSpotInfo> routeSpotInfos = saveSpots(stationIds, route, minutesSinceDepartures);
 
-        for (int i=0; i<stationIds.size(); i++) {
-            Spot spot = new Spot();
-            spot.setRoute(route);
-            spot.setMinutesSinceDeparture(minutesSinceDepartures.get(i));
-            spot.setStation(stationRepository.findOne(stationIds.get(i)));
-            try {
-                spotRepository.save(spot);
-            } catch (PersistenceException | NullPointerException ex) {
-                throw new DatabaseException("Database writing error", ex);
-            }
-            RouteSpotInfo spotInfo = new RouteSpotInfo();
-            spotInfo.setStationTitle(spot.getStation().getTitle());
-            spotInfo.setMinutesSinceDeparture(spot.getMinutesSinceDeparture());
-            routeSpotInfos.add(spotInfo);
-        }
         RouteInfo routeInfo = new RouteInfo();
         routeInfo.setId(routeId);
         routeInfo.setTitle(title);
@@ -118,6 +103,63 @@ public class  RouteServiceImpl implements RouteService {
             return info;
         }).collect(Collectors.toList());
 
+    }
+
+    private Collection<RouteSpotInfo> saveSpots(List<Integer> stationIds, Route route, List<Integer> minutesSinceDepartures) {
+        Collection<RouteSpotInfo> routeSpotInfos = new ArrayList<>();
+        for (int i=0; i<stationIds.size(); i++) {
+            Spot spot = new Spot();
+            spot.setRoute(route);
+            spot.setMinutesSinceDeparture(minutesSinceDepartures.get(i));
+            spot.setStation(stationRepository.findOne(stationIds.get(i)));
+            try {
+                spotRepository.save(spot);
+            } catch (PersistenceException | NullPointerException ex) {
+                throw new DatabaseException("Error occurred", ex);
+            }
+            RouteSpotInfo spotInfo = new RouteSpotInfo();
+            spotInfo.setStationTitle(spot.getStation().getTitle());
+            spotInfo.setMinutesSinceDeparture(spot.getMinutesSinceDeparture());
+            routeSpotInfos.add(spotInfo);
+        }
+        return routeSpotInfos;
+    }
+
+    private String checkFields(String title, LocalTime timeOfDeparture, List<Integer> stationIds, List<Integer> minutesSinceDepartures, BigDecimal pricePerMinute) {
+        if (title == null || timeOfDeparture == null || stationIds == null || minutesSinceDepartures == null || pricePerMinute == null) {
+            return "All fields are required";
+        }
+        if (pricePerMinute.compareTo(BigDecimal.ZERO) <= 0) {
+            return "Invalid price";
+        }
+        if (stationIds.size() < 2) {
+            return "Number of stations should be greater than or equal to 2";
+        }
+        for (Integer id : stationIds) {
+            if (id == null) {
+                return "All stations are required";
+            }
+        }
+        for (int minute : minutesSinceDepartures) {
+            if (minute < 0) {
+                return "Invalid minutes since departures";
+            }
+        }
+        if (minutesSinceDepartures.size() < stationIds.size()) {
+            return "All minutes since departures are required";
+        }
+        Set minutes = new HashSet<>(minutesSinceDepartures);
+        if (minutes.size() < minutesSinceDepartures.size()) {
+            return "Minutes since departures must be different";
+        }
+        Set stations = new HashSet<>(stationIds);
+        if (stations.size() < stationIds.size()) {
+            return "Stations reiterate";
+        }
+        if (existsRoute(title)){
+            return String.format("Route %s already exists", title);
+        }
+        return "checked";
     }
 
 }

@@ -52,9 +52,10 @@ public class AccountServiceJUnitTest {
 
     @Test(expected = BusinessLogicException.class)
     public void createAccountWithInvalidDateOfBirth() {
+        LocalDate dateOfBirth = LocalDate.now().plusDays(1);
         System.out.println("Stubbing to create account with invalid date of birth");
         System.out.println("accountService.create should throw BusinessLogicException");
-        accountService.create("login", "email@example.com", "password", "firstName", "lastName", LocalDate.now().plusDays(1), false);
+        accountService.create("login", "email@example.com", "password", "firstName", "lastName", dateOfBirth, false);
     }
 
     @Test(expected = BusinessLogicException.class)
