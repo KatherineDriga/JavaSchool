@@ -31,6 +31,8 @@ $(function () {
             errorMessageSpan.text("Enter until date");
         }  else if ($("#untilTime").val().length === 0) {
             errorMessageSpan.text("Enter until time");
+        } else if (new Date (since) > new Date (until)) {
+            errorMessageSpan.text("Invalid dates");
         } else {
         window.location.href = "/listOfTrains?"
             + "stationOfDeparture=" + stationA + "&"

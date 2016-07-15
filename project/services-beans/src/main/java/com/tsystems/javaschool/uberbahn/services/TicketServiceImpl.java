@@ -147,6 +147,9 @@ public class TicketServiceImpl implements TicketService {
         if (firstName == null || lastName == null || dateOfBirth == null) {
             throw new BusinessLogicException("All fields are required");
         }
+        if (stationOfDepartureId == stationOfArrivalId) {
+            throw new BusinessLogicException("Stations of departure and arrival should be different");
+        }
         if (!allLetters(firstName)) {
             throw new BusinessLogicException("Invalid first name");
         }

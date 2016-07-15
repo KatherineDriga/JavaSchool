@@ -42,67 +42,7 @@ public class TrainServiceImpl implements TrainService {
 
     @Override
     public Collection<TrainInfo> getAll(int stationOfDepartureId, int stationOfArrivalId, LocalDateTime since, LocalDateTime until) {
-
-        /*Station stationOfDeparture = stationRepository.findOne(stationOfDepartureId);
-        Station stationOfArrival = stationRepository.findOne(stationOfArrivalId);
-        Instant sinceDateTime = since.toInstant(ZoneOffset.ofHours(stationOfDeparture.getTimezone()));
-        Instant untilDateTime = until.toInstant(ZoneOffset.ofHours(stationOfDeparture.getTimezone()));
-
-        Collection<Presence> presences2 = trainRepository.findByDepartureArrivalStationAndTime(stationOfDepartureId, stationOfArrivalId, sinceDateTime, untilDateTime);
-
-        Collection<Train> trains = trainRepository.findByDepartureArrivalAndTime(
-                stationOfDepartureId, stationOfDepartureId, sinceDateTime, untilDateTime);
-        Collection<TrainInfo> trainInfos = new ArrayList<>();
-        trains.forEach(train -> {
-            TrainInfo trainInfo = new TrainInfo();
-            trainInfo.setTrainId(train.getId());
-            trainInfo.setRouteTitle(train.getRoute().getTitle());
-            trainInfo.setStationOfDeparture(stationOfDeparture.getTitle());
-            trainInfo.setStationOfArrival(stationOfArrival.getTitle());
-
-            Collection<Presence> presences = presenceRepository.findByTrainId(train.getId());
-            boolean isDeparturePassed = false;
-            boolean isArrivalNotPassed = true;
-            int minutesDeparture = 0;
-            int minutesArrival = 0;
-
-            int ticketsAvailable = train.getNumberOfSeats();
-
-            for (Presence presence : presences) {
-                if (presence.getSpot().getStation().getId() == stationOfDepartureId) {
-                    isDeparturePassed = true;
-
-                    OffsetDateTime datetimeDeparture = presence.getInstant().atOffset(ZoneOffset.ofHours(stationOfDeparture.getTimezone()));
-                    trainInfo.setDateOfDeparture(datetimeDeparture.toLocalDate());
-                    trainInfo.setTimeOfDeparture(datetimeDeparture.toLocalTime());
-                    minutesDeparture = presence.getSpot().getMinutesSinceDeparture();
-                }
-                if (presence.getSpot().getStation().getId() == stationOfArrivalId) {
-                    isArrivalNotPassed = false;
-                    OffsetDateTime datetimeArrival = presence.getInstant().atOffset(ZoneOffset.ofHours(stationOfArrival.getTimezone()));
-
-                    trainInfo.setDateOfArrival(datetimeArrival.toLocalDate());
-                    trainInfo.setTimeOfArrival(datetimeArrival.toLocalTime());
-                    minutesArrival = presence.getSpot().getMinutesSinceDeparture();
-
-                }
-                if (isDeparturePassed && isArrivalNotPassed) {
-                    ticketsAvailable = Math.min(train.getNumberOfSeats()-presence.getNumberOfTicketsPurchased(), ticketsAvailable);
-                }
-            }
-            trainInfo.setNumberOfSeatsAvailable(ticketsAvailable);
-            int duration = minutesArrival-minutesDeparture;
-
-            trainInfo.setTravelTime(countTravelTime(duration));
-
-            trainInfo.setTicketPrice(((new BigDecimal(duration)).multiply(new BigDecimal(train.getPriceCoefficient())).multiply(train.getRoute().getPricePerMinute())).setScale(2, BigDecimal.ROUND_HALF_UP));
-
-            if (trainInfo.getTicketPrice().compareTo(BigDecimal.ZERO) > 0){
-                trainInfos.add(trainInfo);
-            }
-        });
-        return trainInfos;*/
-
+        checkFields(stationOfDepartureId, stationOfArrivalId, since, until);
         Station stationOfDeparture = stationRepository.findOne(stationOfDepartureId);
         Station stationOfArrival = stationRepository.findOne(stationOfArrivalId);
         Instant sinceDateTime = since.toInstant(ZoneOffset.ofHours(stationOfDeparture.getTimezone()));
@@ -160,9 +100,8 @@ public class TrainServiceImpl implements TrainService {
 
     @Override
     public TrainInfo create(int routeId, LocalDate dateOfDeparture, int numberOfSeats, double priceCoefficient) {
-        if (existsTrain(routeId, dateOfDeparture)) {
-            throw new BusinessLogicException(String.format("Train %s already exists", dateOfDeparture));
-        }
+
+        checkFieldsToCreate(routeId, dateOfDeparture, numberOfSeats, priceCoefficient);
         Train train = new Train();
         Route route = routeRepository.findOne(routeId);
         train.setRoute(route);
@@ -170,36 +109,16 @@ public class TrainServiceImpl implements TrainService {
         train.setNumberOfSeats(numberOfSeats);
         train.setPriceCoefficient(priceCoefficient);
         train.setArchived(false);
-
-        int trainId;
         try {
-            trainId = trainRepository.save(train).getId();
+            trainRepository.save(train);
         } catch (PersistenceException | NullPointerException ex) {
-            throw new DatabaseException("Database writing error", ex);
+            throw new DatabaseException("Error occurred", ex);
         }
 
-        Train addedTrain = trainRepository.findOne(trainId);
-        Collection<Spot> spots = spotRepository.findByRouteId(routeId);
-        Instant datetimeDeparture = addedTrain.getDateOfDeparture()
-                .atTime(addedTrain.getRoute().getTimeOfDeparture())
-                .toInstant(ZoneOffset.ofHours(route.getSpots().get(0).getStation().getTimezone()));
-        spots.forEach(spot -> {
-            Presence presence = new Presence();
-            presence.setTrain(addedTrain);
-            presence.setSpot(spot);
-            Instant instant = datetimeDeparture
-                    .plus(spot.getMinutesSinceDeparture(), ChronoUnit.MINUTES);
-            presence.setInstant(instant);
-            presence.setNumberOfTicketsPurchased(0);
-            try {
-                presenceRepository.save(presence);
-            } catch (PersistenceException | NullPointerException ex) {
-                throw new DatabaseException("Database writing error", ex);
-            }
-        });
+        saveSpots(train);
 
         TrainInfo trainInfo = new TrainInfo();
-        trainInfo.setTrainId(trainId);
+        trainInfo.setTrainId(train.getId());
         trainInfo.setRouteTitle(routeRepository.findOne(routeId).getTitle());
         trainInfo.setDateOfDeparture(dateOfDeparture);
         trainInfo.setNumberOfSeats(numberOfSeats);
@@ -241,8 +160,7 @@ public class TrainServiceImpl implements TrainService {
 
     @Override
     public boolean existsTrain(int routeId, LocalDate dateOfDeparture) {
-        Train train = trainRepository.findByRouteIdAndDateOfDeparture(routeId, dateOfDeparture);
-        if (train != null) {
+        if (trainRepository.findByRouteIdAndDateOfDeparture(routeId, dateOfDeparture) != null) {
             return true;
         }
         return false;
@@ -274,6 +192,53 @@ public class TrainServiceImpl implements TrainService {
         return days + "d " + hours + "h "+ minutes + "m";
     }
 
+    private void checkFields(int stationOfDepartureId, int stationOfArrivalId, LocalDateTime since, LocalDateTime until) {
+        if (stationOfDepartureId == stationOfArrivalId) {
+            throw new BusinessLogicException("Stations Stations of departure and arrival should be different");
+        }
+        if (since.isAfter(until)) {
+            throw new BusinessLogicException("Invalid dates");
+        }
+    }
+
+    private void checkFieldsToCreate(int routeId, LocalDate dateOfDeparture, int numberOfSeats, double priceCoefficient) {
+        if (dateOfDeparture == null) {
+            throw new BusinessLogicException("Enter date of departure");
+        }
+        if (numberOfSeats <= 0) {
+            throw new BusinessLogicException("Invalid number of Seats");
+        }
+        if (priceCoefficient <= 0) {
+            throw new BusinessLogicException("Invalid price coefficient");
+        }
+        if (existsTrain(routeId, dateOfDeparture)) {
+            throw new BusinessLogicException(String.format("Train %s already exists", dateOfDeparture));
+        }
+        if (routeRepository.findOne(routeId) == null) {
+            throw new BusinessLogicException("Route required");
+        }
+    }
+
+    private void saveSpots (Train train) {
+        Collection<Spot> spots = spotRepository.findByRouteId(train.getRoute().getId());
+        Instant datetimeDeparture = train.getDateOfDeparture()
+                .atTime(train.getRoute().getTimeOfDeparture())
+                .toInstant(ZoneOffset.ofHours(train.getRoute().getSpots().get(0).getStation().getTimezone()));
+        spots.forEach(spot -> {
+            Presence presence = new Presence();
+            presence.setTrain(train);
+            presence.setSpot(spot);
+            Instant instant = datetimeDeparture
+                    .plus(spot.getMinutesSinceDeparture(), ChronoUnit.MINUTES);
+            presence.setInstant(instant);
+            presence.setNumberOfTicketsPurchased(0);
+            try {
+                presenceRepository.save(presence);
+            } catch (PersistenceException | NullPointerException ex) {
+                throw new DatabaseException("Error occurred", ex);
+            }
+        });
+    }
 
 }
 

@@ -5,7 +5,6 @@ import com.tsystems.javaschool.uberbahn.repositories.*;
 import com.tsystems.javaschool.uberbahn.services.TrainService;
 import com.tsystems.javaschool.uberbahn.services.TrainServiceImpl;
 import com.tsystems.javaschool.uberbahn.services.errors.BusinessLogicException;
-import com.tsystems.javaschool.uberbahn.services.errors.DatabaseException;
 import com.tsystems.javaschool.uberbahn.webmain.WebInizializer;
 import org.junit.Before;
 import org.junit.Test;
@@ -13,8 +12,8 @@ import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import javax.persistence.PersistenceException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -43,6 +42,23 @@ public class TrainServiceJUnit {
     }
 
     @Test(expected = BusinessLogicException.class)
+    public void getTrainsWithInvalidDates() {
+        LocalDateTime since = LocalDateTime.now();
+        LocalDateTime until = since.minusHours(10);
+        System.out.println("Stubbing to get trains with invalid dates");
+        System.out.println("trainService.getAll should throw BusinessLogicException");
+        trainService.getAll(1, 1, since, until);
+    }
+
+    @Test(expected = BusinessLogicException.class)
+    public void createTrainWithEmptyDate() {
+        LocalDate date = null;
+        System.out.println("Stubbing to create train with unfilled date");
+        System.out.println("trainService.create should throw BusinessLogicException");
+        trainService.create(1, date, 100, 1.2);
+    }
+
+    @Test(expected = BusinessLogicException.class)
     public void createTrainWithExistingDate () {
         int routeId = 1;
         LocalDate enteredDate = LocalDate.now().plusDays(2);
@@ -52,12 +68,21 @@ public class TrainServiceJUnit {
         trainService.create(routeId, enteredDate, 100, 1.2);
     }
 
-    @Test(expected = DatabaseException.class)
-    public void databaseWritingError() {
-        System.out.println("Stubbing to throw DatabaseException");
-        when(trainRepository.save(train)).thenReturn(null);
-        System.out.println("trainService.create should throw DatabaseException");
-        trainService.create(1, LocalDate.now(), 100, 1.2);
+    @Test(expected = BusinessLogicException.class)
+    public void createTrainWithInvalidPriceCoefficient() {
+        double priceCoefficient = -2.0;
+        System.out.println("Stubbing to create train with invalid price coefficient");
+        System.out.println("trainService.create should throw BusinessLogicException");
+        trainService.create(1, LocalDate.now().plusDays(3), 100, priceCoefficient);
     }
+
+    @Test(expected = BusinessLogicException.class)
+    public void createTrainWithInvalidNumberOfSeats() {
+        int numberOfSeats = 0;
+        System.out.println("Stubbing to create train with invalid number of seats");
+        System.out.println("trainService.create should throw BusinessLogicException");
+        trainService.create(1, LocalDate.now().plusDays(3),numberOfSeats, 1.2);
+    }
+
 
 }
