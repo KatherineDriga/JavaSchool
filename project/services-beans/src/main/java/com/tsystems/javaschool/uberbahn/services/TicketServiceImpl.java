@@ -65,7 +65,7 @@ public class TicketServiceImpl implements TicketService {
             return getTicketInfo(ticket);
         }).collect(Collectors.toList());
         Collections.sort(ticketInfos, (TicketInfo t1, TicketInfo t2) ->
-                t2.getDatetimeOfDeparture().compareTo(t1.getDatetimeOfDeparture()));
+                t2.getDateOfDeparture().atTime(t2.getTimeOfDeparture()).compareTo(t1.getDateOfDeparture().atTime(t1.getTimeOfDeparture())));
         return ticketInfos;
     }
 
@@ -129,17 +129,21 @@ public class TicketServiceImpl implements TicketService {
         ticketInfo.setStationOfDeparture(ticket.getStationOfDeparture().getTitle());
         Presence presenceDeparture = presenceRepository.findByTrainIdAndStationId(ticket.getTrain().getId(), ticket.getStationOfDeparture().getId());
         LocalDateTime datetimeDeparture = LocalDateTime.ofInstant(presenceDeparture.getInstant(), ZoneOffset.ofHours(presenceDeparture.getSpot().getStation().getTimezone()));
-        ticketInfo.setDatetimeOfDeparture(datetimeDeparture);
+        ticketInfo.setDateOfDeparture(datetimeDeparture.toLocalDate());
+        ticketInfo.setTimeOfDeparture(datetimeDeparture.toLocalTime());
         ticketInfo.setStationOfArrival(ticket.getStationOfArrival().getTitle());
         Presence presenceArrival = presenceRepository.findByTrainIdAndStationId(ticket.getTrain().getId(), ticket.getStationOfArrival().getId());
         LocalDateTime datetimeArrival = LocalDateTime.ofInstant(presenceArrival.getInstant(), ZoneOffset.ofHours(presenceArrival.getSpot().getStation().getTimezone()));
-        ticketInfo.setDatetimeOfArrival(datetimeArrival);
+        ticketInfo.setDateOfArrival(datetimeArrival.toLocalDate());
+        ticketInfo.setTimeOfArrival(datetimeArrival.toLocalTime());
         ticketInfo.setFirstName(ticket.getFirstName());
         ticketInfo.setLastName(ticket.getLastName());
         ticketInfo.setDateOfBirth(ticket.getDateOfBirth());
-        ticketInfo.setDatetimeOfPurchase(ticket.getDatetimeOfPurchase());
+        ticketInfo.setDateOfPurchase(ticket.getDatetimeOfPurchase().toLocalDate());
+        ticketInfo.setTimeOfPurchase(ticket.getDatetimeOfPurchase().toLocalTime());
         ticketInfo.setPrice(ticket.getPrice());
         ticketInfo.setRouteTitle(ticket.getTrain().getRoute().getTitle());
+        ticketInfo.setLogin(ticket.getAccount().getLogin());
         return ticketInfo;
     }
 

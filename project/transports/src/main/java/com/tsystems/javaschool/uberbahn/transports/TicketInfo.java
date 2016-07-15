@@ -4,6 +4,7 @@ package com.tsystems.javaschool.uberbahn.transports;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 public class TicketInfo {
 
@@ -14,9 +15,12 @@ public class TicketInfo {
     private LocalDate dateOfBirth;
     private String stationOfDeparture;
     private String stationOfArrival;
-    private LocalDateTime datetimeOfPurchase;
-    private LocalDateTime datetimeOfDeparture;
-    private LocalDateTime datetimeOfArrival;
+    private LocalDate dateOfDeparture;
+    private LocalTime timeOfDeparture;
+    private LocalDate dateOfArrival;
+    private LocalTime timeOfArrival;
+    private LocalDate dateOfPurchase;
+    private LocalTime timeOfPurchase;
     private BigDecimal price;
     private String login;
     private String routeTitle;
@@ -77,28 +81,52 @@ public class TicketInfo {
         this.stationOfArrival = stationOfArrival;
     }
 
-    public LocalDateTime getDatetimeOfPurchase() {
-        return datetimeOfPurchase;
+    public LocalDate getDateOfPurchase() {
+        return dateOfPurchase;
     }
 
-    public void setDatetimeOfPurchase(LocalDateTime datetimeOfPurchase) {
-        this.datetimeOfPurchase = datetimeOfPurchase;
+    public void setDateOfPurchase(LocalDate dateOfPurchase) {
+        this.dateOfPurchase = dateOfPurchase;
     }
 
-    public LocalDateTime getDatetimeOfDeparture() {
-        return datetimeOfDeparture;
+    public LocalTime getTimeOfPurchase() {
+        return timeOfPurchase;
     }
 
-    public void setDatetimeOfDeparture(LocalDateTime datetimeOfDeparture) {
-        this.datetimeOfDeparture = datetimeOfDeparture;
+    public void setTimeOfPurchase(LocalTime timeOfPurchase) {
+        this.timeOfPurchase = timeOfPurchase;
     }
 
-    public LocalDateTime getDatetimeOfArrival() {
-        return datetimeOfArrival;
+    public LocalDate getDateOfDeparture() {
+        return dateOfDeparture;
     }
 
-    public void setDatetimeOfArrival(LocalDateTime datetimeOfArrival) {
-        this.datetimeOfArrival = datetimeOfArrival;
+    public void setDateOfDeparture(LocalDate dateOfDeparture) {
+        this.dateOfDeparture = dateOfDeparture;
+    }
+
+    public LocalTime getTimeOfDeparture() {
+        return timeOfDeparture;
+    }
+
+    public void setTimeOfDeparture(LocalTime timeOfDeparture) {
+        this.timeOfDeparture = timeOfDeparture;
+    }
+
+    public LocalDate getDateOfArrival() {
+        return dateOfArrival;
+    }
+
+    public void setDateOfArrival(LocalDate dateOfArrival) {
+        this.dateOfArrival = dateOfArrival;
+    }
+
+    public LocalTime getTimeOfArrival() {
+        return timeOfArrival;
+    }
+
+    public void setTimeOfArrival(LocalTime timeOfArrival) {
+        this.timeOfArrival = timeOfArrival;
     }
 
     public BigDecimal getPrice() {

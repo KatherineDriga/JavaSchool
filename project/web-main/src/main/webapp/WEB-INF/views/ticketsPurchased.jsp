@@ -25,20 +25,22 @@
                 <tr>
                     <th>#</th>
                     <th>Train</th>
+                    <th>Route Title</th>
                     <th>Departure</th>
                     <th>Arrival</th>
                     <th>Passenger</th>
-                    <th>Date and Time of Purchase</th>
+                    <th>Date and Time <br/>of Purchase</th>
                     <th>Price</th>
                 </tr>
                 <c:forEach var="ticket" items="${tickets}">
                     <tr>
                         <td>${ticket.id}</td>
                         <td>${ticket.trainId}</td>
-                        <td>${ticket.stationOfDeparture} <br/>${ticket.datetimeOfDeparture}</td>
-                        <td>${ticket.stationOfArrival} <br />${ticket.datetimeOfArrival}</td>
+                        <td>${ticket.routeTitle}</td>
+                        <td>${ticket.stationOfDeparture} <br/>${ticket.dateOfDeparture} <br/>${ticket.timeOfDeparture}</td>
+                        <td>${ticket.stationOfArrival} <br/>${ticket.dateOfArrival} <br/>${ticket.timeOfArrival}</td>
                         <td>${ticket.firstName} <br />${ticket.lastName} <br />${ticket.dateOfBirth}</td>
-                        <td>${ticket.datetimeOfPurchase}</td>
+                        <td>${ticket.dateOfPurchase} <br />${ticket.timeOfPurchase}</td>
                         <td>${ticket.price}</td>
                     </tr>
                 </c:forEach>
