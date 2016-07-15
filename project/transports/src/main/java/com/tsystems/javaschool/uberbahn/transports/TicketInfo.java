@@ -19,6 +19,7 @@ public class TicketInfo {
     private LocalDateTime datetimeOfArrival;
     private BigDecimal price;
     private String login;
+    private String routeTitle;
 
     public int getId() {
         return id;
@@ -114,6 +115,14 @@ public class TicketInfo {
 
     public void setLogin(String login) {
         this.login = login;
+    }
+
+    public String getRouteTitle() {
+        return routeTitle;
+    }
+
+    public void setRouteTitle(String routeTitle) {
+        this.routeTitle = routeTitle;
     }
 }
 

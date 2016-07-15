@@ -12,7 +12,10 @@ import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.time.Instant;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 
 
 import static org.mockito.Mockito.*;
@@ -27,33 +30,17 @@ public class TicketServiceJUnit {
     private SpotRepository spotRepository;
     private PresenceRepository presenceRepository;
     private TicketService ticketService;
-    private Ticket ticket;
     private Train train;
-    private Presence presenceDeparture;
-    private Presence presenceArrival;
-    private Spot spotDeparture;
-    private Spot spotArrival;
-    private Station stationDeparture;
-    private Station stationArrival;
-    private Account account;
+
 
     @Before
     public void setupMock() {
-        ticket = mock(Ticket.class);
         train = mock(Train.class);
-        presenceDeparture = mock(Presence.class);
-        presenceArrival = mock(Presence.class);
-        account = mock(Account.class);
-        spotDeparture = mock(Spot.class);
-        spotArrival = mock(Spot.class);
-        stationDeparture = mock(Station.class);
-        stationArrival = mock(Station.class);
         trainRepository = mock(TrainRepository.class);
         accountRepository = mock(AccountRepository.class);
         ticketRepository = mock(TicketRepository.class);
-        spotRepository = mock(SpotRepository.class);
         presenceRepository = mock(PresenceRepository.class);
-        ticketService = new TicketServiceImpl(trainRepository, accountRepository, ticketRepository, spotRepository, presenceRepository);
+        ticketService = new TicketServiceImpl(trainRepository, accountRepository, ticketRepository, presenceRepository);
     }
 
     @Test(expected = BusinessLogicException.class)
@@ -69,35 +56,29 @@ public class TicketServiceJUnit {
         ticketService.create(trainId, stationOfDepartureId, stationOfArrivalId, "firstName", "lastName", LocalDate.of(2000, 10, 1), "login");
     }
 
+    @Test(expected = BusinessLogicException.class)
+    public void createTicketWithEmptyFields() {
+        System.out.println("Stubbing to create ticket with unfilled fields");
+        System.out.println("ticketService.create should throw BusinessLogicException");
+        ticketService.create(1, 1, 2, null, null, LocalDate.of(2000, 10, 1), "login");
 
-    /*@Test
-    public void testTicketPurchase() {
-        int trainId = 1;
-        int stationOfDepartureId = 1;
-        int stationOfArrivalId = 2;
-        String accountLogin = "login";
-        stationDeparture.setTimezone(0);
-        stationArrival.setTimezone(0);
-        spotDeparture.setStation(stationDeparture);
-        spotArrival.setStation(stationArrival);
-        presenceDeparture.setSpot(spotDeparture);
-        presenceArrival.setSpot(spotArrival);
-        int ticketsAvailable = 30;
-        presenceDeparture.setInstant(Instant.now().plusSeconds(3600));
-        presenceArrival.setInstant(Instant.now().plusSeconds(7200));
+    }
 
-        when(trainRepository.findOne(trainId)).thenReturn(train);
-        when(ticketService.countTicketsAvailable(trainId, stationOfDepartureId, stationOfArrivalId)).thenReturn(ticketsAvailable);
-        when(presenceRepository.findByTrainIdAndStationId(trainId, stationOfDepartureId)).thenReturn(presenceDeparture);
-        when(presenceRepository.findByTrainIdAndStationId(trainId, stationOfArrivalId)).thenReturn(presenceArrival);
-        when(accountRepository.findByLogin(accountLogin)).thenReturn(account);
+    @Test(expected = BusinessLogicException.class)
+    public void createTicketWithInvalidDateOfBirth() {
+        LocalDate dateOfBirth = LocalDate.now().plusDays(1);
+        System.out.println("Stubbing to create ticket with invalid date of birth");
+        System.out.println("ticketService.create should throw BusinessLogicException");
+        ticketService.create(1, 1, 2, "firstName", "lastName", dateOfBirth, "login");
+    }
 
-        ticketService.create(trainId, stationOfDepartureId, stationOfArrivalId, "firstName", "lastName", LocalDate.of(2000, 10, 1), "login");
+    @Test(expected = BusinessLogicException.class)
+    public void createTicketWithInvalidLastName() {
+        String lastName = "123";
+        System.out.println("Stubbing to create ticket with invalid last name");
+        System.out.println("ticketService.create should throw BusinessLogicException");
+        ticketService.create(1, 1, 2, "firstName", lastName, LocalDate.of(2000, 10, 1), "login");
+    }
 
-        verify(ticketService, atLeastOnce()).countTicketsAvailable(trainId, stationOfDepartureId, stationOfArrivalId);
 
-        InOrder order = inOrder(ticketService);
-        order.verify(ticketService).countTicketsAvailable(trainId, stationOfDepartureId, stationOfArrivalId);
-        order.verify(ticketRepository).save(ticket);
-    }*/
 }

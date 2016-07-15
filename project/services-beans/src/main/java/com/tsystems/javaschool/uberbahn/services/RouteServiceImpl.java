@@ -56,23 +56,17 @@ public class  RouteServiceImpl implements RouteService {
     @Override
     public RouteInfo create(String title, LocalTime timeOfDeparture, List<Integer> stationIds, List<Integer> minutesSinceDepartures, BigDecimal pricePerMinute) {
 
-        String message = checkFields(title, timeOfDeparture, stationIds, minutesSinceDepartures, pricePerMinute);
-        if (message != "checked") {
-            throw new BusinessLogicException(message);
-        }
+        checkFields(title, timeOfDeparture, stationIds, minutesSinceDepartures, pricePerMinute);
         Route route = new Route();
         route.setTitle(title);
         route.setTimeOfDeparture(timeOfDeparture);
         route.setPricePerMinute(pricePerMinute);
-
         try {
             routeRepository.save(route);
         } catch (PersistenceException | NullPointerException ex) {
             throw new DatabaseException("Error occurred", ex);
         }
-
         Collection<RouteSpotInfo> routeSpotInfos = saveSpots(stationIds, route, minutesSinceDepartures);
-
         RouteInfo routeInfo = new RouteInfo();
         routeInfo.setId(route.getId());
         routeInfo.setTitle(title);
@@ -123,41 +117,40 @@ public class  RouteServiceImpl implements RouteService {
         return routeSpotInfos;
     }
 
-    private String checkFields(String title, LocalTime timeOfDeparture, List<Integer> stationIds, List<Integer> minutesSinceDepartures, BigDecimal pricePerMinute) {
+    private void checkFields(String title, LocalTime timeOfDeparture, List<Integer> stationIds, List<Integer> minutesSinceDepartures, BigDecimal pricePerMinute) {
         if (title == null || timeOfDeparture == null || stationIds == null || minutesSinceDepartures == null || pricePerMinute == null) {
-            return "All fields are required";
+            throw new BusinessLogicException("All fields are required");
         }
         if (pricePerMinute.compareTo(BigDecimal.ZERO) <= 0) {
-            return "Invalid price";
+            throw new BusinessLogicException("Invalid price");
         }
         if (stationIds.size() < 2) {
-            return "Number of stations should be greater than or equal to 2";
+            throw new BusinessLogicException("Number of stations should be greater than or equal to 2");
         }
         for (Integer id : stationIds) {
             if (id == null) {
-                return "All stations are required";
+                throw new BusinessLogicException("All stations are required");
             }
         }
         for (int minute : minutesSinceDepartures) {
             if (minute < 0) {
-                return "Invalid minutes since departures";
+                throw new BusinessLogicException("Invalid minutes since departures");
             }
         }
         if (minutesSinceDepartures.size() < stationIds.size()) {
-            return "All minutes since departures are required";
+            throw new BusinessLogicException("All minutes since departures are required");
         }
         Set minutes = new HashSet<>(minutesSinceDepartures);
         if (minutes.size() < minutesSinceDepartures.size()) {
-            return "Minutes since departures must be different";
+            throw new BusinessLogicException("Minutes since departures must be different");
         }
         Set stations = new HashSet<>(stationIds);
         if (stations.size() < stationIds.size()) {
-            return "Stations reiterate";
+            throw new BusinessLogicException("Stations reiterate");
         }
         if (existsRoute(title)){
-            return String.format("Route %s already exists", title);
+            throw new BusinessLogicException(String.format("Route %s already exists", title));
         }
-        return "checked";
     }
 
 }

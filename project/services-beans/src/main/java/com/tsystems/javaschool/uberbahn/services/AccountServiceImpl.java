@@ -27,10 +27,7 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public AccountDetails create(String login, String email, String password, String firstName, String lastName, LocalDate dateOfBirth, boolean employee) {
 
-        String message = checkFields(login, email, password, firstName, lastName, dateOfBirth);
-        if (message != "checked") {
-            throw new BusinessLogicException(message);
-        }
+        checkFields(login, email, password, firstName, lastName, dateOfBirth);
 
         Account account = new Account();
         account.setLogin(login);
@@ -95,29 +92,28 @@ public class AccountServiceImpl implements AccountService {
         return string.chars().allMatch(x -> Character.isLetter(x));
     }
 
-    private String checkFields (String login, String email, String password, String firstName, String lastName, LocalDate dateOfBirth) {
+    private void checkFields (String login, String email, String password, String firstName, String lastName, LocalDate dateOfBirth) {
         if (login == null || email == null || password == null || firstName == null || lastName == null || dateOfBirth == null) {
-            return "All fields are required";
+            throw new BusinessLogicException("All fields are required");
         }
         if (!allLetters(firstName)) {
-            return "Invalid first name";
+            throw new BusinessLogicException("Invalid first name");
         }
         if (!allLetters(lastName)) {
-            return "Invalid last name";
+            throw new BusinessLogicException("Invalid last name");
         }
         if (LocalDate.now().isBefore(dateOfBirth)) {
-            return "Invalid Date of Birth";
+            throw new BusinessLogicException("Invalid Date of Birth");
         }
         if (!emailCheck(email)) {
-            return "Invalid email";
+            throw new BusinessLogicException("Invalid email");
         }
         if (existsLogin(login)) {
-            return String.format("Login %s already exists", login);
+            throw new BusinessLogicException(String.format("Login %s already exists", login));
         }
         if (existsEmail(email)) {
-            return String.format("Email %s already exists", email);
+            throw new BusinessLogicException(String.format("Email %s already exists", email));
         }
-        return "checked";
     }
 
     private boolean emailCheck (String email) {
