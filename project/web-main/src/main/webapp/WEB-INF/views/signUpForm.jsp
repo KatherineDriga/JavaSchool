@@ -47,10 +47,6 @@
                         <label class="control-label">Date of Birth</label>
                         <input class="form-control" id="dateOfBirth" type="date">
                     </p>
-                    <p>
-                        <label class="control-label">Employee</label>
-                        <input class="form-control" id="employeeCheck" type="checkbox">
-                    </p>
                 </div>
             </form>
         </div>

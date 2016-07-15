@@ -36,10 +36,9 @@ public class AccountControllerImpl {
                                        @RequestParam(name = "password") String password,
                                        @RequestParam(name = "firstName") String firstName,
                                        @RequestParam(name = "lastName") String lastName,
-                                       @RequestParam(name = "dateOfBirth") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dateOfBirth,
-                                       @RequestParam(name = "employee") boolean employee) {
+                                       @RequestParam(name = "dateOfBirth") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dateOfBirth) {
 
-        AccountDetails accountDetails = accountService.create(login, email, password, firstName, lastName, dateOfBirth, employee);
+        AccountDetails accountDetails = accountService.create(login, email, password, firstName, lastName, dateOfBirth, false);
 
         logger.info(String.format("Account %s is added", accountDetails.getId()));
         return accountDetails;

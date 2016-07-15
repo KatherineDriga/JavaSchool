@@ -12,11 +12,6 @@ $(function () {
         var firstName = $("#firstName").val();
         var lastName = $("#lastName").val();
         var dateOfBirth = $("#dateOfBirth").val();
-        var employee = false;
-        
-        if ($("#employeeCheck").prop('checked')){
-            employee = true;
-        } 
 
         if ($("#login").val().length === 0) {
             errorMessageSpan.text("Enter login");
@@ -44,7 +39,6 @@ $(function () {
                     firstName: firstName,
                     lastName: lastName,
                     dateOfBirth: dateOfBirth,
-                    employee: employee
                 },
                 success: function (data) {
                     window.location.href = "/addedAccount?"
