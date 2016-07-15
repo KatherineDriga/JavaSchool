@@ -21,9 +21,7 @@ import java.time.LocalTime;
 import java.util.Arrays;
 import java.util.List;
 
-
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {WebInizializer.class})
@@ -76,4 +74,5 @@ public class RouteServiceJUnitTest {
         System.out.println("Stubbing to create route with reiterating stations");
         routeService.create("title", LocalTime.of(20, 10), stationIds, Arrays.asList(0, 100), BigDecimal.valueOf(1.5));
     }
+
 }

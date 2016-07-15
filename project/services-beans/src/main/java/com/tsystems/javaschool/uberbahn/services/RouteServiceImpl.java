@@ -65,9 +65,8 @@ public class  RouteServiceImpl implements RouteService {
         route.setTimeOfDeparture(timeOfDeparture);
         route.setPricePerMinute(pricePerMinute);
 
-        int routeId;
         try {
-            routeId = routeRepository.save(route).getId();
+            routeRepository.save(route);
         } catch (PersistenceException | NullPointerException ex) {
             throw new DatabaseException("Error occurred", ex);
         }
@@ -75,7 +74,7 @@ public class  RouteServiceImpl implements RouteService {
         Collection<RouteSpotInfo> routeSpotInfos = saveSpots(stationIds, route, minutesSinceDepartures);
 
         RouteInfo routeInfo = new RouteInfo();
-        routeInfo.setId(routeId);
+        routeInfo.setId(route.getId());
         routeInfo.setTitle(title);
         routeInfo.setTimeOfDeparture(timeOfDeparture);
         routeInfo.setSpots(routeSpotInfos);
@@ -86,8 +85,7 @@ public class  RouteServiceImpl implements RouteService {
 
     @Override
     public boolean existsRoute(String title) {
-        Route route = routeRepository.findByTitle(title);
-        if (route != null) {
+        if (routeRepository.findByTitle(title) != null) {
             return true;
         }
         return false;

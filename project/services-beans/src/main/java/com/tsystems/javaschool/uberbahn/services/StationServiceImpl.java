@@ -18,6 +18,7 @@ import javax.persistence.PersistenceException;
 import java.time.*;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -33,22 +34,23 @@ public class StationServiceImpl implements StationService {
         this.stationRepository = stationRepository;
         this.presenceRepository = presenceRepository;
     }
+
     @Override
     public StationInfo create(String stationTitle, int timezone) {
-        if (existsStation(stationTitle)) {
-            throw new BusinessLogicException(String.format("Station %s already exists", stationTitle));
+        String message = checkFields(stationTitle, timezone);
+        if (message != "checked") {
+            throw new BusinessLogicException(message);
         }
         Station station = new Station();
         station.setTitle(stationTitle);
         station.setTimezone(timezone);
-        int stationId;
         try {
-            stationId = stationRepository.save(station).getId();
+            stationRepository.save(station);
         } catch (PersistenceException | NullPointerException ex) {
-            throw new DatabaseException("Database writing error", ex);
+            throw new DatabaseException("Error occurred", ex);
         }
         StationInfo stationInfo = new StationInfo();
-        stationInfo.setId(stationId);
+        stationInfo.setId(station.getId());
         stationInfo.setTitle(stationTitle);
         return stationInfo;
     }
@@ -67,17 +69,15 @@ public class StationServiceImpl implements StationService {
     @Override
     public StationTimetable getTimetable(int stationId, LocalDateTime since, LocalDateTime until) {
         StationTimetable timetable = new StationTimetable();
-        Collection<StationScheduleEvent> events = new ArrayList<>();
         Station station = stationRepository.findOne(stationId);
         timetable.setTitle(station.getTitle());
-        timetable.setScheduleEvents(events);
 
         Instant instantSince = since.toInstant(ZoneOffset.ofHours(station.getTimezone()));
         Instant instantUntil = until.toInstant(ZoneOffset.ofHours(station.getTimezone()));
 
         Collection<Presence> presences = presenceRepository.findByStationAndTime(stationId, instantSince, instantUntil);
 
-        presences.forEach(presence -> {
+        List<StationScheduleEvent> events = presences.stream().map(presence -> {
             StationScheduleEvent event = new StationScheduleEvent();
             OffsetDateTime datetime = presence.getInstant().atOffset(ZoneOffset.ofHours(station.getTimezone()));
             event.setDate(datetime.toLocalDate());
@@ -87,19 +87,34 @@ public class StationServiceImpl implements StationService {
             event.setDepartsFrom(spots.get(0).getStation().getTitle());
             event.setArrivesAt(spots.get(spots.size() - 1).getStation().getTitle());
             event.setTrain(presence.getTrain().getId());
-            events.add(event);
-        });
-        return timetable;
+            return event;
+        }).collect(Collectors.toList());
+        Collections.sort(events, (StationScheduleEvent s1, StationScheduleEvent s2) ->
+                s1.getDate().atTime(s1.getTime()).compareTo(s2.getDate().atTime(s2.getTime())));
+        timetable.setScheduleEvents(events);
 
+        return timetable;
     }
 
     @Override
     public boolean existsStation(String title) {
-        Station station = stationRepository.findByTitle(title);
-        if (station != null) {
+        if (stationRepository.findByTitle(title) != null) {
             return true;
         }
         return false;
+    }
+
+    private String checkFields(String stationTitle, int timezone) {
+        if (stationTitle == null) {
+            return "Station title required";
+        }
+        if (timezone > 14 || timezone < -12) {
+            return "Invalid timezone";
+        }
+        if (existsStation(stationTitle)) {
+            return String.format("Station %s already exists", stationTitle);
+        }
+        return "checked";
     }
 }
 
