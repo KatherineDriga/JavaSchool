@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Collection;
 
 @Controller
 public class TicketControllerImpl {
@@ -114,10 +115,10 @@ public class TicketControllerImpl {
     }
 
     @RequestMapping(path = "/ticketsPurchasedReport", method = RequestMethod.GET/*, produces = "application/json"*/)
-    public String showTicketsPurchasedReport(Model model, @RequestParam(name = "login", required = false, defaultValue = "empl3") String login,
-                                             @RequestParam(name = "password", required = false, defaultValue = "123") String password,
-                                             @RequestParam(name = "since", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate since,
-                                             @RequestParam(name = "until", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate until) {
+    public /*Collection<TicketInfo>*/ String showTicketsPurchasedReport(Model model, @RequestParam(name = "login", required = false, defaultValue = "empl") String login,
+                                                             @RequestParam(name = "password", required = false, defaultValue = "123") String password,
+                                                             @RequestParam(name = "since", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate since,
+                                                             @RequestParam(name = "until", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate until) {
 
         UserDetails userDetails = null;
         try {

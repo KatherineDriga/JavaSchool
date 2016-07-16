@@ -5,23 +5,20 @@ import com.tsystems.javaschool.uberbahn.repositories.*;
 import com.tsystems.javaschool.uberbahn.services.TicketService;
 import com.tsystems.javaschool.uberbahn.services.TicketServiceImpl;
 import com.tsystems.javaschool.uberbahn.services.errors.BusinessLogicException;
-import com.tsystems.javaschool.uberbahn.webmain.WebInizializer;
+import com.tsystems.javaschool.uberbahn.webmain.WebInitializer;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import java.time.Instant;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.ZoneOffset;
 
 
 import static org.mockito.Mockito.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = {WebInizializer.class})
+@ContextConfiguration(classes = {WebInitializer.class})
 public class TicketServiceJUnit {
 
     private TrainRepository trainRepository;

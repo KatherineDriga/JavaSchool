@@ -19,9 +19,9 @@
 
     <div class="logout">
         <c:if test="${pageContext.request.userPrincipal.name != null}">
-            <h5>
+            <h5 id="welcomeText">
                 Welcome: ${pageContext.request.userPrincipal.name} |
-                <a href="<c:url value="/j_spring_security_logout" />" class="link">Logout  </a>
+                <a href="<c:url value="/j_spring_security_logout" />" class="link">Logout</a>
             </h5>
 
         </c:if>

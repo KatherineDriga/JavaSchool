@@ -4,7 +4,7 @@
 
 <section>
 
-    <h3>Station ${title} is added!</h3>
+    <h3 id="successMessage">Station ${title} is added!</h3>
 
 
 

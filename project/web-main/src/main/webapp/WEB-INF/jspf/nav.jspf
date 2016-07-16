@@ -20,7 +20,7 @@
                 <div class="form_element"><label>Password</label><input name='j_password' type="password" required>
                 </div>
                 </p>
-                <div class="form_element" id="login_button"><input type="submit" value="Log in"></div>
+                <div class="form_element" id="login_button"><input name="submit" type="submit" value="Log in"></div>
                 <br/>
                 <br/>
                 <p>

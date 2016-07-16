@@ -6,7 +6,7 @@ import com.tsystems.javaschool.uberbahn.repositories.StationRepository;
 import com.tsystems.javaschool.uberbahn.services.StationService;
 import com.tsystems.javaschool.uberbahn.services.StationServiceImpl;
 import com.tsystems.javaschool.uberbahn.services.errors.BusinessLogicException;
-import com.tsystems.javaschool.uberbahn.webmain.WebInizializer;
+import com.tsystems.javaschool.uberbahn.webmain.WebInitializer;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -16,7 +16,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import static org.mockito.Mockito.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = {WebInizializer.class})
+@ContextConfiguration(classes = {WebInitializer.class})
 public class StationServiceJUnitTest {
 
     private StationRepository stationRepository;

@@ -53,4 +53,5 @@
 </c:choose>
 </section>
 <script src="static/scripts/listOfTrains.js"></script>
+
 <%@include file="/WEB-INF/jspf/footer.jspf" %>

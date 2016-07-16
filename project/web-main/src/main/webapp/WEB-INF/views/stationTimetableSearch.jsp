@@ -9,7 +9,7 @@
     <form role="form" class="stationTimetableSearchForm">
         <div class="form-group">
         <p><label>Station </label>
-            <select id="station" class="form-control">
+            <select id="station" name="station" class="form-control">
                 <option value="null">Select</option>
                 <c:forEach var="station" items="${stations}">
                 <option value="${station.id}">${station.title}</option>
