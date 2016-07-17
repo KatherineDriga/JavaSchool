@@ -3,7 +3,6 @@ package com.tsystems.javaschool.uberbahn.services;
 
 import com.tsystems.javaschool.uberbahn.entities.*;
 import com.tsystems.javaschool.uberbahn.repositories.*;
-import com.tsystems.javaschool.uberbahn.services.TrainService;
 import com.tsystems.javaschool.uberbahn.services.errors.BusinessLogicException;
 import com.tsystems.javaschool.uberbahn.services.errors.DatabaseException;
 import com.tsystems.javaschool.uberbahn.transports.PassengerInfo;
@@ -115,7 +114,7 @@ public class TrainServiceImpl implements TrainService {
             throw new DatabaseException("Error occurred", ex);
         }
 
-        saveSpots(train);
+        savePresences(train);
 
         TrainInfo trainInfo = new TrainInfo();
         trainInfo.setTrainId(train.getId());
@@ -219,7 +218,7 @@ public class TrainServiceImpl implements TrainService {
         }
     }
 
-    private void saveSpots (Train train) {
+    private void savePresences(Train train) {
         Collection<Spot> spots = spotRepository.findByRouteId(train.getRoute().getId());
         Instant datetimeDeparture = train.getDateOfDeparture()
                 .atTime(train.getRoute().getTimeOfDeparture())

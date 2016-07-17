@@ -8,7 +8,6 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.Select;
 
-import java.time.LocalDate;
 import java.util.concurrent.TimeUnit;
 
 public class SeleniumTest {

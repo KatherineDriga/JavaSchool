@@ -45,6 +45,7 @@ public class ApplicationConfiguration {
         EmbeddedDatabaseBuilder builder = new EmbeddedDatabaseBuilder();
         return builder
                 .setType(EmbeddedDatabaseType.DERBY)
+                .generateUniqueName(true)
                 .build();
     }
 

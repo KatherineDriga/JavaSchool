@@ -3,6 +3,7 @@ package com.tsystems.javaschool.uberbahn.entities;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.Collection;
+import java.util.List;
 
 @Entity
 @Table(name = "train", uniqueConstraints = @UniqueConstraint(columnNames = {"routeId", "dateOfDeparture"}))
@@ -26,7 +27,7 @@ public class Train extends BaseEntity {
 
     @OneToMany (cascade = CascadeType.ALL, mappedBy = "train", fetch = FetchType.EAGER)
     @OrderBy("instant ASC")
-    private Collection<Presence> presences;
+    private List<Presence> presences;
 
     @Column(name = "archived", nullable = false)
     private boolean archived;
@@ -71,11 +72,11 @@ public class Train extends BaseEntity {
         this.priceCoefficient = priceCoefficient;
     }
 
-    public Collection<Presence> getPresences() {
+    public List<Presence> getPresences() {
         return presences;
     }
 
-    public void setPresences(Collection<Presence> presences) {
+    public void setPresences(List<Presence> presences) {
         this.presences = presences;
     }
 
