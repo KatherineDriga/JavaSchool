@@ -3,6 +3,9 @@ package com.tsystems.javaschool.uberbahn.webmain;
 
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
+
 
 public class WebInitializer extends
         AbstractAnnotationConfigDispatcherServletInitializer {

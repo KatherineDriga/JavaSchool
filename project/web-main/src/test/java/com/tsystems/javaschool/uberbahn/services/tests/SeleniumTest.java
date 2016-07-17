@@ -9,6 +9,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.Select;
 
 import java.time.LocalDate;
+import java.util.concurrent.TimeUnit;
 
 public class SeleniumTest {
 
@@ -30,13 +31,16 @@ public class SeleniumTest {
         WebDriver driver = getDriver("http://localhost:8080/");
         driver.findElement(By.linkText("Sign up")).click();
         driver.findElement(By.id("login")).sendKeys("user1");
-        driver.findElement(By.id("email")).sendKeys("user@example.com");
+        driver.findElement(By.id("email")).sendKeys("user1@example.com");
         driver.findElement(By.id("password")).sendKeys("123");
         driver.findElement(By.id("confPassword")).sendKeys("123");
         driver.findElement(By.id("firstName")).sendKeys("Anna");
         driver.findElement(By.id("lastName")).sendKeys("Rossi");
-        driver.findElement(By.id("dateOfBirth")).sendKeys(LocalDate.now().minusYears(20).toString());
-        driver.findElement(By.id("registration")).click();
+        driver.findElement(By.id("dateOfBirth")).sendKeys("02/02/2002");
+        driver.findElement(By.id("registerUser")).click();
+        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+        String message = driver.findElement(By.id("successRegistration")).getText();
+        Assert.assertEquals(message,"You've successfully registered on our website!");
         closeDriver(driver);
     }
 
@@ -47,6 +51,7 @@ public class SeleniumTest {
         Select select = new Select(driver.findElement(By.name("station")));
         select.selectByVisibleText("Moscow");
         driver.findElement(By.id("search")).click();
+        driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
         System.out.println(driver.getCurrentUrl());
         closeDriver(driver);
     }
@@ -57,10 +62,16 @@ public class SeleniumTest {
         driver.findElement(By.name("j_username")).sendKeys("empl");
         driver.findElement(By.name("j_password")).sendKeys("123");
         driver.findElement(By.name("submit")).click();
+        driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
         driver.findElement(By.linkText("Add Station")).click();
+        driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
         driver.findElement(By.linkText("Add Route")).click();
+        driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
         driver.findElement(By.linkText("Add Train")).click();
+        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
         driver.findElement(By.linkText("Find Train & Registered Passengers")).click();
+        driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+        driver.findElement(By.id("logout")).click();
         closeDriver(driver);
     }
 
@@ -71,8 +82,10 @@ public class SeleniumTest {
         driver.findElement(By.name("j_username")).sendKeys(login);
         driver.findElement(By.name("j_password")).sendKeys("123");
         driver.findElement(By.name("submit")).click();
+        driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
         String welcomeMessage = driver.findElement(By.id("welcomeText")).getText();
         Assert.assertEquals(welcomeMessage, String.format("Welcome: %s | Logout", login));
+        driver.findElement(By.id("logout")).click();
         closeDriver(driver);
     }
 
@@ -82,13 +95,16 @@ public class SeleniumTest {
         String stationTitle = "Samara";
         driver.findElement(By.name("j_username")).sendKeys("empl");
         driver.findElement(By.name("j_password")).sendKeys("123");
+        driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
         driver.findElement(By.name("submit")).click();
         driver.findElement(By.linkText("Add Station")).click();
         driver.findElement(By.id("stationTitle")).sendKeys(stationTitle);
         driver.findElement(By.id("timezone")).sendKeys("10");
         driver.findElement(By.id("addStationButton")).click();
+        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
         String message = driver.findElement(By.id("successMessage")).getText();
         Assert.assertEquals(message, String.format("Station %s is added!", stationTitle));
+        driver.findElement(By.id("logout")).click();
         closeDriver(driver);
     }
 }
