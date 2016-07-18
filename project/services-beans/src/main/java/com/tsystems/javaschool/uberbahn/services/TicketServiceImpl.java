@@ -71,10 +71,9 @@ public class TicketServiceImpl implements TicketService {
 
     @Override
     public List<TicketInfo> getTicketInfos(LocalDateTime since, LocalDateTime until) {
-        return ticketRepository.getBySinceAndUntil(since, until).stream().map(ticket -> {
-            return getTicketInfo(ticket);
-        }).collect(Collectors.toList());
-
+        return ticketRepository.getBySinceAndUntil(since, until).stream()
+                .map(this::getTicketInfo)
+                .collect(Collectors.toList());
     }
 
     @Override

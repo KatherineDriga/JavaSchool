@@ -18,7 +18,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import javax.servlet.http.HttpServletResponse;
 import java.io.FileOutputStream;
+import java.io.OutputStream;
 import java.time.LocalDateTime;
 import java.util.Collection;
 
@@ -39,17 +41,20 @@ public class FirstPdf {
     }
 
 
-    @RequestMapping(path = "/pdf", method = RequestMethod.GET)
-    public void create() {
+    @RequestMapping(path = "/pdf", method = RequestMethod.GET, produces = "application/pdf")
+    public void create(HttpServletResponse response) {
         LocalDateTime datetimeUntil = LocalDateTime.now();
         LocalDateTime datetimeSince = datetimeUntil.minusDays(60);
 
-        String file = "c:/temp/Report_" + datetimeSince.toLocalDate() + "_" + datetimeUntil.toLocalDate() + ".pdf";
+        //String file = "c:/temp/Report_" + datetimeSince.toLocalDate() + "_" + datetimeUntil.toLocalDate() + ".pdf";
 
         Collection<TicketInfo> ticketInfos = ticketService.getTicketInfos(datetimeSince, datetimeUntil);
         try {
+            response.setContentType("application/pdf");
+            response.setHeader("Content-disposition", "attachment; filename=report.pdf");
+            OutputStream stream = response.getOutputStream();
             Document document = new Document(PageSize.A4.rotate(), 0, 0, 15f, 0);
-            PdfWriter.getInstance(document, new FileOutputStream(file));
+            PdfWriter.getInstance(document, stream);
             document.open();
             addTitle(document, datetimeSince, datetimeUntil);
             if (ticketInfos.size() == 0) {
@@ -63,6 +68,7 @@ public class FirstPdf {
                 document.add(createTable(ticketInfos));
             }
             document.close();
+            stream.flush();
         } catch (Exception e) {
             e.printStackTrace();
         }
