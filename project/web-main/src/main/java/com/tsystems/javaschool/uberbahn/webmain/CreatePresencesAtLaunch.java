@@ -10,7 +10,6 @@ import javax.annotation.PostConstruct;
 
 @Component
 @Lazy(false)
-@Profile("production")
 public class CreatePresencesAtLaunch {
 
     private final PresenceService presenceService;
@@ -22,6 +21,6 @@ public class CreatePresencesAtLaunch {
 
     @PostConstruct
     private void onCreated() {
-        presenceService.deletePresencesAtLaunch();
+        presenceService.archive();
     }
 }

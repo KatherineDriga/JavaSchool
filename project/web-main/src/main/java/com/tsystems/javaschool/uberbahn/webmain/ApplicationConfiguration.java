@@ -44,7 +44,7 @@ public class ApplicationConfiguration {
     public DataSource dataSourceDev() {
         EmbeddedDatabaseBuilder builder = new EmbeddedDatabaseBuilder();
         return builder
-                .setType(EmbeddedDatabaseType.DERBY)
+                .setType(EmbeddedDatabaseType.HSQL)
                 .generateUniqueName(true)
                 .build();
     }
@@ -63,7 +63,7 @@ public class ApplicationConfiguration {
     @Profile("development")
     public HibernateJpaVendorAdapter vendorAdapterDev() {
         HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
-        vendorAdapter.setDatabase(Database.DERBY);
+        vendorAdapter.setDatabase(Database.HSQL);
         vendorAdapter.setShowSql(true);
         vendorAdapter.setGenerateDdl(true);
         return vendorAdapter;

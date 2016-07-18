@@ -26,7 +26,7 @@ public interface TrainRepository extends JpaRepository<Train, Integer> {
     Collection<Train> findByRouteId(@Param("routeId") int routeId);
 
     @Query("SELECT t FROM Train AS t WHERE t.archived = false")
-    Collection<Train> findNotArchieved();
+    Collection<Train> findNotArchived();
 
 }
 

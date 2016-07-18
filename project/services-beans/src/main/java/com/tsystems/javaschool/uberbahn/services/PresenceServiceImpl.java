@@ -22,22 +22,22 @@ public class PresenceServiceImpl implements PresenceService {
     private final PresenceRepository presenceRepository;
 
     @Autowired
-    public PresenceServiceImpl (TrainRepository trainRepository, PresenceRepository presenceRepository) {
+    public PresenceServiceImpl(TrainRepository trainRepository, PresenceRepository presenceRepository) {
         this.trainRepository = trainRepository;
         this.presenceRepository = presenceRepository;
     }
 
     @Override
-    public void deletePresencesAtLaunch() {
-        Collection<Train> trains = trainRepository.findNotArchieved();
+    public void archive() {
+        Collection<Train> trains = trainRepository.findNotArchived();
         trains.forEach(train -> {
             List<Presence> presences = train.getPresences();
             Instant arrivalInstant = presences.get(presences.size() - 1).getInstant();
             if (arrivalInstant.isBefore(Instant.now())) {
                 train.setArchived(true);
                 try {
-                trainRepository.save(train);
-                presenceRepository.deleteInBatch(presences);
+                    trainRepository.save(train);
+                    presenceRepository.deleteInBatch(presences);
                 } catch (PersistenceException ex) {
                     throw new DatabaseException("Error occurred", ex);
                 }
