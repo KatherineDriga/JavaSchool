@@ -63,7 +63,7 @@ public class  RouteServiceImpl implements RouteService {
         route.setPricePerMinute(pricePerMinute);
         try {
             routeRepository.save(route);
-        } catch (PersistenceException | NullPointerException ex) {
+        } catch (PersistenceException ex) {
             throw new DatabaseException("Error occurred", ex);
         }
         Collection<RouteSpotInfo> routeSpotInfos = saveSpots(stationIds, route, minutesSinceDepartures);
@@ -106,7 +106,7 @@ public class  RouteServiceImpl implements RouteService {
             spot.setStation(stationRepository.findOne(stationIds.get(i)));
             try {
                 spotRepository.save(spot);
-            } catch (PersistenceException | NullPointerException ex) {
+            } catch (PersistenceException ex) {
                 throw new DatabaseException("Error occurred", ex);
             }
             RouteSpotInfo spotInfo = new RouteSpotInfo();

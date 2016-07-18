@@ -107,7 +107,7 @@ public class TicketServiceImpl implements TicketService {
 
         try {
             ticketRepository.save(ticket);
-        } catch (PersistenceException | NullPointerException ex) {
+        } catch (PersistenceException ex) {
             throw new DatabaseException("Error occurred", ex);
         }
         savePresences(trainId, stationOfDepartureId, stationOfArrivalId);
@@ -207,7 +207,7 @@ public class TicketServiceImpl implements TicketService {
         });
         try {
             presenceRepository.save(presencesPassed);
-        } catch (PersistenceException | NullPointerException ex) {
+        } catch (PersistenceException ex) {
             throw new DatabaseException("Error occurred", ex);
         }
     }

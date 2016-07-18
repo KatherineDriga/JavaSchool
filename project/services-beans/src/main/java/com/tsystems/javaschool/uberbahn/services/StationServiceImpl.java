@@ -46,7 +46,7 @@ public class StationServiceImpl implements StationService {
         station.setTimezone(timezone);
         try {
             stationRepository.save(station);
-        } catch (PersistenceException | NullPointerException ex) {
+        } catch (PersistenceException ex) {
             throw new DatabaseException("Error occurred", ex);
         }
         StationInfo stationInfo = new StationInfo();

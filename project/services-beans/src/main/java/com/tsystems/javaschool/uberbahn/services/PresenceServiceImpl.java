@@ -38,7 +38,7 @@ public class PresenceServiceImpl implements PresenceService {
                 try {
                 trainRepository.save(train);
                 presenceRepository.deleteInBatch(presences);
-                } catch (PersistenceException | NullPointerException ex) {
+                } catch (PersistenceException ex) {
                     throw new DatabaseException("Error occurred", ex);
                 }
             }

@@ -110,7 +110,7 @@ public class TrainServiceImpl implements TrainService {
         train.setArchived(false);
         try {
             trainRepository.save(train);
-        } catch (PersistenceException | NullPointerException ex) {
+        } catch (PersistenceException ex) {
             throw new DatabaseException("Error occurred", ex);
         }
 
@@ -131,7 +131,7 @@ public class TrainServiceImpl implements TrainService {
         Collection<TrainInfo> trainInfos = new ArrayList<>();
         Collection<Train> trains = trainRepository.findByRouteId(routeId);
         trains.forEach(train -> {
-            if (!train.isArchived()) {
+            /*if (!train.isArchived())*/ {
                 TrainInfo trainInfo = new TrainInfo();
                 trainInfo.setTrainId(train.getId());
                 trainInfo.setRouteTitle(train.getRoute().getTitle());
@@ -233,7 +233,7 @@ public class TrainServiceImpl implements TrainService {
             presence.setNumberOfTicketsPurchased(0);
             try {
                 presenceRepository.save(presence);
-            } catch (PersistenceException | NullPointerException ex) {
+            } catch (PersistenceException ex) {
                 throw new DatabaseException("Error occurred", ex);
             }
         });

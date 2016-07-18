@@ -40,7 +40,7 @@ public class AccountServiceImpl implements AccountService {
 
         try {
             accountRepository.save(account);
-        } catch (PersistenceException | NullPointerException ex) {
+        } catch (PersistenceException ex) {
             throw new DatabaseException("Error occurred", ex);
         }
         return getAccountDetails(account);

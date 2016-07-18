@@ -10,7 +10,7 @@ import org.openqa.selenium.support.ui.Select;
 
 import java.util.concurrent.TimeUnit;
 
-public class SeleniumTest {
+public class ServicesSeleniumTest {
 
     private WebDriver getDriver(String url) {
         System.setProperty("webdriver.chrome.driver", "C:\\chromedriver\\chromedriver.exe");
@@ -29,6 +29,7 @@ public class SeleniumTest {
 
         WebDriver driver = getDriver("http://localhost:8080/");
         driver.findElement(By.linkText("Sign up")).click();
+        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
         driver.findElement(By.id("login")).sendKeys("user1");
         driver.findElement(By.id("email")).sendKeys("user1@example.com");
         driver.findElement(By.id("password")).sendKeys("123");
@@ -37,7 +38,7 @@ public class SeleniumTest {
         driver.findElement(By.id("lastName")).sendKeys("Rossi");
         driver.findElement(By.id("dateOfBirth")).sendKeys("02/02/2002");
         driver.findElement(By.id("registerUser")).click();
-        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+        driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
         String message = driver.findElement(By.id("successRegistration")).getText();
         Assert.assertEquals(message,"You've successfully registered on our website!");
         closeDriver(driver);
