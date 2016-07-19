@@ -6,6 +6,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -38,7 +39,9 @@ public class AccountControllerImpl {
                                        @RequestParam(name = "lastName") String lastName,
                                        @RequestParam(name = "dateOfBirth") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dateOfBirth) {
 
-        AccountDetails accountDetails = accountService.create(login, email, password, firstName, lastName, dateOfBirth, false);
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        String hashedPassword = passwordEncoder.encode(password);
+        AccountDetails accountDetails = accountService.create(login, email, hashedPassword, firstName, lastName, dateOfBirth, false);
 
         logger.info(String.format("Account %s is added", accountDetails.getId()));
         return accountDetails;

@@ -4,6 +4,7 @@ import com.tsystems.javaschool.uberbahn.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.context.annotation.Profile;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -52,8 +53,9 @@ public class DevelopmentDatabasePopulator {
     }
 
     private void createAccounts() {
-        accountService.create("empl", "empl@example.com", "123", "Elena", "Pavlova", LocalDate.of(1992, 10, 15), true);
-        accountService.create("user", "user@example.com", "123", "Oleg", "Ivanov", LocalDate.of(1988, 12, 3), false);
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        accountService.create("empl", "empl@example.com", passwordEncoder.encode("123"), "Elena", "Pavlova", LocalDate.of(1992, 10, 15), true);
+        accountService.create("user", "user@example.com", passwordEncoder.encode("123"), "Oleg", "Ivanov", LocalDate.of(1988, 12, 3), false);
     }
 
     private void createRoutes() {
