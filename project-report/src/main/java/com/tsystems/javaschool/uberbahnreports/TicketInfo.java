@@ -1,4 +1,4 @@
-package com.tsystems.javaschool.uberbahn.transports;
+package com.tsystems.javaschool.uberbahnreports;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -7,8 +7,8 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
+
 
 
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -59,6 +59,7 @@ public class TicketInfo {
         this.firstName = firstName;
     }
 
+
     public String getLastName() {
         return lastName;
     }
@@ -94,23 +95,6 @@ public class TicketInfo {
         this.stationOfArrival = stationOfArrival;
     }
 
-    public LocalDate getDateOfPurchase() {
-        return dateOfPurchase;
-    }
-
-    public void setDateOfPurchase(LocalDate dateOfPurchase) {
-        this.dateOfPurchase = dateOfPurchase;
-    }
-
-
-    public LocalTime getTimeOfPurchase() {
-        return timeOfPurchase;
-    }
-
-    public void setTimeOfPurchase(LocalTime timeOfPurchase) {
-        this.timeOfPurchase = timeOfPurchase;
-    }
-
 
     public LocalDate getDateOfDeparture() {
         return dateOfDeparture;
@@ -138,12 +122,31 @@ public class TicketInfo {
         this.dateOfArrival = dateOfArrival;
     }
 
+
     public LocalTime getTimeOfArrival() {
         return timeOfArrival;
     }
 
     public void setTimeOfArrival(LocalTime timeOfArrival) {
         this.timeOfArrival = timeOfArrival;
+    }
+
+
+    public LocalDate getDateOfPurchase() {
+        return dateOfPurchase;
+    }
+
+    public void setDateOfPurchase(LocalDate dateOfPurchase) {
+        this.dateOfPurchase = dateOfPurchase;
+    }
+
+
+    public LocalTime getTimeOfPurchase() {
+        return timeOfPurchase;
+    }
+
+    public void setTimeOfPurchase(LocalTime timeOfPurchase) {
+        this.timeOfPurchase = timeOfPurchase;
     }
 
 
@@ -154,6 +157,7 @@ public class TicketInfo {
     public void setPrice(BigDecimal price) {
         this.price = price;
     }
+
 
     public String getLogin() {
         return login;

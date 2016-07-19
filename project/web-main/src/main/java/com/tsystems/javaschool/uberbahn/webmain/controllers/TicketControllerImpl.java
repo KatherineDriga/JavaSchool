@@ -19,13 +19,13 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Collection;
 
 @Controller
@@ -114,11 +114,13 @@ public class TicketControllerImpl {
         return "ticketsPurchased";
     }
 
-    @RequestMapping(path = "/ticketsPurchasedReport", method = RequestMethod.GET/*, produces = "application/json"*/)
-    public /*Collection<TicketInfo>*/ String showTicketsPurchasedReport(Model model, @RequestParam(name = "login", required = false, defaultValue = "empl") String login,
-                                                             @RequestParam(name = "password", required = false, defaultValue = "123") String password,
-                                                             @RequestParam(name = "since", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate since,
-                                                             @RequestParam(name = "until", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate until) {
+    @RequestMapping(path = "/ticketsPurchasedReport", method = RequestMethod.GET, produces = "application/json")
+    public Collection<TicketInfo> showTicketsPurchasedReport
+            (@RequestParam(name = "login") String login,
+             @RequestParam(name = "password") String password,
+             @RequestParam(name = "since", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate since,
+             @RequestParam(name = "until", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate until) {
+
 
         UserDetails userDetails = null;
         try {
@@ -144,17 +146,17 @@ public class TicketControllerImpl {
             datetimeUntil = until.atStartOfDay();
         }
         if (since == null) {
-            datetimeSince = datetimeUntil.minusDays(1);
+            datetimeSince = datetimeUntil.minusDays(60);
         } else {
             datetimeSince = since.atStartOfDay();
         }
 
-        model.addAttribute("tickets", ticketService.getTicketInfos(datetimeSince, datetimeUntil));
+        /*model.addAttribute("tickets", ticketService.getTicketInfos(datetimeSince, datetimeUntil));
         model.addAttribute("sinceDate", datetimeSince.toLocalDate());
         model.addAttribute("untilDate", datetimeUntil.toLocalDate());
-        return "ticketsPurchasedReport";
+        return "ticketsPurchasedReport";*/
 
-        //return ticketService.getTicketInfos(datetimeSince, datetimeUntil);
+        return ticketService.getTicketInfos(datetimeSince, datetimeUntil);
     }
 
 }

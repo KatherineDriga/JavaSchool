@@ -37,7 +37,8 @@ public class TicketServiceJUnit {
         accountRepository = mock(AccountRepository.class);
         ticketRepository = mock(TicketRepository.class);
         presenceRepository = mock(PresenceRepository.class);
-        ticketService = new TicketServiceImpl(trainRepository, accountRepository, ticketRepository, presenceRepository);
+        spotRepository = mock(SpotRepository.class);
+        ticketService = new TicketServiceImpl(trainRepository, accountRepository, ticketRepository, presenceRepository, spotRepository);
     }
 
     @Test(expected = BusinessLogicException.class)

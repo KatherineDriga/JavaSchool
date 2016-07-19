@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+<h:head>
+    <title>UberBahn Reports</title>
+   <!-- <link href="resources/styles/bootstrap.css" rel="stylesheet" media="screen" type="text/css"/>
+    <link href="resources/styles/style.css" rel="stylesheet" type="text/css"/> -->
+    <h:outputStylesheet library="styles" name="/style.css"  />
+    <h:outputStylesheet library="styles" name="/bootstrap.css"  />
+</h:head>
+<h:body>
+    <div id="header">
+        <p><a href="/"><img id="logotype" src="resources/images/train-large.png" alt="Image Not Found"/></a></p>
+        <h1>UberBahn Report</h1>
+    </div>
+    <div id="nav">
+    </div>
+    <div id="section">
+        <h3>Enter Login and Password to Get Report</h3>
+        <div class="form-group" style="width: 250px">
+            <h:form name="login">
+                <h:outputText value="Login" />
+                <h:inputText id="login" value="#{requestDetails.login}" styleClass="form-control"></h:inputText>
+                <h:message for="login" style="color:red"></h:message>
+
+                <h:outputText value="Password" />
+                <h:inputSecret id="password" value="#{requestDetails.password}" styleClass="form-control"></h:inputSecret>
+                <h:message for="password" style="color:red"></h:message>
+
+                <h:outputText value="Since" />
+                <h:inputText id="since" value="#{requestDetails.since}" styleClass="form-control">
+                    <f:convertDateTime pattern="dd/MM/yyyy" type="date"/>
+                </h:inputText>
+                <h:message for="since" style="color:red"></h:message>
+
+                <h:outputText value="Until" />
+                <h:inputText id="until" value="#{requestDetails.until}" styleClass="form-control">
+                    <f:convertDateTime pattern="dd/MM/yyyy" type="date"/>
+                </h:inputText>
+                <h:message for="until" style="color:red"></h:message>
+                <br />
+                <h:commandButton value="Get Report" action="#{requestDetails.downloadPDF}" styleClass="btn btn-primary"></h:commandButton>
+            </h:form>
+        </div>
+
+    </div>
+    <div id="footer">
+        Copyright http://www.uberbahn.com/
+    </div>
+</h:body>
+
+<!--
+
+        <h:commandButton action="#{login.validateUsernamePassword}"
+                         value="Login"></h:commandButton>-->
+
+</html>

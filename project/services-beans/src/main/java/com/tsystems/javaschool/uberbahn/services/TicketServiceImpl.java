@@ -1,10 +1,7 @@
 package com.tsystems.javaschool.uberbahn.services;
 
 
-import com.tsystems.javaschool.uberbahn.entities.Account;
-import com.tsystems.javaschool.uberbahn.entities.Presence;
-import com.tsystems.javaschool.uberbahn.entities.Ticket;
-import com.tsystems.javaschool.uberbahn.entities.Train;
+import com.tsystems.javaschool.uberbahn.entities.*;
 import com.tsystems.javaschool.uberbahn.repositories.*;
 import com.tsystems.javaschool.uberbahn.services.errors.BusinessLogicException;
 import com.tsystems.javaschool.uberbahn.services.errors.DatabaseException;
@@ -29,13 +26,15 @@ public class TicketServiceImpl implements TicketService {
     private final AccountRepository accountRepository;
     private final TicketRepository ticketRepository;
     private final PresenceRepository presenceRepository;
+    private final SpotRepository spotRepository;
 
     @Autowired
-    public TicketServiceImpl(TrainRepository trainRepository, AccountRepository accountRepository, TicketRepository ticketRepository, PresenceRepository presenceRepository) {
+    public TicketServiceImpl(TrainRepository trainRepository, AccountRepository accountRepository, TicketRepository ticketRepository, PresenceRepository presenceRepository, SpotRepository spotRepository) {
         this.trainRepository = trainRepository;
         this.accountRepository = accountRepository;
         this.ticketRepository = ticketRepository;
         this.presenceRepository = presenceRepository;
+        this.spotRepository = spotRepository;
     }
 
     @Override
@@ -71,9 +70,12 @@ public class TicketServiceImpl implements TicketService {
 
     @Override
     public List<TicketInfo> getTicketInfos(LocalDateTime since, LocalDateTime until) {
-        return ticketRepository.getBySinceAndUntil(since, until).stream()
+        /*return ticketRepository.getBySinceAndUntil(since, until).stream()
                 .map(this::getTicketInfo)
-                .collect(Collectors.toList());
+                .collect(Collectors.toList());*/
+        return ticketRepository.getBySinceAndUntil(since, until).stream().map(ticket -> {
+            return getTicketInfo(ticket);
+        }).collect(Collectors.toList());
     }
 
     @Override
@@ -126,13 +128,15 @@ public class TicketServiceImpl implements TicketService {
         ticketInfo.setId(ticket.getId());
         ticketInfo.setTrainId(ticket.getTrain().getId());
         ticketInfo.setStationOfDeparture(ticket.getStationOfDeparture().getTitle());
-        Presence presenceDeparture = presenceRepository.findByTrainIdAndStationId(ticket.getTrain().getId(), ticket.getStationOfDeparture().getId());
-        LocalDateTime datetimeDeparture = LocalDateTime.ofInstant(presenceDeparture.getInstant(), ZoneOffset.ofHours(presenceDeparture.getSpot().getStation().getTimezone()));
+        Spot spotDeparture = spotRepository.findByStationIdAndRouteId(ticket.getStationOfDeparture().getId(), ticket.getTrain().getRoute().getId());
+        Spot spotArrival = spotRepository.findByStationIdAndRouteId(ticket.getStationOfArrival().getId(), ticket.getTrain().getRoute().getId());
+        LocalDateTime datetimeDeparture = ticket.getTrain().getDateOfDeparture()
+                .atTime(ticket.getTrain().getRoute().getTimeOfDeparture())
+                .plus(spotDeparture.getMinutesSinceDeparture(), ChronoUnit.MINUTES);
+        LocalDateTime datetimeArrival = datetimeDeparture.plus((spotArrival.getMinutesSinceDeparture()-spotDeparture.getMinutesSinceDeparture()), ChronoUnit.MINUTES);
         ticketInfo.setDateOfDeparture(datetimeDeparture.toLocalDate());
         ticketInfo.setTimeOfDeparture(datetimeDeparture.toLocalTime());
         ticketInfo.setStationOfArrival(ticket.getStationOfArrival().getTitle());
-        Presence presenceArrival = presenceRepository.findByTrainIdAndStationId(ticket.getTrain().getId(), ticket.getStationOfArrival().getId());
-        LocalDateTime datetimeArrival = LocalDateTime.ofInstant(presenceArrival.getInstant(), ZoneOffset.ofHours(presenceArrival.getSpot().getStation().getTimezone()));
         ticketInfo.setDateOfArrival(datetimeArrival.toLocalDate());
         ticketInfo.setTimeOfArrival(datetimeArrival.toLocalTime());
         ticketInfo.setFirstName(ticket.getFirstName());
