@@ -7,6 +7,7 @@ import com.tsystems.javaschool.uberbahn.services.TrainService;
 import com.tsystems.javaschool.uberbahn.services.errors.BusinessLogicException;
 import com.tsystems.javaschool.uberbahn.transports.AccountDetails;
 import com.tsystems.javaschool.uberbahn.transports.TicketInfo;
+import com.tsystems.javaschool.uberbahn.transports.Tickets;
 import com.tsystems.javaschool.uberbahn.transports.TrainInfo;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -120,7 +121,7 @@ public class TicketControllerImpl {
 
     @RequestMapping(path = "/ticketsPurchasedReport", method = RequestMethod.GET, produces = "application/json")
     @ResponseBody
-    public Collection<TicketInfo> showTicketsPurchasedReport
+    public Collection<Tickets> showTicketsPurchasedReport
             (@RequestParam(name = "login") String login,
              @RequestParam(name = "password") String password,
              @RequestParam(name = "since", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate since,
@@ -152,12 +153,36 @@ public class TicketControllerImpl {
             datetimeUntil = until.atStartOfDay();
         }
         if (since == null) {
-            datetimeSince = datetimeUntil.minusDays(60);
+            datetimeSince = datetimeUntil.minusDays(7);
         } else {
             datetimeSince = since.atStartOfDay();
         }
 
-        return ticketService.getTicketInfos(datetimeSince, datetimeUntil);
+        Collection<TicketInfo> ticketInfos = ticketService.getTicketInfos(datetimeSince, datetimeUntil);
+        Collection<Tickets> arrayList= new ArrayList<>();
+        ticketInfos.forEach(ticketInfo -> {
+            Tickets ticket = new Tickets();
+            ticket.setId(String.valueOf(ticketInfo.getId()));
+            ticket.setTrainId(String.valueOf(ticketInfo.getTrainId()));
+            ticket.setFirstName(String.valueOf(ticketInfo.getFirstName()));
+            ticket.setLastName(String.valueOf(ticketInfo.getLastName()));
+            ticket.setDateOfBirth(String.valueOf(ticketInfo.getDateOfBirth()));
+            ticket.setStationOfDeparture(String.valueOf(ticketInfo.getStationOfDeparture()));
+            ticket.setStationOfArrival(String.valueOf(ticketInfo.getStationOfArrival()));
+            ticket.setDateOfDeparture(String.valueOf(ticketInfo.getDateOfDeparture()));
+            ticket.setTimeOfDeparture(String.valueOf(ticketInfo.getTimeOfDeparture()));
+            ticket.setDateOfArrival(String.valueOf(ticketInfo.getDateOfArrival()));
+            ticket.setTimeOfArrival(String.valueOf(ticketInfo.getTimeOfArrival()));
+            ticket.setDateOfPurchase(String.valueOf(ticketInfo.getDateOfPurchase()));
+            ticket.setTimeOfPurchase(String.valueOf(ticketInfo.getTimeOfPurchase()));
+            ticket.setPrice(String.valueOf(ticketInfo.getPrice()));
+            ticket.setLogin(String.valueOf(ticketInfo.getLogin()));
+            ticket.setRouteTitle(String.valueOf(ticketInfo.getRouteTitle()));
+            arrayList.add(ticket);
+        });
+        return arrayList;
+
+        //return ticketService.getTicketInfos(datetimeSince, datetimeUntil);
     }
 
 }

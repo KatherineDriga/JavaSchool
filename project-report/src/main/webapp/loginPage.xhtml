@@ -7,8 +7,8 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 <h:head>
     <title>UberBahn Reports</title>
-   <!-- <link href="resources/styles/bootstrap.css" rel="stylesheet" media="screen" type="text/css"/>
-    <link href="resources/styles/style.css" rel="stylesheet" type="text/css"/> -->
+    <!-- <link href="resources/styles/bootstrap.css" rel="stylesheet" media="screen" type="text/css"/>
+     <link href="resources/styles/style.css" rel="stylesheet" type="text/css"/> -->
     <h:outputStylesheet library="styles" name="/style.css"  />
     <h:outputStylesheet library="styles" name="/bootstrap.css"  />
 </h:head>
@@ -44,6 +44,9 @@
                 <h:message for="until" style="color:red"></h:message>
                 <br />
                 <h:commandButton value="Get Report" action="#{reportControllerImpl.downloadPDF}" styleClass="btn btn-primary"></h:commandButton>
+
+                <br />
+                <h:outputText value="#{reportControllerImpl.errMsg}" style="color:red" />
             </h:form>
         </div>
 
@@ -53,9 +56,8 @@
     </div>
 </h:body>
 
-<!--
-
-        <h:commandButton action="#{login.validateUsernamePassword}"
-                         value="Login"></h:commandButton>-->
 
 </html>
+
+
+

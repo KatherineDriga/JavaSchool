@@ -38,8 +38,6 @@
             <li class="link"><a href="/addRouteForm" class="link"><h5>Add Route</h5></a></li>
             <li class="link"><a href="/addTrainForm" class="link"><h5>Add Train</h5></a></li>
             <li class="link"><a href="/findTrainForm" class="link"><h5>Find Train & Registered Passengers</h5></a></li>
-            <li class="link"><a href="/ticketsPurchasedReport" class="link"><h5>Report</h5></a></li>
-            <li class="link"><a href="/pdf" class="link"><h5>PDF</h5></a></li>
         </ul>
     </sec:authorize>
 

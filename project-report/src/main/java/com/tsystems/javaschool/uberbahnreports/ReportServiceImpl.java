@@ -17,8 +17,8 @@ import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.core.GenericType;
 import java.io.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.Collection;
 
 @Stateless
@@ -88,25 +88,27 @@ public class ReportServiceImpl implements ReportService {
 
 
     @Override
-    public Collection<TicketInfo> getPurchasedTickets(String login, String password, LocalDateTime since, LocalDateTime until) {
+    public Collection<Tickets> getPurchasedTickets(String login, String password, LocalDate since, LocalDate until) {
         try {
             WebTarget target =
                     client.target("http://localhost:8080/ticketsPurchasedReport")
                     .queryParam("login", login)
-                    .queryParam("password", password);
-            return target.request().get(new GenericType<Collection<TicketInfo>>() {});
+                    .queryParam("password", password)
+                    .queryParam("since", since)
+                    .queryParam("until", until);
+            return target.request().get(new GenericType<Collection<Tickets>>() {});
 
         } catch (Exception ex) {
             ex.printStackTrace();
-            return new ArrayList<>();
+            return null;
         }
     }
 
 
     @Override
-    public File createPdf(Collection<TicketInfo> ticketInfos, LocalDateTime datetimeSince, LocalDateTime datetimeUntil) {
+    public File createPdf(Collection<Tickets> ticketInfos, LocalDate dateSince, LocalDate dateUntil) {
 
-        String pdfFileName = "table"+(int)(1000000*Math.random()) + ".pdf";
+        String pdfFileName = "Report_" + dateSince + "_" + dateUntil + ".pdf";
         File pdfFile = new File(pdfFileName);
 
         try {
@@ -115,7 +117,7 @@ public class ReportServiceImpl implements ReportService {
             PdfWriter.getInstance(document,
                     new FileOutputStream(pdfFileName));
             document.open();
-            addTitle(document, datetimeSince, datetimeUntil);
+            addTitle(document, dateSince, dateUntil);
             if (ticketInfos.size() == 0) {
                 Paragraph paragraph = new Paragraph();
                 paragraph.add(new Paragraph("No tickets purchased", titleFont));
@@ -134,7 +136,7 @@ public class ReportServiceImpl implements ReportService {
         return pdfFile;
     }
 
-    private static PdfPTable createTable(Collection<TicketInfo> ticketInfos)
+    private static PdfPTable createTable(Collection<Tickets> ticketInfos)
             throws BadElementException {
         PdfPTable table = new PdfPTable(9);
 
@@ -211,10 +213,10 @@ public class ReportServiceImpl implements ReportService {
     }
 
 
-    private static void addTitle(Document document, LocalDateTime since, LocalDateTime until)
+    private static void addTitle(Document document, LocalDate since, LocalDate until)
             throws DocumentException {
         Paragraph titleParagraph = new Paragraph();
-        titleParagraph.add(new Paragraph(("Report " + since.toLocalDate() + " - " + until.toLocalDate()), titleFont));
+        titleParagraph.add(new Paragraph(("Report " + since + " - " + until), titleFont));
         titleParagraph.setSpacingBefore(25);
         titleParagraph.setIndentationLeft(50);
         titleParagraph.setAlignment(Element.ALIGN_CENTER);
