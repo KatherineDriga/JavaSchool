@@ -24,26 +24,26 @@
         <div class="form-group" style="width: 250px">
             <h:form name="login">
                 <h:outputText value="Login" />
-                <h:inputText id="login" value="#{requestDetails.login}" styleClass="form-control"></h:inputText>
+                <h:inputText id="login" value="#{reportControllerImpl.login}" styleClass="form-control"></h:inputText>
                 <h:message for="login" style="color:red"></h:message>
 
                 <h:outputText value="Password" />
-                <h:inputSecret id="password" value="#{requestDetails.password}" styleClass="form-control"></h:inputSecret>
+                <h:inputSecret id="password" value="#{reportControllerImpl.password}" styleClass="form-control"></h:inputSecret>
                 <h:message for="password" style="color:red"></h:message>
 
                 <h:outputText value="Since" />
-                <h:inputText id="since" value="#{requestDetails.since}" styleClass="form-control">
+                <h:inputText id="since" value="#{reportControllerImpl.since}" styleClass="form-control">
                     <f:convertDateTime pattern="dd/MM/yyyy" type="date"/>
                 </h:inputText>
                 <h:message for="since" style="color:red"></h:message>
 
                 <h:outputText value="Until" />
-                <h:inputText id="until" value="#{requestDetails.until}" styleClass="form-control">
+                <h:inputText id="until" value="#{reportControllerImpl.until}" styleClass="form-control">
                     <f:convertDateTime pattern="dd/MM/yyyy" type="date"/>
                 </h:inputText>
                 <h:message for="until" style="color:red"></h:message>
                 <br />
-                <h:commandButton value="Get Report" action="#{requestDetails.downloadPDF}" styleClass="btn btn-primary"></h:commandButton>
+                <h:commandButton value="Get Report" action="#{reportControllerImpl.downloadPDF}" styleClass="btn btn-primary"></h:commandButton>
             </h:form>
         </div>
 

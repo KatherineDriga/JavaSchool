@@ -17,6 +17,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -36,13 +38,15 @@ public class TicketControllerImpl {
     private final UserDetailsService userDetailsService;
     private final TrainService trainService;
     private final Logger logger = LogManager.getLogger(TrainTimetableControllerImpl.class);
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public TicketControllerImpl(TicketService ticketService, AccountService accountService, UserDetailsService userDetailsService, TrainService trainService) {
+    public TicketControllerImpl(TicketService ticketService, AccountService accountService, UserDetailsService userDetailsService, TrainService trainService, PasswordEncoder passwordEncoder) {
         this.ticketService = ticketService;
         this.accountService = accountService;
         this.userDetailsService = userDetailsService;
         this.trainService = trainService;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @RequestMapping(path = "/ticketPurchaseForm", method = RequestMethod.GET)
@@ -115,6 +119,7 @@ public class TicketControllerImpl {
     }
 
     @RequestMapping(path = "/ticketsPurchasedReport", method = RequestMethod.GET, produces = "application/json")
+    @ResponseBody
     public Collection<TicketInfo> showTicketsPurchasedReport
             (@RequestParam(name = "login") String login,
              @RequestParam(name = "password") String password,
@@ -123,12 +128,13 @@ public class TicketControllerImpl {
 
 
         UserDetails userDetails = null;
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         try {
             userDetails = userDetailsService.loadUserByUsername(login);
         } catch (UsernameNotFoundException ex) {
             throw new BusinessLogicException("Invalid login or password");
         }
-        if (!userDetails.getPassword().equals(password)) {
+        if (!(encoder.matches(password, userDetails.getPassword()))){
             throw new BusinessLogicException("Invalid login or password");
         }
         boolean isNotEmployee = userDetails.getAuthorities().stream().filter(authority -> {
@@ -150,11 +156,6 @@ public class TicketControllerImpl {
         } else {
             datetimeSince = since.atStartOfDay();
         }
-
-        /*model.addAttribute("tickets", ticketService.getTicketInfos(datetimeSince, datetimeUntil));
-        model.addAttribute("sinceDate", datetimeSince.toLocalDate());
-        model.addAttribute("untilDate", datetimeUntil.toLocalDate());
-        return "ticketsPurchasedReport";*/
 
         return ticketService.getTicketInfos(datetimeSince, datetimeUntil);
     }

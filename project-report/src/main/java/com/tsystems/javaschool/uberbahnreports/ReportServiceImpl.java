@@ -5,68 +5,77 @@ import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.WebTarget;
+
 import javax.ejb.Stateless;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletResponse;
+import javax.ws.rs.core.GenericType;
 import java.io.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Collection;
 
 @Stateless
-public class PDF {
+public class ReportServiceImpl implements ReportService {
 
     private static Font titleFont = new Font(Font.FontFamily.TIMES_ROMAN, 18,
             Font.BOLD, new BaseColor(70, 92, 113));
     private static Font tableHeadingFont = new Font(Font.FontFamily.TIMES_ROMAN, 12,
             Font.BOLD, new BaseColor(255, 255, 255));
     private static BaseColor tableHeadingBackground = new BaseColor(70, 92, 113);
-    private static final int DEFAULT_BUFFER_SIZE = 10240; // 10KB.
+    private static final int DEFAULT_BUFFER_SIZE = 10240;
+
+    private Client client;
+    @PostConstruct
+    public void postConstruct() {
+        client = ClientBuilder.newClient();
+    }
+    @PreDestroy
+    public void preDestroy() {
+        client.close();
+    }
 
 
+    @Override
     public void uploadPDFToClient(File pdfFile) throws IOException {
-        // Prepare.
         FacesContext facesContext = FacesContext.getCurrentInstance();
         ExternalContext externalContext = facesContext.getExternalContext();
         HttpServletResponse response = (HttpServletResponse) externalContext.getResponse();
         System.out.println(pdfFile.getAbsolutePath() + " " + pdfFile.getName());
         File file = new File(pdfFile.getName());
-//		File file = new File(getFileName());
         BufferedInputStream input = null;
         BufferedOutputStream output = null;
 
         try {
-            // Open file.
             input = new BufferedInputStream(new FileInputStream(file), DEFAULT_BUFFER_SIZE);
 
-            // Init servlet response.
             response.reset();
             response.setHeader("Content-Type", "application/pdf");
             response.setHeader("Content-Length", String.valueOf(file.length()));
             response.setHeader("Content-Disposition", "inline; filename=\"" + pdfFile.getName() + "\"");
             output = new BufferedOutputStream(response.getOutputStream(), DEFAULT_BUFFER_SIZE);
 
-            // Write file contents to response.
             byte[] buffer = new byte[DEFAULT_BUFFER_SIZE];
             int length;
             while ((length = input.read(buffer)) > 0) {
                 output.write(buffer, 0, length);
             }
 
-            // Finalize task.
             output.flush();
         } finally {
-            // Gently close streams.
+
             close(output);
             close(input);
         }
 
-        // Inform JSF that it doesn't need to handle response.
-        // This is very important, otherwise you will get the following exception in the logs:
-        // java.lang.IllegalStateException: Cannot forward after response has been committed.
         facesContext.responseComplete();
     }
-
     private void close(Closeable resource) {
         if (resource != null) {
             try {
@@ -78,6 +87,23 @@ public class PDF {
     }
 
 
+    @Override
+    public Collection<TicketInfo> getPurchasedTickets(String login, String password, LocalDateTime since, LocalDateTime until) {
+        try {
+            WebTarget target =
+                    client.target("http://localhost:8080/ticketsPurchasedReport")
+                    .queryParam("login", login)
+                    .queryParam("password", password);
+            return target.request().get(new GenericType<Collection<TicketInfo>>() {});
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return new ArrayList<>();
+        }
+    }
+
+
+    @Override
     public File createPdf(Collection<TicketInfo> ticketInfos, LocalDateTime datetimeSince, LocalDateTime datetimeUntil) {
 
         String pdfFileName = "table"+(int)(1000000*Math.random()) + ".pdf";
@@ -201,7 +227,6 @@ public class PDF {
             paragraph.add(new Paragraph(" "));
         }
     }
-
 
 
 }

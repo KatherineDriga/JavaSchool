@@ -1,18 +1,11 @@
 package com.tsystems.javaschool.uberbahn.transports;
 
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 
-@JsonIgnoreProperties(ignoreUnknown = true)
-@XmlRootElement(name = "info")
 public class TicketInfo {
 
     private int id;
@@ -44,7 +37,6 @@ public class TicketInfo {
         this.id = id;
     }
 
-
     public int getTrainId() {
         return trainId;
     }
@@ -52,7 +44,6 @@ public class TicketInfo {
     public void setTrainId(int trainId) {
         this.trainId = trainId;
     }
-
 
     public String getFirstName() {
         return firstName;
@@ -69,7 +60,6 @@ public class TicketInfo {
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
-
 
     public LocalDate getDateOfBirth() {
         return dateOfBirth;
@@ -174,6 +164,7 @@ public class TicketInfo {
     public void setRouteTitle(String routeTitle) {
         this.routeTitle = routeTitle;
     }
+
 
 }
 

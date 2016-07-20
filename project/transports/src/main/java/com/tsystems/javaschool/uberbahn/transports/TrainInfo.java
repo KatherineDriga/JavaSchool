@@ -1,12 +1,10 @@
 package com.tsystems.javaschool.uberbahn.transports;
 
 
-import javax.xml.bind.annotation.XmlRootElement;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-@XmlRootElement(name = "info")
 public class TrainInfo {
 
     private int trainId;

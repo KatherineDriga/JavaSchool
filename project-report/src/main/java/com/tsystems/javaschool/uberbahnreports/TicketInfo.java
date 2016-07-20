@@ -1,19 +1,15 @@
 package com.tsystems.javaschool.uberbahnreports;
 
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
 
 
-@JsonIgnoreProperties(ignoreUnknown = true)
-@XmlRootElement(name = "info")
-public class TicketInfo {
+public class TicketInfo implements Serializable {
 
     private int id;
     private int trainId;
@@ -116,7 +112,6 @@ public class TicketInfo {
         this.timeOfDeparture = timeOfDeparture;
     }
 
-
     public LocalDate getDateOfArrival() {
         return dateOfArrival;
     }
@@ -133,7 +128,6 @@ public class TicketInfo {
     public void setTimeOfArrival(LocalTime timeOfArrival) {
         this.timeOfArrival = timeOfArrival;
     }
-
 
     public LocalDate getDateOfPurchase() {
         return dateOfPurchase;
