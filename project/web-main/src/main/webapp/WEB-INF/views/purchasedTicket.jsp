@@ -14,7 +14,7 @@
         </tr>
         <tr>
             <td><h4>Date and Time of Departure:</h4></td>
-            <td><h4>${ticketInfo.datetimeOfDeparture}</h4></td>
+            <td><h4>${ticketInfo.dateOfDeparture}   ${ticketInfo.timeOfDeparture}</h4></td>
         </tr>
         <tr>
             <td><h4>Station of Arrival:</h4></td>
@@ -22,7 +22,7 @@
         </tr>
         <tr>
             <td><h4>Date and Time of Arrival:</h4></td>
-            <td><h4>${ticketInfo.datetimeOfArrival}</h4></td>
+            <td><h4>${ticketInfo.dateOfArrival}   ${ticketInfo.timeOfArrival}</h4></td>
         </tr>
         <tr>
             <td><h4>Ticket Price:</h4></td>
