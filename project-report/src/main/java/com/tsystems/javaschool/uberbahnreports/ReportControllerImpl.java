@@ -8,9 +8,7 @@ import javax.faces.bean.SessionScoped;
 
 
 import java.io.File;
-import java.io.IOException;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.*;
 
@@ -75,7 +73,7 @@ public class ReportControllerImpl {
     public void downloadPDF() {
         LocalDate dateSince = convertDateToLocalDate(getSince());
         LocalDate dateUntil = convertDateToLocalDate(getUntil());
-        Collection<Tickets> ticketInfos = reportService.getPurchasedTickets(getLogin(), getPassword(), dateSince, dateUntil);
+        Collection<TicketReport> ticketInfos = reportService.getPurchasedTickets(getLogin(), getPassword(), dateSince, dateUntil);
         if (ticketInfos == null) {
             setErrMsg("Invalid login or password");
         } else {

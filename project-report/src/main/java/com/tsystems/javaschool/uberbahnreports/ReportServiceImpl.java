@@ -18,7 +18,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.core.GenericType;
 import java.io.*;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.Collection;
 
 @Stateless
@@ -88,7 +87,7 @@ public class ReportServiceImpl implements ReportService {
 
 
     @Override
-    public Collection<Tickets> getPurchasedTickets(String login, String password, LocalDate since, LocalDate until) {
+    public Collection<TicketReport> getPurchasedTickets(String login, String password, LocalDate since, LocalDate until) {
         try {
             WebTarget target =
                     client.target("http://localhost:8080/ticketsPurchasedReport")
@@ -96,7 +95,7 @@ public class ReportServiceImpl implements ReportService {
                     .queryParam("password", password)
                     .queryParam("since", since)
                     .queryParam("until", until);
-            return target.request().get(new GenericType<Collection<Tickets>>() {});
+            return target.request().get(new GenericType<Collection<TicketReport>>() {});
 
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -106,7 +105,7 @@ public class ReportServiceImpl implements ReportService {
 
 
     @Override
-    public File createPdf(Collection<Tickets> ticketInfos, LocalDate dateSince, LocalDate dateUntil) {
+    public File createPdf(Collection<TicketReport> ticketInfos, LocalDate dateSince, LocalDate dateUntil) {
 
         String pdfFileName = "Report_" + dateSince + "_" + dateUntil + ".pdf";
         File pdfFile = new File(pdfFileName);
@@ -136,7 +135,7 @@ public class ReportServiceImpl implements ReportService {
         return pdfFile;
     }
 
-    private static PdfPTable createTable(Collection<Tickets> ticketInfos)
+    private static PdfPTable createTable(Collection<TicketReport> ticketInfos)
             throws BadElementException {
         PdfPTable table = new PdfPTable(9);
 

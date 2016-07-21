@@ -1,10 +1,13 @@
-package com.tsystems.javaschool.uberbahn.transports;
+package com.tsystems.javaschool.uberbahnreports;
 
 
-public class TicketsPurchased {
+import java.math.BigDecimal;
 
-    private String id;
-    private String trainId;
+
+public class TicketReport {
+
+    private int id;
+    private int trainId;
     private String firstName;
     private String lastName;
     private String dateOfBirth;
@@ -16,23 +19,23 @@ public class TicketsPurchased {
     private String timeOfArrival;
     private String dateOfPurchase;
     private String timeOfPurchase;
-    private String price;
+    private BigDecimal price;
     private String login;
     private String routeTitle;
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
-    public String getTrainId() {
+    public int getTrainId() {
         return trainId;
     }
 
-    public void setTrainId(String trainId) {
+    public void setTrainId(int trainId) {
         this.trainId = trainId;
     }
 
@@ -124,11 +127,11 @@ public class TicketsPurchased {
         this.timeOfPurchase = timeOfPurchase;
     }
 
-    public String getPrice() {
+    public BigDecimal getPrice() {
         return price;
     }
 
-    public void setPrice(String price) {
+    public void setPrice(BigDecimal price) {
         this.price = price;
     }
 

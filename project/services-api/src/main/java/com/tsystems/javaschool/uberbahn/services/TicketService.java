@@ -1,6 +1,7 @@
 package com.tsystems.javaschool.uberbahn.services;
 
 
+import com.tsystems.javaschool.uberbahn.transports.TicketReport;
 import com.tsystems.javaschool.uberbahn.transports.TicketInfo;
 
 import java.time.LocalDate;
@@ -57,6 +58,6 @@ public interface TicketService {
      * @param until date and time (period ending)
      * @return collection of data transfer objects containing ticket information
      */
-    List<TicketInfo> getTicketInfos(LocalDateTime since, LocalDateTime until);
+    List<TicketReport> getTicketInfos(LocalDateTime since, LocalDateTime until);
 }
 

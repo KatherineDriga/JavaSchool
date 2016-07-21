@@ -6,6 +6,7 @@ import com.tsystems.javaschool.uberbahn.repositories.*;
 import com.tsystems.javaschool.uberbahn.services.errors.BusinessLogicException;
 import com.tsystems.javaschool.uberbahn.services.errors.DatabaseException;
 import com.tsystems.javaschool.uberbahn.transports.TicketInfo;
+import com.tsystems.javaschool.uberbahn.transports.TicketReport;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -62,23 +63,18 @@ public class TicketServiceImpl implements TicketService {
     @Override
     @Transactional(readOnly = true)
     public List<TicketInfo> getTicketInfos(int accountId, LocalDateTime since, LocalDateTime until) {
-        List<TicketInfo> ticketInfos = ticketRepository.getByAccountIdSinceAndUntil(accountId, since, until).stream().map(ticket -> {
-            return getTicketInfo(ticket);
-        }).collect(Collectors.toList());
+        List<TicketInfo> ticketInfos = ticketRepository.getByAccountIdSinceAndUntil(accountId, since, until).stream().map(ticket -> getTicketInfo(ticket)).collect(Collectors.toList());
         Collections.sort(ticketInfos, (TicketInfo t1, TicketInfo t2) ->
-                t2.getDateOfDeparture().atTime(t2.getTimeOfDeparture()).compareTo(t1.getDateOfDeparture().atTime(t1.getTimeOfDeparture())));
+                t2.getDateOfDeparture().atTime(t2.getTimeOfDeparture())
+                        .compareTo(t1.getDateOfDeparture().atTime(t1.getTimeOfDeparture())));
         return ticketInfos;
     }
 
     @Override
     @Transactional(readOnly = true)
-    public List<TicketInfo> getTicketInfos(LocalDateTime since, LocalDateTime until) {
-        /*return ticketRepository.getBySinceAndUntil(since, until).stream()
-                .map(this::getTicketInfo)
-                .collect(Collectors.toList());*/
-        return ticketRepository.getBySinceAndUntil(since, until).stream().map(ticket -> {
-            return getTicketInfo(ticket);
-        }).collect(Collectors.toList());
+    public List<TicketReport> getTicketInfos(LocalDateTime since, LocalDateTime until) {
+        return ticketRepository.getBySinceAndUntil(since, until).stream()
+                .map(ticket -> getTicketReport(ticket)).collect(Collectors.toList());
     }
 
     @Override
@@ -128,7 +124,7 @@ public class TicketServiceImpl implements TicketService {
     }
 
     @Transactional(readOnly = true)
-    private TicketInfo getTicketInfo (Ticket ticket) {
+    private TicketInfo getTicketInfo(Ticket ticket) {
         TicketInfo ticketInfo = new TicketInfo();
         ticketInfo.setId(ticket.getId());
         ticketInfo.setTrainId(ticket.getTrain().getId());
@@ -138,7 +134,7 @@ public class TicketServiceImpl implements TicketService {
         LocalDateTime datetimeDeparture = ticket.getTrain().getDateOfDeparture()
                 .atTime(ticket.getTrain().getRoute().getTimeOfDeparture())
                 .plus(spotDeparture.getMinutesSinceDeparture(), ChronoUnit.MINUTES);
-        LocalDateTime datetimeArrival = datetimeDeparture.plus((spotArrival.getMinutesSinceDeparture()-spotDeparture.getMinutesSinceDeparture()), ChronoUnit.MINUTES);
+        LocalDateTime datetimeArrival = datetimeDeparture.plus((spotArrival.getMinutesSinceDeparture() - spotDeparture.getMinutesSinceDeparture()), ChronoUnit.MINUTES);
         ticketInfo.setDateOfDeparture(datetimeDeparture.toLocalDate());
         ticketInfo.setTimeOfDeparture(datetimeDeparture.toLocalTime());
         ticketInfo.setStationOfArrival(ticket.getStationOfArrival().getTitle());
@@ -156,7 +152,35 @@ public class TicketServiceImpl implements TicketService {
     }
 
     @Transactional(readOnly = true)
-    private void checkFields (int trainId, int stationOfDepartureId, int stationOfArrivalId, String firstName, String lastName, LocalDate dateOfBirth) {
+    private TicketReport getTicketReport(Ticket ticket) {
+        TicketReport ticketReport = new TicketReport();
+        ticketReport.setId(ticket.getId());
+        ticketReport.setTrainId(ticket.getTrain().getId());
+        ticketReport.setStationOfDeparture(ticket.getStationOfDeparture().getTitle());
+        Spot spotDeparture = spotRepository.findByStationIdAndRouteId(ticket.getStationOfDeparture().getId(), ticket.getTrain().getRoute().getId());
+        Spot spotArrival = spotRepository.findByStationIdAndRouteId(ticket.getStationOfArrival().getId(), ticket.getTrain().getRoute().getId());
+        LocalDateTime datetimeDeparture = ticket.getTrain().getDateOfDeparture()
+                .atTime(ticket.getTrain().getRoute().getTimeOfDeparture())
+                .plus(spotDeparture.getMinutesSinceDeparture(), ChronoUnit.MINUTES);
+        LocalDateTime datetimeArrival = datetimeDeparture.plus((spotArrival.getMinutesSinceDeparture() - spotDeparture.getMinutesSinceDeparture()), ChronoUnit.MINUTES);
+        ticketReport.setDateOfDeparture(datetimeDeparture.toLocalDate().toString());
+        ticketReport.setTimeOfDeparture(datetimeDeparture.toLocalTime().toString());
+        ticketReport.setStationOfArrival(ticket.getStationOfArrival().getTitle());
+        ticketReport.setDateOfArrival(datetimeArrival.toLocalDate().toString());
+        ticketReport.setTimeOfArrival(datetimeArrival.toLocalTime().toString());
+        ticketReport.setFirstName(ticket.getFirstName());
+        ticketReport.setLastName(ticket.getLastName());
+        ticketReport.setDateOfBirth(ticket.getDateOfBirth().toString());
+        ticketReport.setDateOfPurchase(ticket.getDatetimeOfPurchase().toLocalDate().toString());
+        ticketReport.setTimeOfPurchase(ticket.getDatetimeOfPurchase().toLocalTime().toString());
+        ticketReport.setPrice(ticket.getPrice());
+        ticketReport.setRouteTitle(ticket.getTrain().getRoute().getTitle());
+        ticketReport.setLogin(ticket.getAccount().getLogin());
+        return ticketReport;
+    }
+
+    @Transactional(readOnly = true)
+    private void checkFields(int trainId, int stationOfDepartureId, int stationOfArrivalId, String firstName, String lastName, LocalDate dateOfBirth) {
         if (firstName == null || lastName == null || dateOfBirth == null) {
             throw new BusinessLogicException("All fields are required");
         }
@@ -189,12 +213,12 @@ public class TicketServiceImpl implements TicketService {
         }
     }
 
-    private boolean allLetters (String string) {
+    private boolean allLetters(String string) {
         return string.chars().allMatch(x -> Character.isLetter(x));
     }
 
 
-    private void savePresences (int trainId, int stationOfDepartureId, int stationOfArrivalId) {
+    private void savePresences(int trainId, int stationOfDepartureId, int stationOfArrivalId) {
         Collection<Presence> presencesPassed = new ArrayList<>();
         boolean isDeparturePassed = false;
         boolean isArrivalNotPassed = true;

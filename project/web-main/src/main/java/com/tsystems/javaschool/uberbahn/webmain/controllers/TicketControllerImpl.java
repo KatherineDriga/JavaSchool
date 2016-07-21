@@ -7,7 +7,7 @@ import com.tsystems.javaschool.uberbahn.services.TrainService;
 import com.tsystems.javaschool.uberbahn.services.errors.BusinessLogicException;
 import com.tsystems.javaschool.uberbahn.transports.AccountDetails;
 import com.tsystems.javaschool.uberbahn.transports.TicketInfo;
-import com.tsystems.javaschool.uberbahn.transports.TicketsPurchased;
+import com.tsystems.javaschool.uberbahn.transports.TicketReport;
 import com.tsystems.javaschool.uberbahn.transports.TrainInfo;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -119,7 +119,7 @@ public class TicketControllerImpl {
 
     @RequestMapping(path = "/ticketsPurchasedReport", method = RequestMethod.GET, produces = "application/json")
     @ResponseBody
-    public Collection<TicketsPurchased> showTicketsPurchasedReport
+    public Collection<TicketReport> showTicketsPurchasedReport
             (@RequestParam(name = "login") String login,
              @RequestParam(name = "password") String password,
              @RequestParam(name = "since", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate since,
@@ -133,12 +133,12 @@ public class TicketControllerImpl {
         } catch (UsernameNotFoundException ex) {
             throw new BusinessLogicException("Invalid login or password");
         }
-        if (!(encoder.matches(password, userDetails.getPassword()))){
+        if (!(encoder.matches(password, userDetails.getPassword()))) {
             throw new BusinessLogicException("Invalid login or password");
         }
-        boolean isNotEmployee = userDetails.getAuthorities().stream().filter(authority -> {
-            return authority.getAuthority().equals("EMPLOYEE");
-        }).count() == 0;
+        boolean isNotEmployee = userDetails.getAuthorities().stream()
+                .filter(authority -> authority.getAuthority().equals("EMPLOYEE")).count() == 0;
+
         if (isNotEmployee) {
             throw new BusinessLogicException("Not authorized");
         }
@@ -156,31 +156,8 @@ public class TicketControllerImpl {
             datetimeSince = since.atStartOfDay();
         }
 
-        Collection<TicketInfo> ticketInfos = ticketService.getTicketInfos(datetimeSince, datetimeUntil);
-        Collection<TicketsPurchased> arrayList= new ArrayList<>();
-        ticketInfos.forEach(ticketInfo -> {
-            TicketsPurchased ticket = new TicketsPurchased();
-            ticket.setId(String.valueOf(ticketInfo.getId()));
-            ticket.setTrainId(String.valueOf(ticketInfo.getTrainId()));
-            ticket.setFirstName(String.valueOf(ticketInfo.getFirstName()));
-            ticket.setLastName(String.valueOf(ticketInfo.getLastName()));
-            ticket.setDateOfBirth(String.valueOf(ticketInfo.getDateOfBirth()));
-            ticket.setStationOfDeparture(String.valueOf(ticketInfo.getStationOfDeparture()));
-            ticket.setStationOfArrival(String.valueOf(ticketInfo.getStationOfArrival()));
-            ticket.setDateOfDeparture(String.valueOf(ticketInfo.getDateOfDeparture()));
-            ticket.setTimeOfDeparture(String.valueOf(ticketInfo.getTimeOfDeparture()));
-            ticket.setDateOfArrival(String.valueOf(ticketInfo.getDateOfArrival()));
-            ticket.setTimeOfArrival(String.valueOf(ticketInfo.getTimeOfArrival()));
-            ticket.setDateOfPurchase(String.valueOf(ticketInfo.getDateOfPurchase()));
-            ticket.setTimeOfPurchase(String.valueOf(ticketInfo.getTimeOfPurchase()));
-            ticket.setPrice(String.valueOf(ticketInfo.getPrice()));
-            ticket.setLogin(String.valueOf(ticketInfo.getLogin()));
-            ticket.setRouteTitle(String.valueOf(ticketInfo.getRouteTitle()));
-            arrayList.add(ticket);
-        });
-        return arrayList;
+        return ticketService.getTicketInfos(datetimeSince, datetimeUntil);
 
-        //return ticketService.getTicketInfos(datetimeSince, datetimeUntil);
     }
 
 }

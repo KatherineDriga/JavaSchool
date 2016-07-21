@@ -45,7 +45,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/findTrainForm").hasAuthority("EMPLOYEE")
                 .antMatchers("/tableOfTrains").hasAuthority("EMPLOYEE")
                 .antMatchers("/listOfPassengers").hasAuthority("EMPLOYEE")
-                //.antMatchers("/ticketsPurchasedReport").hasAuthority("EMPLOYEE")
                 .and().formLogin().loginPage("/loginPage")
                 .loginProcessingUrl("/j_spring_security_check")
                 .usernameParameter("j_username")
@@ -58,7 +57,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     }
 
-    @Bean(name = "passwordEncoder")
+    @Bean
     public PasswordEncoder passwordEncoder(){
         PasswordEncoder encoder = new BCryptPasswordEncoder();
         return encoder;

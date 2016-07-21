@@ -1,36 +1,27 @@
-package com.tsystems.javaschool.uberbahnreports;
+package com.tsystems.javaschool.uberbahn.transports;
 
 
-
-import java.io.Serializable;
 import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.time.LocalTime;
 
 
-
-public class TicketInfo implements Serializable {
+public class TicketReport {
 
     private int id;
     private int trainId;
     private String firstName;
     private String lastName;
-    private LocalDate dateOfBirth;
+    private String dateOfBirth;
     private String stationOfDeparture;
     private String stationOfArrival;
-    private LocalDate dateOfDeparture;
-    private LocalTime timeOfDeparture;
-    private LocalDate dateOfArrival;
-    private LocalTime timeOfArrival;
-    private LocalDate dateOfPurchase;
-    private LocalTime timeOfPurchase;
+    private String dateOfDeparture;
+    private String timeOfDeparture;
+    private String dateOfArrival;
+    private String timeOfArrival;
+    private String dateOfPurchase;
+    private String timeOfPurchase;
     private BigDecimal price;
     private String login;
     private String routeTitle;
-
-    public TicketInfo() {
-
-    }
 
     public int getId() {
         return id;
@@ -40,7 +31,6 @@ public class TicketInfo implements Serializable {
         this.id = id;
     }
 
-
     public int getTrainId() {
         return trainId;
     }
@@ -48,7 +38,6 @@ public class TicketInfo implements Serializable {
     public void setTrainId(int trainId) {
         this.trainId = trainId;
     }
-
 
     public String getFirstName() {
         return firstName;
@@ -58,7 +47,6 @@ public class TicketInfo implements Serializable {
         this.firstName = firstName;
     }
 
-
     public String getLastName() {
         return lastName;
     }
@@ -67,15 +55,13 @@ public class TicketInfo implements Serializable {
         this.lastName = lastName;
     }
 
-
-    public LocalDate getDateOfBirth() {
+    public String getDateOfBirth() {
         return dateOfBirth;
     }
 
-    public void setDateOfBirth(LocalDate dateOfBirth) {
+    public void setDateOfBirth(String dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
     }
-
 
     public String getStationOfDeparture() {
         return stationOfDeparture;
@@ -85,7 +71,6 @@ public class TicketInfo implements Serializable {
         this.stationOfDeparture = stationOfDeparture;
     }
 
-
     public String getStationOfArrival() {
         return stationOfArrival;
     }
@@ -94,58 +79,53 @@ public class TicketInfo implements Serializable {
         this.stationOfArrival = stationOfArrival;
     }
 
-
-    public LocalDate getDateOfDeparture() {
+    public String getDateOfDeparture() {
         return dateOfDeparture;
     }
 
-    public void setDateOfDeparture(LocalDate dateOfDeparture) {
+    public void setDateOfDeparture(String dateOfDeparture) {
         this.dateOfDeparture = dateOfDeparture;
     }
 
-
-    public LocalTime getTimeOfDeparture() {
+    public String getTimeOfDeparture() {
         return timeOfDeparture;
     }
 
-    public void setTimeOfDeparture(LocalTime timeOfDeparture) {
+    public void setTimeOfDeparture(String timeOfDeparture) {
         this.timeOfDeparture = timeOfDeparture;
     }
 
-    public LocalDate getDateOfArrival() {
+    public String getDateOfArrival() {
         return dateOfArrival;
     }
 
-    public void setDateOfArrival(LocalDate dateOfArrival) {
+    public void setDateOfArrival(String dateOfArrival) {
         this.dateOfArrival = dateOfArrival;
     }
 
-
-    public LocalTime getTimeOfArrival() {
+    public String getTimeOfArrival() {
         return timeOfArrival;
     }
 
-    public void setTimeOfArrival(LocalTime timeOfArrival) {
+    public void setTimeOfArrival(String timeOfArrival) {
         this.timeOfArrival = timeOfArrival;
     }
 
-    public LocalDate getDateOfPurchase() {
+    public String getDateOfPurchase() {
         return dateOfPurchase;
     }
 
-    public void setDateOfPurchase(LocalDate dateOfPurchase) {
+    public void setDateOfPurchase(String dateOfPurchase) {
         this.dateOfPurchase = dateOfPurchase;
     }
 
-
-    public LocalTime getTimeOfPurchase() {
+    public String getTimeOfPurchase() {
         return timeOfPurchase;
     }
 
-    public void setTimeOfPurchase(LocalTime timeOfPurchase) {
+    public void setTimeOfPurchase(String timeOfPurchase) {
         this.timeOfPurchase = timeOfPurchase;
     }
-
 
     public BigDecimal getPrice() {
         return price;
@@ -155,7 +135,6 @@ public class TicketInfo implements Serializable {
         this.price = price;
     }
 
-
     public String getLogin() {
         return login;
     }
@@ -164,7 +143,6 @@ public class TicketInfo implements Serializable {
         this.login = login;
     }
 
-
     public String getRouteTitle() {
         return routeTitle;
     }
@@ -172,6 +150,4 @@ public class TicketInfo implements Serializable {
     public void setRouteTitle(String routeTitle) {
         this.routeTitle = routeTitle;
     }
-
 }
-
