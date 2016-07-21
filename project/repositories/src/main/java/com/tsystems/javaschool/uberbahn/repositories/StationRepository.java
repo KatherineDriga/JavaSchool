@@ -9,8 +9,10 @@ import java.util.Collection;
 @Transactional
 public interface StationRepository extends JpaRepository<Station, Integer> {
 
+    @Transactional(readOnly = true)
     Station findByTitle(String title);
 
+    @Transactional(readOnly = true)
     Collection<Station> findAllByOrderByTitleAsc();
 
 }

@@ -8,7 +8,9 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public interface AccountRepository extends JpaRepository<Account, Integer> {
 
+    @Transactional(readOnly = true)
     Account findByLogin (String login);
 
+    @Transactional(readOnly = true)
     Account findByEmail (String email);
 }

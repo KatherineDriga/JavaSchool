@@ -13,10 +13,12 @@ import java.util.Collection;
 @Transactional
 public interface PresenceRepository extends JpaRepository<Presence, Integer> {
 
+    @Transactional(readOnly = true)
     @Query("SELECT p FROM Presence AS p WHERE p.train.id = :trainId AND p.spot.id = :spotId")
     Presence findByTrainIdAndSpotId(@Param("trainId") int trainId, @Param("spotId") int spotId);
 
 
+    @Transactional(readOnly = true)
     @Query("SELECT p FROM Presence AS p WHERE p.spot.station.id = :stationId " +
             "AND p.instant >= :instantSince " +
             "AND p.instant < :instantUntil")
@@ -24,12 +26,15 @@ public interface PresenceRepository extends JpaRepository<Presence, Integer> {
                                               @Param("instantSince")Instant instantSince,
                                               @Param("instantUntil")Instant instantUntil);
 
+    @Transactional(readOnly = true)
     @Query("SELECT p FROM Presence AS p WHERE p.train.id = :trainId")
     Collection<Presence> findByTrainId(@Param("trainId") int trainId);
 
+    @Transactional(readOnly = true)
     @Query("SELECT p FROM Presence AS p WHERE p.train.id = :trainId AND p.spot.station.id = :stationId")
     Presence findByTrainIdAndStationId(@Param("trainId") int trainId, @Param("stationId") int stationId);
 
+    @Transactional(readOnly = true)
     @Query("SELECT p1 FROM Presence AS p1, Presence AS p2 " +
             "WHERE p1.instant >= :since " +
             "AND p1.instant < :until " +

@@ -7,7 +7,7 @@ import com.tsystems.javaschool.uberbahn.services.TrainService;
 import com.tsystems.javaschool.uberbahn.services.errors.BusinessLogicException;
 import com.tsystems.javaschool.uberbahn.transports.AccountDetails;
 import com.tsystems.javaschool.uberbahn.transports.TicketInfo;
-import com.tsystems.javaschool.uberbahn.transports.Tickets;
+import com.tsystems.javaschool.uberbahn.transports.TicketsPurchased;
 import com.tsystems.javaschool.uberbahn.transports.TrainInfo;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -24,8 +24,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -121,7 +119,7 @@ public class TicketControllerImpl {
 
     @RequestMapping(path = "/ticketsPurchasedReport", method = RequestMethod.GET, produces = "application/json")
     @ResponseBody
-    public Collection<Tickets> showTicketsPurchasedReport
+    public Collection<TicketsPurchased> showTicketsPurchasedReport
             (@RequestParam(name = "login") String login,
              @RequestParam(name = "password") String password,
              @RequestParam(name = "since", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate since,
@@ -159,9 +157,9 @@ public class TicketControllerImpl {
         }
 
         Collection<TicketInfo> ticketInfos = ticketService.getTicketInfos(datetimeSince, datetimeUntil);
-        Collection<Tickets> arrayList= new ArrayList<>();
+        Collection<TicketsPurchased> arrayList= new ArrayList<>();
         ticketInfos.forEach(ticketInfo -> {
-            Tickets ticket = new Tickets();
+            TicketsPurchased ticket = new TicketsPurchased();
             ticket.setId(String.valueOf(ticketInfo.getId()));
             ticket.setTrainId(String.valueOf(ticketInfo.getTrainId()));
             ticket.setFirstName(String.valueOf(ticketInfo.getFirstName()));

@@ -56,6 +56,7 @@ public class StationServiceImpl implements StationService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Collection<StationInfo> getAll() {
         return stationRepository.findAllByOrderByTitleAsc().stream().map(station -> {
             StationInfo info = new StationInfo();
@@ -67,6 +68,7 @@ public class StationServiceImpl implements StationService {
 
 
     @Override
+    @Transactional(readOnly = true)
     public StationTimetable getTimetable(int stationId, LocalDateTime since, LocalDateTime until) {
         StationTimetable timetable = new StationTimetable();
         Station station = stationRepository.findOne(stationId);
@@ -97,6 +99,7 @@ public class StationServiceImpl implements StationService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public boolean existsStation(String title) {
         if (stationRepository.findByTitle(title) != null) {
             return true;

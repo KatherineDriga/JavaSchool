@@ -38,6 +38,7 @@ public class TicketServiceImpl implements TicketService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public int countTicketsAvailable(int trainId, int stationOfDepartureId, int stationOfArrivalId) {
         Train train = trainRepository.findOne(trainId);
         Collection<Presence> presences = train.getPresences();
@@ -59,6 +60,7 @@ public class TicketServiceImpl implements TicketService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<TicketInfo> getTicketInfos(int accountId, LocalDateTime since, LocalDateTime until) {
         List<TicketInfo> ticketInfos = ticketRepository.getByAccountIdSinceAndUntil(accountId, since, until).stream().map(ticket -> {
             return getTicketInfo(ticket);
@@ -69,6 +71,7 @@ public class TicketServiceImpl implements TicketService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<TicketInfo> getTicketInfos(LocalDateTime since, LocalDateTime until) {
         /*return ticketRepository.getBySinceAndUntil(since, until).stream()
                 .map(this::getTicketInfo)
@@ -118,11 +121,13 @@ public class TicketServiceImpl implements TicketService {
 
 
     @Override
+    @Transactional(readOnly = true)
     public TicketInfo getTicketInfo(int ticketId) {
         Ticket ticket = ticketRepository.findOne(ticketId);
         return getTicketInfo(ticket);
     }
 
+    @Transactional(readOnly = true)
     private TicketInfo getTicketInfo (Ticket ticket) {
         TicketInfo ticketInfo = new TicketInfo();
         ticketInfo.setId(ticket.getId());
@@ -150,6 +155,7 @@ public class TicketServiceImpl implements TicketService {
         return ticketInfo;
     }
 
+    @Transactional(readOnly = true)
     private void checkFields (int trainId, int stationOfDepartureId, int stationOfArrivalId, String firstName, String lastName, LocalDate dateOfBirth) {
         if (firstName == null || lastName == null || dateOfBirth == null) {
             throw new BusinessLogicException("All fields are required");
@@ -186,6 +192,7 @@ public class TicketServiceImpl implements TicketService {
     private boolean allLetters (String string) {
         return string.chars().allMatch(x -> Character.isLetter(x));
     }
+
 
     private void savePresences (int trainId, int stationOfDepartureId, int stationOfArrivalId) {
         Collection<Presence> presencesPassed = new ArrayList<>();

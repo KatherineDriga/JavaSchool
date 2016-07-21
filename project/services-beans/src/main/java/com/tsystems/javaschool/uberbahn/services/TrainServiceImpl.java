@@ -40,6 +40,7 @@ public class TrainServiceImpl implements TrainService {
 
 
     @Override
+    @Transactional(readOnly = true)
     public Collection<TrainInfo> getAll(int stationOfDepartureId, int stationOfArrivalId, LocalDateTime since, LocalDateTime until) {
         checkFields(stationOfDepartureId, stationOfArrivalId, since, until);
         Station stationOfDeparture = stationRepository.findOne(stationOfDepartureId);
@@ -126,6 +127,7 @@ public class TrainServiceImpl implements TrainService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Collection<TrainInfo> getTrainInfos(int routeId) {
 
         Collection<TrainInfo> trainInfos = new ArrayList<>();
@@ -145,6 +147,7 @@ public class TrainServiceImpl implements TrainService {
 
 
     @Override
+    @Transactional(readOnly = true)
     public Collection<PassengerInfo> getPassengerInfo(int trainId) {
         return trainRepository.getTicketsByTrainId(trainId).stream().map(ticket -> {
             PassengerInfo passengerInfo = new PassengerInfo();
@@ -158,6 +161,7 @@ public class TrainServiceImpl implements TrainService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public boolean existsTrain(int routeId, LocalDate dateOfDeparture) {
         if (trainRepository.findByRouteIdAndDateOfDeparture(routeId, dateOfDeparture) != null) {
             return true;
@@ -166,6 +170,7 @@ public class TrainServiceImpl implements TrainService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public TrainInfo getByDepartureArrivalAndTrainId(int stationOfDepartureId, int stationOfArrivalId, int trainId) {
         TrainInfo trainInfo = new TrainInfo();
         Train train = trainRepository.findOne(trainId);
@@ -200,6 +205,7 @@ public class TrainServiceImpl implements TrainService {
         }
     }
 
+    @Transactional(readOnly = true)
     private void checkFieldsToCreate(int routeId, LocalDate dateOfDeparture, int numberOfSeats, double priceCoefficient) {
         if (dateOfDeparture == null) {
             throw new BusinessLogicException("Enter date of departure");

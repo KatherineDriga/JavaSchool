@@ -1,7 +1,7 @@
 package com.tsystems.javaschool.uberbahn.transports;
 
 
-public class Tickets {
+public class TicketsPurchased {
 
     private String id;
     private String trainId;

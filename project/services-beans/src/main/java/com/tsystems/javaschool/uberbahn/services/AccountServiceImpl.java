@@ -48,18 +48,21 @@ public class AccountServiceImpl implements AccountService {
 
 
     @Override
+    @Transactional(readOnly = true)
     public AccountDetails getByLogin(String login) {
         Account account = accountRepository.findByLogin(login);
         return getAccountDetails(account);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public AccountDetails getById(int id) {
         Account account = accountRepository.findOne(id);
         return getAccountDetails(account);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public boolean existsLogin(String login) {
         if (accountRepository.findByLogin(login) != null) {
             return true;
@@ -68,6 +71,7 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public boolean existsEmail(String email) {
         if (accountRepository.findByEmail(email) != null) {
             return true;

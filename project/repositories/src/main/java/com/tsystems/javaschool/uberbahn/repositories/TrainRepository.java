@@ -16,15 +16,19 @@ import java.util.Set;
 @Transactional
 public interface TrainRepository extends JpaRepository<Train, Integer> {
 
+    @Transactional(readOnly = true)
     @Query("SELECT t FROM Ticket AS t WHERE t.train.id = :trainId")
     Collection<Ticket> getTicketsByTrainId(@Param("trainId") int trainId);
 
+    @Transactional(readOnly = true)
     @Query("SELECT t FROM Train AS t WHERE t.route.id = :routeId AND t.dateOfDeparture = :dateOfDeparture")
     Train findByRouteIdAndDateOfDeparture(@Param("routeId") int routeId, @Param("dateOfDeparture") LocalDate dateOfDeparture);
 
+    @Transactional(readOnly = true)
     @Query("SELECT t FROM Train AS t WHERE t.route.id = :routeId")
     Collection<Train> findByRouteId(@Param("routeId") int routeId);
 
+    @Transactional(readOnly = true)
     @Query("SELECT t FROM Train AS t WHERE t.archived = false")
     Collection<Train> findNotArchived();
 

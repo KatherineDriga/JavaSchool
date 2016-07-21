@@ -36,6 +36,7 @@ public class  RouteServiceImpl implements RouteService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public RouteInfo getById(int id) {
         Route route = routeRepository.findOne(id);
         RouteInfo routeInfo = new RouteInfo();
@@ -78,6 +79,7 @@ public class  RouteServiceImpl implements RouteService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public boolean existsRoute(String title) {
         if (routeRepository.findByTitle(title) != null) {
             return true;
@@ -86,6 +88,7 @@ public class  RouteServiceImpl implements RouteService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Collection<RouteInfo> getAll() {
 
         return routeRepository.findAllByOrderByTitleAsc().stream().map(route -> {

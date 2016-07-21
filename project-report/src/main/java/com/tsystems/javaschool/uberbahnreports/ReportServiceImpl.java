@@ -176,7 +176,7 @@ public class ReportServiceImpl implements ReportService {
         c1.setBackgroundColor(tableHeadingBackground);
         table.addCell(c1);
 
-        c1 = new PdfPCell(new Phrase("Date and Time of Departure", tableHeadingFont));
+        c1 = new PdfPCell(new Phrase("Date and Time of Purchase", tableHeadingFont));
         c1.setHorizontalAlignment(Element.ALIGN_CENTER);
         c1.setVerticalAlignment(Element.ALIGN_CENTER);
         c1.setBackgroundColor(tableHeadingBackground);
