@@ -10,12 +10,12 @@ $(function () {
 
 
         $(".stationId").each(function () {
-            if($(this).val() === "null") {
+            if ($(this).val() === "null") {
                 errorMessageSpan.text("Select stations");
             }
         });
         $(".minutesSinceDeparture").each(function () {
-            if($(this).val() === ""){
+            if ($(this).val() === "") {
                 errorMessageSpan.text("Enter minutes since departure");
             }
         });
@@ -30,13 +30,13 @@ $(function () {
         });
 
 
-        function checkArray(A)
-        {
+        function checkArray(A) {
             var i = 0, l = A.length;
-            do { var j = i + 1;
+            do {
+                var j = i + 1;
                 while (A[i] !== A[j] && j < l) j++;
                 i++;
-            } while (i < l-1 && j === l);
+            } while (i < l - 1 && j === l);
             if (j < l) return false;
             return true;
         }

@@ -124,7 +124,7 @@ public class TicketServiceImpl implements TicketService {
     }
 
     @Transactional(readOnly = true)
-    private TicketInfo getTicketInfo(Ticket ticket) {
+    public TicketInfo getTicketInfo(Ticket ticket) {
         TicketInfo ticketInfo = new TicketInfo();
         ticketInfo.setId(ticket.getId());
         ticketInfo.setTrainId(ticket.getTrain().getId());
@@ -134,7 +134,7 @@ public class TicketServiceImpl implements TicketService {
         LocalDateTime datetimeDeparture = ticket.getTrain().getDateOfDeparture()
                 .atTime(ticket.getTrain().getRoute().getTimeOfDeparture())
                 .plus(spotDeparture.getMinutesSinceDeparture(), ChronoUnit.MINUTES);
-        LocalDateTime datetimeArrival = datetimeDeparture.plus((spotArrival.getMinutesSinceDeparture() - spotDeparture.getMinutesSinceDeparture()), ChronoUnit.MINUTES);
+        LocalDateTime datetimeArrival = datetimeDeparture.plus((long)spotArrival.getMinutesSinceDeparture() - spotDeparture.getMinutesSinceDeparture(), ChronoUnit.MINUTES);
         ticketInfo.setDateOfDeparture(datetimeDeparture.toLocalDate());
         ticketInfo.setTimeOfDeparture(datetimeDeparture.toLocalTime());
         ticketInfo.setStationOfArrival(ticket.getStationOfArrival().getTitle());
@@ -152,7 +152,7 @@ public class TicketServiceImpl implements TicketService {
     }
 
     @Transactional(readOnly = true)
-    private TicketReport getTicketReport(Ticket ticket) {
+    public TicketReport getTicketReport(Ticket ticket) {
         TicketReport ticketReport = new TicketReport();
         ticketReport.setId(ticket.getId());
         ticketReport.setTrainId(ticket.getTrain().getId());
@@ -162,7 +162,7 @@ public class TicketServiceImpl implements TicketService {
         LocalDateTime datetimeDeparture = ticket.getTrain().getDateOfDeparture()
                 .atTime(ticket.getTrain().getRoute().getTimeOfDeparture())
                 .plus(spotDeparture.getMinutesSinceDeparture(), ChronoUnit.MINUTES);
-        LocalDateTime datetimeArrival = datetimeDeparture.plus((spotArrival.getMinutesSinceDeparture() - spotDeparture.getMinutesSinceDeparture()), ChronoUnit.MINUTES);
+        LocalDateTime datetimeArrival = datetimeDeparture.plus((long)spotArrival.getMinutesSinceDeparture() - spotDeparture.getMinutesSinceDeparture(), ChronoUnit.MINUTES);
         ticketReport.setDateOfDeparture(datetimeDeparture.toLocalDate().toString());
         ticketReport.setTimeOfDeparture(datetimeDeparture.toLocalTime().toString());
         ticketReport.setStationOfArrival(ticket.getStationOfArrival().getTitle());
@@ -180,7 +180,7 @@ public class TicketServiceImpl implements TicketService {
     }
 
     @Transactional(readOnly = true)
-    private void checkFields(int trainId, int stationOfDepartureId, int stationOfArrivalId, String firstName, String lastName, LocalDate dateOfBirth) {
+    public void checkFields(int trainId, int stationOfDepartureId, int stationOfArrivalId, String firstName, String lastName, LocalDate dateOfBirth) {
         if (firstName == null || lastName == null || dateOfBirth == null) {
             throw new BusinessLogicException("All fields are required");
         }

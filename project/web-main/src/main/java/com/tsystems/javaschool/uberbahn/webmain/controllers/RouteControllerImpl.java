@@ -75,7 +75,7 @@ public class RouteControllerImpl {
                 .stream()
                 .map(s -> Integer.parseInt(s))
                 .collect(Collectors.toList());
-        List<Integer> minutes =Arrays.asList(minutesSinceDepartures.split((";")))
+        List<Integer> minutes =Arrays.asList(minutesSinceDepartures.split(";"))
                 .stream()
                 .map(s -> Integer.parseInt(s))
                 .collect(Collectors.toList());

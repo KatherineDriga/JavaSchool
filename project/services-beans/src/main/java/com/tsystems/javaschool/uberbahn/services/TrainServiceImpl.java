@@ -49,9 +49,7 @@ public class TrainServiceImpl implements TrainService {
         Instant untilDateTime = until.toInstant(ZoneOffset.ofHours(stationOfDeparture.getTimezone()));
 
         Collection<Presence> presences = presenceRepository.findByDepartureArrivalStationAndTime(stationOfDepartureId, stationOfArrivalId, sinceDateTime, untilDateTime);
-        Collection<Train> trains = presences.stream().map(presence -> {
-            return presence.getTrain();
-        }).collect(Collectors.toList());
+        Collection<Train> trains = presences.stream().map(presence -> presence.getTrain()).collect(Collectors.toList());
 
         return trains.stream().map(train -> {
             TrainInfo trainInfo = new TrainInfo();
@@ -87,11 +85,11 @@ public class TrainServiceImpl implements TrainService {
 
                 }
                 if (isDeparturePassed && isArrivalNotPassed) {
-                    ticketsAvailable = Math.min((train.getNumberOfSeats()-presence.getNumberOfTicketsPurchased()), ticketsAvailable);
+                    ticketsAvailable = Math.min(train.getNumberOfSeats() - presence.getNumberOfTicketsPurchased(), ticketsAvailable);
                 }
             }
             trainInfo.setNumberOfSeatsAvailable(ticketsAvailable);
-            int duration = minutesArrival-minutesDeparture;
+            int duration = minutesArrival - minutesDeparture;
             trainInfo.setTravelTime(countTravelTime(duration));
             trainInfo.setTicketPrice(((new BigDecimal(duration)).multiply(new BigDecimal(train.getPriceCoefficient())).multiply(train.getRoute().getPricePerMinute())).setScale(2, BigDecimal.ROUND_HALF_UP));
             return trainInfo;
@@ -133,13 +131,11 @@ public class TrainServiceImpl implements TrainService {
         Collection<TrainInfo> trainInfos = new ArrayList<>();
         Collection<Train> trains = trainRepository.findByRouteId(routeId);
         trains.forEach(train -> {
-            /*if (!train.isArchived())*/ {
                 TrainInfo trainInfo = new TrainInfo();
                 trainInfo.setTrainId(train.getId());
                 trainInfo.setRouteTitle(train.getRoute().getTitle());
                 trainInfo.setDateOfDeparture(train.getDateOfDeparture());
                 trainInfos.add(trainInfo);
-            }
         });
 
         return trainInfos;
@@ -189,11 +185,11 @@ public class TrainServiceImpl implements TrainService {
         return trainInfo;
     }
 
-    private String countTravelTime (int duration){
+    private String countTravelTime(int duration) {
         long days = TimeUnit.MINUTES.toDays(duration);
-        long hours = TimeUnit.MINUTES.toHours(duration) - days*24;
-        long minutes = duration - days*24*60 - hours*60;
-        return days + "d " + hours + "h "+ minutes + "m";
+        long hours = TimeUnit.MINUTES.toHours(duration) - days * 24;
+        long minutes = duration - days * 24 * 60 - hours * 60;
+        return days + "d " + hours + "h " + minutes + "m";
     }
 
     private void checkFields(int stationOfDepartureId, int stationOfArrivalId, LocalDateTime since, LocalDateTime until) {
@@ -206,7 +202,7 @@ public class TrainServiceImpl implements TrainService {
     }
 
     @Transactional(readOnly = true)
-    private void checkFieldsToCreate(int routeId, LocalDate dateOfDeparture, int numberOfSeats, double priceCoefficient) {
+    public void checkFieldsToCreate(int routeId, LocalDate dateOfDeparture, int numberOfSeats, double priceCoefficient) {
         if (dateOfDeparture == null) {
             throw new BusinessLogicException("Enter date of departure");
         }

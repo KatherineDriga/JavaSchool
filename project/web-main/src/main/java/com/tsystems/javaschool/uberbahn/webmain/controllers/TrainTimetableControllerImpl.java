@@ -3,8 +3,6 @@ package com.tsystems.javaschool.uberbahn.webmain.controllers;
 import com.tsystems.javaschool.uberbahn.services.StationService;
 
 import com.tsystems.javaschool.uberbahn.services.TrainService;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
@@ -19,7 +17,6 @@ import java.time.LocalDateTime;
 @Controller
 public class TrainTimetableControllerImpl {
 
-    private final Logger logger = LogManager.getLogger(TrainTimetableControllerImpl.class);
     private final StationService stationService;
     private final TrainService trainService;
 

@@ -25,9 +25,6 @@ public class TicketInfo {
     private String login;
     private String routeTitle;
 
-    public TicketInfo() {
-
-    }
 
     public int getId() {
         return id;

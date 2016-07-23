@@ -19,14 +19,12 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.Collection;
 
 @Controller
@@ -37,15 +35,13 @@ public class TicketControllerImpl {
     private final UserDetailsService userDetailsService;
     private final TrainService trainService;
     private final Logger logger = LogManager.getLogger(TrainTimetableControllerImpl.class);
-    private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public TicketControllerImpl(TicketService ticketService, AccountService accountService, UserDetailsService userDetailsService, TrainService trainService, PasswordEncoder passwordEncoder) {
+    public TicketControllerImpl(TicketService ticketService, AccountService accountService, UserDetailsService userDetailsService, TrainService trainService) {
         this.ticketService = ticketService;
         this.accountService = accountService;
         this.userDetailsService = userDetailsService;
         this.trainService = trainService;
-        this.passwordEncoder = passwordEncoder;
     }
 
     @RequestMapping(path = "/ticketPurchaseForm", method = RequestMethod.GET)
@@ -94,8 +90,8 @@ public class TicketControllerImpl {
                                               @RequestParam(name = "sinceDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate since,
                                               @RequestParam(name = "untilDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate until) {
 
-        LocalDateTime datetimeSince = null;
-        LocalDateTime datetimeUntil = null;
+        LocalDateTime datetimeSince;
+        LocalDateTime datetimeUntil;
         if (until == null) {
             datetimeUntil = LocalDateTime.now();
         } else {
@@ -143,8 +139,8 @@ public class TicketControllerImpl {
             throw new BusinessLogicException("Not authorized");
         }
 
-        LocalDateTime datetimeSince = null;
-        LocalDateTime datetimeUntil = null;
+        LocalDateTime datetimeSince;
+        LocalDateTime datetimeUntil;
         if (until == null) {
             datetimeUntil = LocalDateTime.now();
         } else {
