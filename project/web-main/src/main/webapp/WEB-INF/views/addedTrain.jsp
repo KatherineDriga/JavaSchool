@@ -3,7 +3,7 @@
 <%@include file="/WEB-INF/jspf/nav.jspf" %>
 
 <section>
-    <h3>Train ${trainId} is added!</h3>
+    <h3 id="addedTrain">Train ${trainId} is added!</h3>
 
 
     </form>

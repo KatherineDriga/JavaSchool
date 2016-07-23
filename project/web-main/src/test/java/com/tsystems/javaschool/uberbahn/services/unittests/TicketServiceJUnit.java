@@ -1,4 +1,4 @@
-package com.tsystems.javaschool.uberbahn.services.tests;
+package com.tsystems.javaschool.uberbahn.services.unittests;
 
 import com.tsystems.javaschool.uberbahn.entities.*;
 import com.tsystems.javaschool.uberbahn.repositories.*;
@@ -51,14 +51,14 @@ public class TicketServiceJUnit {
         when(trainRepository.findOne(trainId)).thenReturn(train);
         when(ticketService.countTicketsAvailable(trainId, stationOfDepartureId, stationOfArrivalId)).thenReturn(ticketsAvailable);
         System.out.println("ticketService.create should throw BusinessLogicException");
-        ticketService.create(trainId, stationOfDepartureId, stationOfArrivalId, "firstName", "lastName", LocalDate.of(2000, 10, 1), "login");
+        ticketService.create(trainId, stationOfDepartureId, stationOfArrivalId, "firstName", "lastName", LocalDate.of(2000, 10, 1), "loginUser");
     }
 
     @Test(expected = BusinessLogicException.class)
     public void createTicketWithEmptyFields() {
         System.out.println("Stubbing to create ticket with unfilled fields");
         System.out.println("ticketService.create should throw BusinessLogicException");
-        ticketService.create(1, 1, 2, null, null, LocalDate.of(2000, 10, 1), "login");
+        ticketService.create(1, 1, 2, null, null, LocalDate.of(2000, 10, 1), "loginUser");
 
     }
 
@@ -67,7 +67,7 @@ public class TicketServiceJUnit {
         LocalDate dateOfBirth = LocalDate.now().plusDays(1);
         System.out.println("Stubbing to create ticket with invalid date of birth");
         System.out.println("ticketService.create should throw BusinessLogicException");
-        ticketService.create(1, 1, 2, "firstName", "lastName", dateOfBirth, "login");
+        ticketService.create(1, 1, 2, "firstName", "lastName", dateOfBirth, "loginUser");
     }
 
     @Test(expected = BusinessLogicException.class)
@@ -75,7 +75,7 @@ public class TicketServiceJUnit {
         String lastName = "123";
         System.out.println("Stubbing to create ticket with invalid last name");
         System.out.println("ticketService.create should throw BusinessLogicException");
-        ticketService.create(1, 1, 2, "firstName", lastName, LocalDate.of(2000, 10, 1), "login");
+        ticketService.create(1, 1, 2, "firstName", lastName, LocalDate.of(2000, 10, 1), "loginUser");
     }
 
 

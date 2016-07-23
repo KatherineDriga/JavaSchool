@@ -10,7 +10,7 @@
     <h4>First Name: ${account.firstName}.</h4>
     <h4>Last Name: ${account.lastName}.</h4>
     <h4>Date of birth: ${account.dateOfBirth}.</h4>
-    <h3><a href="/loginPage" class="darkLink">Click here  </a>&nbsp; to continue. </h3>
+    <h3><a href="/loginPage" class="darkLink" id="loginLink">Click here  </a>&nbsp; to continue. </h3>
 
 </section>
 <%@include file="/WEB-INF/jspf/footer.jspf" %>

@@ -8,7 +8,7 @@
     </c:when>
     <c:otherwise>
     <div class="scroll-table">
-    <h2>Route Information</h2>
+    <h2 id="routeInfo">Route Information</h2>
     <p>Id: ${route.id}</p>
     <p>Title: ${route.title}</p>
     <p>Time of Departure: ${route.timeOfDeparture}</p>

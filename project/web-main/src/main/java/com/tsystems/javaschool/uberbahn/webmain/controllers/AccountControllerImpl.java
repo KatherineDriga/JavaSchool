@@ -40,8 +40,7 @@ public class AccountControllerImpl {
                                        @RequestParam(name = "dateOfBirth") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dateOfBirth) {
 
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        String hashedPassword = passwordEncoder.encode(password);
-        AccountDetails accountDetails = accountService.create(login, email, hashedPassword, firstName, lastName, dateOfBirth, false);
+        AccountDetails accountDetails = accountService.create(login, email, passwordEncoder.encode(password), firstName, lastName, dateOfBirth, false);
 
         logger.info(String.format("Account %s is added", accountDetails.getId()));
         return accountDetails;

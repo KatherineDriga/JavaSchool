@@ -8,35 +8,45 @@
         </c:when>
         <c:otherwise>
             <h2>Add Stations To Route ${routeTitle}</h2>
-            <form class="addStationsToRoute">
-                <p><label>Station 1</label>
-                    <select class="stationId">
-                        <option value="null">Select</option>
-                        <c:forEach var="station" items="${stations}">
-                            <option value="${station.id}">${station.title}</option>
-                        </c:forEach>
-                    </select>
-                    <label> Minutes Since Departure</label>
-                    <input type="number" class = "minutesSinceDeparture" value="0" readonly/>
-                </p>
-                <c:forEach var="i" begin="2" end="${numberOfStations}">
-                    <p><label>Station ${i}</label>
-                        <select class="stationId">
+        <div class="scroll-table">
+            <form role="form" class="form-inline">
+                <div class="form-group">
+                    <p><label>Station 1</label>
+                        <select class="stationId" id="1">
                             <option value="null">Select</option>
                             <c:forEach var="station" items="${stations}">
                                 <option value="${station.id}">${station.title}</option>
                             </c:forEach>
                         </select>
-                        <label> Minutes Since Departure</label>
-                        <input type="number" class = "minutesSinceDeparture" />
+                        <label class="control-label"> Minutes Since Departure</label>
+                        <input type="number" class="minutesSinceDeparture" value="0" readonly/>
                     </p>
-                </c:forEach>
-
-                <p><input class="btn btn-success" id = "addRouteButton" type="button" value="Add"></p>
-                <div>
-                    <span id="errorMessage"></span>
+                    <br/>
                 </div>
             </form>
+            <c:forEach var="i" begin="2" end="${numberOfStations}">
+                <form role="form" class="form-inline">
+                    <div class="form-group">
+                        <p><label>Station ${i}</label>
+                            <select class="stationId" id="${i}">
+                                <option value="null">Select</option>
+                                <c:forEach var="station" items="${stations}">
+                                    <option value="${station.id}">${station.title}</option>
+                                </c:forEach>
+                            </select>
+                            <label class="control-label"> Minutes Since Departure</label>
+                            <input id="${i}m" type="number" class="minutesSinceDeparture" />
+                        </p>
+                        <br/>
+                    </div>
+                </form>
+            </c:forEach>
+
+            <p><input class="btn btn-success" id="addRouteButton" type="button" value="Add"></p>
+            <div>
+                <span id="errorMessage"></span>
+            </div>
+        </div>
             <span hidden="true" id="timeOfDeparture">${timeOfDeparture}</span>
             <span hidden="true" id="routeTitle">${routeTitle}</span>
             <span hidden="true" id="pricePerMinute">${pricePerMinute}</span>

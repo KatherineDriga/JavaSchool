@@ -15,9 +15,9 @@ $(function () {
             }
         });
         $(".minutesSinceDeparture").each(function () {
-           if($(this).val() === ""){
-               errorMessageSpan.text("Enter minutes since departure");
-           }
+            if($(this).val() === ""){
+                errorMessageSpan.text("Enter minutes since departure");
+            }
         });
 
         var stationIds = [];
@@ -74,4 +74,3 @@ $(function () {
         }
     });
 });
-

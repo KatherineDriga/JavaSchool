@@ -54,18 +54,17 @@
     <h2 align="right">LOG IN or &nbsp;<a href="/signUpForm" class="darkLink" id="registration">SIGN UP</a> </h2>
     <br />
     <br />
-    <div class="form-group">
+    <div class="form-group" style="width: 250px">
         <form name="login" action="<c:url value='/j_spring_security_check' />"
               method='post' role="form">
-            <p><div class="darkFormElement"><label>Login</label><input name='j_username' id="login" type="text" required="required"></div></p>
-            <p><div class="darkFormElement"><label>Password</label><input name='j_password' id="password" type="password" required="required"></div></p>
+            <p><div class="darkFormElement"><label>Login</label><input name='j_username' id="login" class="form-control" type="text" required="required"></div></p>
+            <p><div class="darkFormElement"><label>Password</label><input name='j_password' id="password" class="form-control" type="password" required="required"></div></p>
             <p><div class="darkFormElement" id="login_button"><input name="submit" type="submit" value="Log in"></div></p>
             <br />
             <br />
             <br />
             <p><div><span id="errorMessage">${error}</span></div></p>
         </form>
-
     </div>
 
 </section>

@@ -1,4 +1,4 @@
-package com.tsystems.javaschool.uberbahn.services.tests;
+package com.tsystems.javaschool.uberbahn.services.unittests;
 
 
 import com.tsystems.javaschool.uberbahn.entities.Account;
@@ -35,8 +35,8 @@ public class AccountServiceJUnitTest {
 
     @Test(expected = BusinessLogicException.class)
     public void createAccountWithExistingLogin () {
-        String enteredLogin = "login";
-        System.out.println("Stubbing to create account with already existing login");
+        String enteredLogin = "loginUser";
+        System.out.println("Stubbing to create account with already existing loginUser");
         when(accountRepository.findByLogin(enteredLogin)).thenReturn(account);
         System.out.println("accountService.create should throw BusinessLogicException");
         accountService.create(enteredLogin, "email@example.com", "password", "firstName", "lastName", LocalDate.of(2000, 1, 10), false);
@@ -55,7 +55,7 @@ public class AccountServiceJUnitTest {
         LocalDate dateOfBirth = LocalDate.now().plusDays(1);
         System.out.println("Stubbing to create account with invalid date of birth");
         System.out.println("accountService.create should throw BusinessLogicException");
-        accountService.create("login", "email@example.com", "password", "firstName", "lastName", dateOfBirth, false);
+        accountService.create("loginUser", "email@example.com", "password", "firstName", "lastName", dateOfBirth, false);
     }
 
     @Test(expected = BusinessLogicException.class)
@@ -63,13 +63,13 @@ public class AccountServiceJUnitTest {
         String enteredEmail = "email";
         System.out.println("Stubbing to create account with invalid email");
         System.out.println("accountService.create should throw BusinessLogicException");
-        accountService.create("login", enteredEmail, "password", "firstName", "lastName", LocalDate.of(2000, 1, 10), false);
+        accountService.create("loginUser", enteredEmail, "password", "firstName", "lastName", LocalDate.of(2000, 1, 10), false);
     }
 
     @Test
     public void checkIfLoginAlreadyExists () {
-        String enteredLogin = "login";
-        System.out.println("accountService.create should use accountRepository to find by login");
+        String enteredLogin = "loginUser";
+        System.out.println("accountService.create should use accountRepository to find by loginUser");
         accountService.create(enteredLogin, "email@example.com", "password", "firstName", "lastName", LocalDate.of(2000, 1, 10), false);
         verify(accountRepository, times(1)).findByLogin(enteredLogin);
     }

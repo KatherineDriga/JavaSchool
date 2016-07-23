@@ -1,4 +1,4 @@
-package com.tsystems.javaschool.uberbahn.services.tests;
+package com.tsystems.javaschool.uberbahn.services.unittests;
 
 
 import com.tsystems.javaschool.uberbahn.entities.Route;
