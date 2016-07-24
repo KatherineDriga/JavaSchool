@@ -144,7 +144,7 @@ public class TrainServiceImpl implements TrainService {
 
     @Override
     @Transactional(readOnly = true)
-    public Collection<PassengerInfo> getPassengerInfo(int trainId) {
+    public Collection<PassengerInfo> getPassengerInfos(int trainId) {
         return trainRepository.getTicketsByTrainId(trainId).stream().map(ticket -> {
             PassengerInfo passengerInfo = new PassengerInfo();
             passengerInfo.setFirstName(ticket.getFirstName());

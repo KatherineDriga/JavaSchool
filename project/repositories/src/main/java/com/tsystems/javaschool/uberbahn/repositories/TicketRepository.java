@@ -13,10 +13,13 @@ import java.util.Collection;
 @Transactional
 public interface TicketRepository extends JpaRepository<Ticket, Integer> {
 
-    @Transactional(readOnly = true)
-    @Query("SELECT t FROM Ticket AS t WHERE t.train.id = :trainId AND t.stationOfDeparture.id = :stationOfDepartureId")
-    Collection<Ticket> getByTrainIdAndStationOfDeparture(@Param("trainId") int trainId, @Param("stationOfDepartureId") int stationOfDepartureId);
-
+    /**
+     * Get tickets purchased with given account in specified period of time
+     * @param id account id
+     * @param since date and time of purchase (beginning of period)
+     * @param until date and time of purchase (period ending)
+     * @return collection of ticket entities
+     */
     @Transactional(readOnly = true)
     @Query("SELECT t FROM Ticket AS t " +
             "WHERE t.account.id = :accountId " +
@@ -26,6 +29,12 @@ public interface TicketRepository extends JpaRepository<Ticket, Integer> {
                                                    @Param("since") LocalDateTime since,
                                                    @Param("until") LocalDateTime until);
 
+    /**
+     * Get tickets purchased in specified period of time
+     * @param since date and time of purchase (beginning of period)
+     * @param until date and time of purchase (period ending)
+     * @return collection of ticket entities
+     */
     @Transactional(readOnly = true)
     @Query("SELECT t FROM Ticket AS t " +
             "WHERE t.datetimeOfPurchase >= :since " +

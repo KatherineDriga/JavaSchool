@@ -11,13 +11,19 @@ import java.util.Collection;
 @Transactional
 public interface RouteRepository extends JpaRepository<Route, Integer> {
 
+    /**
+     * Get all routes ordered by title
+     * @return collection of route entities
+     */
     @Transactional(readOnly = true)
     Collection<Route> findAllByOrderByTitleAsc();
 
-    @Transactional(readOnly = true)
-    @Query("SELECT r FROM Route AS r JOIN r.spots AS s WHERE s.station.id = :stationId")
-    Collection<Route> findByStationId (@Param("stationId") int stationId);
 
+    /**
+     * Get route by its title
+     * @param title
+     * @return route entity
+     */
     @Transactional(readOnly = true)
     Route findByTitle(String title);
 

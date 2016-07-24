@@ -38,7 +38,7 @@ public class FindTrainAndPassengersControllerImpl {
     @RequestMapping(path = "/listOfPassengers", method = RequestMethod.GET)
     public String showListOfPassengers(Model model, @RequestParam(name = "trainId") int id) {
 
-        model.addAttribute("passengerInfos", trainService.getPassengerInfo(id));
+        model.addAttribute("passengerInfos", trainService.getPassengerInfos(id));
         model.addAttribute("trainId", id);
         return "listOfPassengers";
     }

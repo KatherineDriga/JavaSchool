@@ -46,7 +46,7 @@ public interface TrainService {
      * @param trainId train id
      * @return collection of data transfer objects containing passenger information
      */
-    Collection<PassengerInfo> getPassengerInfo (int trainId);
+    Collection<PassengerInfo> getPassengerInfos(int trainId);
 
 
     /**

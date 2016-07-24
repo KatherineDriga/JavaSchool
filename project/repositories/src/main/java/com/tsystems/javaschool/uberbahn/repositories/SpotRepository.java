@@ -12,14 +12,22 @@ import java.util.Collection;
 @Transactional
 public interface SpotRepository extends JpaRepository<Spot, Integer> {
 
+    /**
+     * Get spot by its station and route
+     * @param stationId station id
+     * @param routeId route id
+     * @return spot entity
+     */
     @Transactional(readOnly = true)
     @Query("SELECT s FROM Spot AS s WHERE s.station.id = :stationId AND s.route.id = :routeId")
     Spot findByStationIdAndRouteId (@Param("stationId") int stationId, @Param("routeId") int routeId);
 
-    @Transactional(readOnly = true)
-    @Query("SELECT s FROM Spot AS s WHERE s.station.id = :stationId")
-    Collection<Spot> findByStationId (@Param("stationId") int stationId);
 
+    /**
+     * Get collection of spots for given route
+     * @param routeId route id
+     * @return collection of spot entities
+     */
     @Transactional(readOnly = true)
     @Query("SELECT s FROM Spot AS s WHERE s.route.id = :routeId")
     Collection<Spot> findByRouteId (@Param("routeId") int routeId);
